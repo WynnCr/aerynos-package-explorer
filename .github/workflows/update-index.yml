@@ -2,7 +2,7 @@ name: Update Package Index & Deploy
 
 on:
   schedule:
-    - cron: '0 2 * * *'  # Automatically runs daily at 02:00 UTC
+    - cron: '17 */4 * * *'  # Runs every 4 hours at :17 UTC (00:17, 04:17, 08:17, 12:17, 16:17, 20:17)
   workflow_dispatch:      # Allows manual trigger anytime from the Actions tab
   push:
     branches: [main]

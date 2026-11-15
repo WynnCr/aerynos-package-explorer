@@ -18,7 +18,7 @@
   <section class="space-y-3">
     <h2 class="text-lg font-semibold">How it works</h2>
     <p>
-      A GitHub Action runs daily. It clones the recipes repository, reads every
+      A GitHub Action runs every 4 hours. It clones the recipes repository, reads every
       <code>stone.yaml</code> (and <code>monitoring.yaml</code>), sorts packages into categories,
       and writes one JSON file that ships with the site. There is no backend: your browser loads
       that file and searches it with Fuse.js.

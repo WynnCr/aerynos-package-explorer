@@ -8,7 +8,7 @@ Official resources are at [aerynos.com](https://aerynos.com) and [aerynos.dev](h
 
 ## How it works
 
-There's no backend. A GitHub Action runs daily, clones the recipes repo, parses every `stone.yaml`,
+There's no backend. A GitHub Action runs every 4 hours, clones the recipes repo, parses every `stone.yaml`,
 and writes `static/data/packages.json` (plus `channels.json`, which records what's in the unstable
 and volatile streams). The site is a static Svelte app that loads those files and searches them in
 the browser with Fuse.js.
@@ -49,7 +49,7 @@ pnpm generate-index   # rebuild static/data/packages.json from GitHub
 
 ## Deployment
 
-`.github/workflows/update-index.yml` runs at 02:00 UTC, on pushes to `main`, and on demand. It
+`.github/workflows/update-index.yml` runs every 4 hours (at :17 UTC), on pushes to `main`, and on demand. It
 regenerates the index, commits it if it changed, builds the site and publishes to GitHub Pages
 (Settings → Pages → Source: GitHub Actions).
 
