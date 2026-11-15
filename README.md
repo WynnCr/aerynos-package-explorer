@@ -9,7 +9,7 @@
 [![CI / CD](https://img.shields.io/badge/GitHub_Actions-Automated_Index_%26_Deploy-2088FF?logo=github-actions&logoColor=white)](https://github.com/aerynOS/recipes)
 
 > [!NOTE]
-> **Disclaimer**: This is an **unofficial, community-developed** package search tool created by [Amritanshu Kumar (WynnCr)](https://github.com/WynnCr). It is not affiliated with, endorsed by, or operated by the official AerynOS project or its core maintainers. For official distribution downloads, documentation, and tooling, visit [aerynos.com](https://aerynos.com) and [aerynos.dev](https://aerynos.dev).
+> **Disclaimer**: This is an **unofficial, community-developed** package search tool created by [WynnCr](https://github.com/WynnCr). It is not affiliated with, endorsed by, or operated by the official AerynOS project or its core maintainers. For official distribution downloads, documentation, and tooling, visit [aerynos.com](https://aerynos.com) and [aerynos.dev](https://aerynos.dev).
 
 > **AerynOS Package Explorer** is a fast, modern web application for searching, discovering, and inspecting packages in the [AerynOS](https://aerynos.com) ecosystem. Powered by client-side fuzzy search, pre-indexed metadata from official recipe trees, and native AerynOS styling.
 
