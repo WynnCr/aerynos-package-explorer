@@ -1,11 +1,15 @@
-# AerynOS Package Explorer
+# AerynOS Package Explorer (Unofficial)
 
+[![Status](https://img.shields.io/badge/Status-Unofficial_Community_Project-orange.svg)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Svelte](https://img.shields.io/badge/Svelte-5-FF3E00?logo=svelte&logoColor=white)](https://svelte.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![CI / CD](https://img.shields.io/badge/GitHub_Actions-Automated_Index_%26_Deploy-2088FF?logo=github-actions&logoColor=white)](https://github.com/aerynOS/recipes)
+
+> [!NOTE]
+> **Disclaimer**: This is an **unofficial, community-developed** package search tool created by [Amritanshu Kumar (WynnCr)](https://github.com/WynnCr). It is not affiliated with, endorsed by, or operated by the official AerynOS project or its core maintainers. For official distribution downloads, documentation, and tooling, visit [aerynos.com](https://aerynos.com) and [aerynos.dev](https://aerynos.dev).
 
 > **AerynOS Package Explorer** is a fast, modern web application for searching, discovering, and inspecting packages in the [AerynOS](https://aerynos.com) ecosystem. Powered by client-side fuzzy search, pre-indexed metadata from official recipe trees, and native AerynOS styling.
 

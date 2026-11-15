@@ -25,6 +25,25 @@
     </p>
   </div>
 
+  <!-- Unofficial Community Project Notice -->
+  <section class="rounded-2xl border border-sky-500/30 bg-sky-500/5 p-6 space-y-3">
+    <div class="flex items-center gap-2.5">
+      <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-500/20 text-sky-400">
+        <Info class="h-4 w-4" />
+      </div>
+      <div>
+        <h2 class="text-base font-bold text-[#e8eaf0]">Unofficial Community Project</h2>
+        <span class="text-xs text-sky-400">Independent Package Discovery Tool</span>
+      </div>
+    </div>
+    <p class="text-xs text-[#8891a8] leading-relaxed">
+      <strong>AerynOS Package Explorer</strong> is an independent, community-created open source project developed by <a href="https://github.com/WynnCr" target="_blank" rel="noopener noreferrer" class="text-orange-400 hover:underline">WynnCr</a>. It is <strong>not</strong> an official project of AerynOS, nor is it endorsed, operated, or maintained by the official AerynOS distribution team.
+    </p>
+    <p class="text-xs text-[#8891a8] leading-relaxed">
+      This explorer is designed as a convenience utility to help community members, packagers, and users search package recipes, inspect dependency trees, and see repository stream availability. For official project inquiries, downloads, and documentation, please visit the official resources at <a href="https://aerynos.com" target="_blank" rel="noopener noreferrer" class="text-[#e8eaf0] hover:underline font-medium">aerynos.com</a> and <a href="https://aerynos.dev" target="_blank" rel="noopener noreferrer" class="text-[#e8eaf0] hover:underline font-medium">aerynos.dev</a>.
+    </p>
+  </section>
+
   <!-- Core Ecosystem Grid -->
   <section class="space-y-6">
     <h2 class="text-xl font-bold text-[#e8eaf0]">The AerynOS Ecosystem Architecture</h2>

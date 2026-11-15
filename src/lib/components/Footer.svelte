@@ -17,9 +17,12 @@
         <div class="flex items-center gap-2">
           <span class="font-bold tracking-tight text-[#e8eaf0]">aeryn<span class="text-orange-500">OS</span></span>
           <span class="text-[#8891a8]">— Package Explorer</span>
+          <span class="rounded bg-[#1a1e28] px-1.5 py-0.5 text-[9px] font-medium tracking-wider text-[#8891a8] uppercase border border-[#242836]">
+            Unofficial
+          </span>
         </div>
         <p class="max-w-md text-[#8891a8] leading-relaxed">
-          An open-source community package discovery portal for AerynOS. Search, inspect build recipes, and explore packages built with boulder and installed via moss.
+          An unofficial, community-maintained package discovery tool for AerynOS. Not affiliated with or endorsed by the official AerynOS project. For official distribution resources, visit <a href="https://aerynos.com" target="_blank" rel="noopener noreferrer" class="text-[#e8eaf0] hover:underline">aerynos.com</a> and <a href="https://aerynos.dev" target="_blank" rel="noopener noreferrer" class="text-[#e8eaf0] hover:underline">aerynos.dev</a>.
         </p>
       </div>
 
@@ -95,8 +98,8 @@
       </div>
 
       <div class="flex items-center gap-1 text-[11px] text-[#8891a8]">
-        <span>Crafted for the</span>
-        <span class="text-orange-400 font-medium">AerynOS Community</span>
+        <span>Unofficial community project for</span>
+        <span class="text-orange-400 font-medium">AerynOS</span>
       </div>
     </div>
   </div>

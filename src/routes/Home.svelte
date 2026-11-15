@@ -88,7 +88,7 @@
     <div class="mx-auto max-w-3xl space-y-4">
       <div class="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-xs font-semibold text-orange-400">
         <Sparkles class="h-3.5 w-3.5" />
-        <span>AerynOS Package Discovery Portal</span>
+        <span>Unofficial Community Package Explorer</span>
       </div>
 
       <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#e8eaf0]">
@@ -96,7 +96,7 @@
       </h1>
 
       <p class="text-sm sm:text-base text-[#8891a8] max-w-2xl mx-auto leading-relaxed">
-        Search, discover, and inspect packages available in the modern, atomic AerynOS ecosystem. Built with <code class="text-orange-300 font-mono text-xs">boulder</code> recipes and installed with <code class="text-orange-300 font-mono text-xs">moss</code>.
+        An unofficial, community-maintained portal to search, discover, and inspect packages across the modern, atomic AerynOS ecosystem. Built with <code class="text-orange-300 font-mono text-xs">boulder</code> recipes and installed with <code class="text-orange-300 font-mono text-xs">moss</code>.
       </p>
 
       <!-- Prominent Hero Search Bar -->

@@ -56,8 +56,11 @@
             <span class="rounded bg-orange-500/15 px-1.5 py-0.5 text-[10px] font-semibold tracking-wider text-orange-400 uppercase border border-orange-500/20">
               Explorer
             </span>
+            <span class="rounded bg-[#1a1e28] px-1.5 py-0.5 text-[9px] font-medium tracking-wider text-[#8891a8] uppercase border border-[#242836]">
+              Unofficial
+            </span>
           </div>
-          <span class="text-[11px] text-[#8891a8]">Package Discovery Portal</span>
+          <span class="text-[11px] text-[#8891a8]">Community Package Explorer</span>
         </div>
       </a>
 
