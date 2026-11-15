@@ -2,7 +2,7 @@
   import type { Package } from '$lib/data/types';
   import { compareStore } from '$lib/stores/compare.svelte';
   import { highlightMatches } from '$lib/utils/search';
-  import { formatDomain, installCommand } from '$lib/utils/format';
+  import { formatDomain, installCommand, getBinaryPackages, getDefaultBinaryPackage } from '$lib/utils/format';
   import { copyToClipboard } from '$lib/utils/clipboard';
   import {
     Copy,
@@ -11,7 +11,8 @@
     ExternalLink,
     Terminal,
     Box,
-    Layers
+    Layers,
+    Package as PackageIcon
   } from 'lucide-svelte';
 
   let {
@@ -24,13 +25,30 @@
     compact?: boolean;
   } = $props();
 
+  let binaryOptions = $derived(getBinaryPackages(pkg));
+  let selectedBinary = $state<string>('');
+
+  $effect(() => {
+    const def = getDefaultBinaryPackage(pkg);
+    if (searchQuery && pkg.packages && pkg.packages.length > 0) {
+      const q = searchQuery.toLowerCase().trim();
+      const match = pkg.packages.find(p => p.name.toLowerCase().includes(q) || p.summary?.toLowerCase().includes(q));
+      if (match) {
+        selectedBinary = match.name;
+        return;
+      }
+    }
+    selectedBinary = def;
+  });
+
   let copied = $state(false);
   let isCompared = $derived(compareStore.has(pkg.name));
 
-  async function copyInstallCommand(e: MouseEvent) {
+  async function copyInstallCommand(e: MouseEvent, binaryName?: string) {
     e.stopPropagation();
     e.preventDefault();
-    const cmd = installCommand(pkg.name);
+    const target = binaryName || selectedBinary || pkg.name;
+    const cmd = installCommand(target);
     const success = await copyToClipboard(cmd);
     if (success) {
       copied = true;
@@ -57,6 +75,12 @@
       <a href="#/package/{pkg.name}" class="font-bold text-sm text-[#e8eaf0] hover:text-orange-400 truncate">
         {@html highlightMatches(pkg.name, searchQuery)}
       </a>
+
+      {#if selectedBinary && selectedBinary !== pkg.name}
+        <span class="rounded bg-orange-500/15 px-1.5 py-0.5 font-mono text-[10px] text-orange-300 border border-orange-500/30 shrink-0" title="Installable binary package">
+          {selectedBinary}
+        </span>
+      {/if}
 
       <span class="rounded bg-[#1a1e28] px-1.5 py-0.5 font-mono text-[11px] text-[#8891a8] border border-[#242836] shrink-0">
         v{pkg.version}-{pkg.release}
@@ -86,16 +110,16 @@
 
       <button
         type="button"
-        onclick={copyInstallCommand}
+        onclick={(e) => copyInstallCommand(e, selectedBinary)}
         class="flex items-center gap-1 rounded bg-[#1a1e28] px-2.5 py-1 font-mono text-xs text-[#8891a8] border border-[#242836] hover:border-orange-500/50 hover:text-[#e8eaf0] transition"
-        title="Copy: {installCommand(pkg.name)}"
+        title="Copy: {installCommand(selectedBinary || pkg.name)}"
       >
         {#if copied}
           <Check class="h-3.5 w-3.5 text-emerald-400" />
           <span class="text-emerald-400">Copied!</span>
         {:else}
           <Copy class="h-3.5 w-3.5" />
-          <span class="hidden sm:inline">moss add</span>
+          <span class="hidden sm:inline font-mono">{selectedBinary || pkg.name}</span>
         {/if}
       </button>
     </div>
@@ -155,6 +179,28 @@
         {@html highlightMatches(pkg.summary || pkg.description || 'No description provided.', searchQuery)}
       </p>
 
+      <!-- Binary package selector if recipe produces subpackages -->
+      {#if binaryOptions.length > 1}
+        <div class="mt-3 pt-2.5 border-t border-[#242836]/60">
+          <div class="flex items-center gap-1.5 text-[11px] text-[#8891a8] mb-1.5">
+            <PackageIcon class="h-3 w-3 text-orange-400" />
+            <span class="font-medium">Binary Packages:</span>
+          </div>
+          <div class="flex flex-wrap gap-1">
+            {#each binaryOptions as bin}
+              <button
+                type="button"
+                onclick={(e) => { e.stopPropagation(); selectedBinary = bin.name; copyInstallCommand(e, bin.name); }}
+                class="rounded px-2 py-0.5 text-[11px] font-mono transition {selectedBinary === bin.name ? 'bg-orange-500/25 text-orange-300 border border-orange-500/50' : 'bg-[#1a1e28] text-[#8891a8] hover:text-[#e8eaf0] border border-[#242836]'}"
+                title="Select and copy 'sudo moss package add {bin.name}' ({bin.summary || 'binary package'})"
+              >
+                {bin.name}
+              </button>
+            {/each}
+          </div>
+        </div>
+      {/if}
+
       <!-- Subpackage count or deps indicators -->
       <div class="mt-3 flex items-center gap-3 text-[11px] text-[#8891a8]/80">
         {#if pkg.packages && pkg.packages.length > 0}
@@ -193,7 +239,7 @@
           href={pkg.homepage}
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center gap-1 text-[11px] text-[#8891a8] hover:text-orange-400 transition truncate max-w-[140px]"
+          class="flex items-center gap-1 text-[11px] text-[#8891a8] hover:text-orange-400 transition truncate max-w-[130px]"
           title="Visit upstream homepage: {pkg.homepage}"
         >
           <ExternalLink class="h-3 w-3 shrink-0" />
@@ -206,16 +252,16 @@
       <!-- Quick Moss Install Command Button -->
       <button
         type="button"
-        onclick={copyInstallCommand}
+        onclick={(e) => copyInstallCommand(e, selectedBinary)}
         class="inline-flex items-center gap-1.5 rounded-lg border border-[#242836] bg-[#1a1e28] px-2.5 py-1 font-mono text-xs text-[#e8eaf0] transition hover:border-orange-500/50 hover:bg-[#202533] active:scale-95"
-        title="Click to copy install command"
+        title="Click to copy: {installCommand(selectedBinary || pkg.name)}"
       >
         {#if copied}
           <Check class="h-3.5 w-3.5 text-emerald-400" />
           <span class="text-emerald-400 font-sans text-xs font-semibold">Copied!</span>
         {:else}
           <Terminal class="h-3.5 w-3.5 text-orange-400" />
-          <span class="text-[11px] text-[#8891a8]">sudo moss add</span>
+          <span class="text-[11px] text-[#8891a8] font-mono max-w-[150px] truncate">{selectedBinary || pkg.name}</span>
           <Copy class="h-3 w-3 text-[#8891a8] opacity-70" />
         {/if}
       </button>

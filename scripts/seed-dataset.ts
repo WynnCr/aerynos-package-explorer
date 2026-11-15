@@ -1721,25 +1721,7 @@ const rawPackages: PackageInput[] = [
   // Fonts
   // ==========================================
   {
-    name: 'noto-fonts',
-    version: '2024.12.01',
-    release: 2,
-    homepage: 'https://fonts.google.com/noto',
-    summary: 'Google Noto scalable font family for universal script support',
-    description: 'Noto fonts aims to provide a unified visual look and feel across all scripts in the Unicode Standard, eliminating "tofu" boxes across language boundaries.',
-    license: ['OFL-1.1'],
-    upstreams: [
-      {
-        url: 'https://github.com/notofonts/notofonts.github.io/archive/refs/tags/noto-monthly-release-2024.12.01.tar.gz',
-        hash: '4fa81729b469e38d17bce72a0256ea4cf9f242095a948c5e69e4ce89a804e1bc',
-        type: 'tarball'
-      }
-    ],
-    category: 'Fonts',
-    install: '%install_dir %(installroot)/usr/share/fonts/truetype/noto\ncp -rv *.ttf %(installroot)/usr/share/fonts/truetype/noto/'
-  },
-  {
-    name: 'jetbrains-mono',
+    name: 'font-jetbrains-mono',
     version: '2.304',
     release: 1,
     homepage: 'https://www.jetbrains.com/lp/mono/',
@@ -1754,10 +1736,68 @@ const rawPackages: PackageInput[] = [
       }
     ],
     category: 'Fonts',
+    packages: [
+      {
+        name: 'font-jetbrains-mono-ttf',
+        summary: 'static fonts for jetbrains-mono',
+        description: 'Static TrueType fonts for the JetBrains Mono developer typeface.',
+        paths: ['/usr/share/fonts/truetype/jetbrains-mono/*.ttf']
+      },
+      {
+        name: 'font-jetbrains-mono-ttf-vf',
+        summary: 'variable fonts for jetbrains-mono',
+        description: 'Variable TrueType font for the JetBrains Mono developer typeface.',
+        paths: ['/usr/share/fonts/truetype/jetbrains-mono/*-VariableFont_*.ttf']
+      },
+      {
+        name: 'font-jetbrains-mono-woff2',
+        summary: 'webfonts for jetbrains-mono',
+        description: 'Web Open Font Format 2.0 (WOFF2) webfonts for JetBrains Mono.',
+        paths: ['/usr/share/fonts/woff2/jetbrains-mono/*.woff2']
+      }
+    ],
     install: '%install_dir %(installroot)/usr/share/fonts/truetype/jetbrains-mono\ncp -rv fonts/ttf/*.ttf %(installroot)/usr/share/fonts/truetype/jetbrains-mono/'
   },
   {
-    name: 'inter-font',
+    name: 'font-noto',
+    version: '2024.12.01',
+    release: 2,
+    homepage: 'https://fonts.google.com/noto',
+    summary: 'Google Noto scalable font family for universal script support',
+    description: 'Noto fonts aims to provide a unified visual look and feel across all scripts in the Unicode Standard, eliminating "tofu" boxes across language boundaries.',
+    license: ['OFL-1.1'],
+    upstreams: [
+      {
+        url: 'https://github.com/notofonts/notofonts.github.io/archive/refs/tags/noto-monthly-release-2024.12.01.tar.gz',
+        hash: '4fa81729b469e38d17bce72a0256ea4cf9f242095a948c5e69e4ce89a804e1bc',
+        type: 'tarball'
+      }
+    ],
+    category: 'Fonts',
+    packages: [
+      {
+        name: 'font-noto-ttf',
+        summary: 'static fonts for Google Noto family',
+        description: 'Standard TrueType static font files for Google Noto.',
+        paths: ['/usr/share/fonts/truetype/noto/*.ttf']
+      },
+      {
+        name: 'font-noto-cjk-ttf',
+        summary: 'CJK fonts for Google Noto family',
+        description: 'Chinese, Japanese, and Korean scripts for Google Noto.',
+        paths: ['/usr/share/fonts/truetype/noto-cjk/*.ttf']
+      },
+      {
+        name: 'font-noto-emoji-ttf',
+        summary: 'color emoji font for Google Noto',
+        description: 'Full color Unicode emoji font.',
+        paths: ['/usr/share/fonts/truetype/noto-emoji/*.ttf']
+      }
+    ],
+    install: '%install_dir %(installroot)/usr/share/fonts/truetype/noto\ncp -rv *.ttf %(installroot)/usr/share/fonts/truetype/noto/'
+  },
+  {
+    name: 'font-inter',
     version: '4.1',
     release: 1,
     homepage: 'https://rsms.me/inter/',
@@ -1772,7 +1812,47 @@ const rawPackages: PackageInput[] = [
       }
     ],
     category: 'Fonts',
+    packages: [
+      {
+        name: 'font-inter-ttf',
+        summary: 'static fonts for Inter typeface',
+        description: 'Static TrueType fonts for the Inter typeface family.',
+        paths: ['/usr/share/fonts/truetype/inter/*.ttf']
+      },
+      {
+        name: 'font-inter-variable',
+        summary: 'variable font for Inter typeface',
+        description: 'Variable font format for Inter typeface.',
+        paths: ['/usr/share/fonts/truetype/inter/*.woff2']
+      }
+    ],
     install: '%install_dir %(installroot)/usr/share/fonts/truetype/inter\ncp -rv *.otf %(installroot)/usr/share/fonts/truetype/inter/'
+  },
+  {
+    name: 'font-cantarell',
+    version: '0.303.1',
+    release: 1,
+    homepage: 'https://gitlab.gnome.org/GNOME/cantarell-fonts',
+    summary: 'Humanist sans-serif font family designed for on-screen reading',
+    description: 'Cantarell is the default typeface family designed for GNOME screens and user interfaces.',
+    license: ['OFL-1.1'],
+    upstreams: [
+      {
+        url: 'https://download.gnome.org/sources/cantarell-fonts/0.303/cantarell-fonts-0.303.1.tar.xz',
+        hash: '5756a90805c862bc7291a27e7f6dc357fa823d00cf02d8479e00662d559868e4',
+        type: 'tarball'
+      }
+    ],
+    category: 'Fonts',
+    packages: [
+      {
+        name: 'font-cantarell-ttf',
+        summary: 'static fonts for Cantarell font family',
+        description: 'Humanist sans-serif font for GNOME.',
+        paths: ['/usr/share/fonts/truetype/cantarell/*.ttf']
+      }
+    ],
+    install: '%install_dir %(installroot)/usr/share/fonts/truetype/cantarell\ncp -rv *.ttf %(installroot)/usr/share/fonts/truetype/cantarell/'
   },
 
   // ==========================================

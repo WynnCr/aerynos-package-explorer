@@ -838,6 +838,182 @@
       "install": "%cmake_install"
     },
     {
+      "name": "font-cantarell",
+      "version": "0.303.1",
+      "release": 1,
+      "homepage": "https://gitlab.gnome.org/GNOME/cantarell-fonts",
+      "summary": "Humanist sans-serif font family designed for on-screen reading",
+      "description": "Cantarell is the default typeface family designed for GNOME screens and user interfaces.",
+      "license": [
+        "OFL-1.1"
+      ],
+      "upstreams": [
+        {
+          "url": "https://download.gnome.org/sources/cantarell-fonts/0.303/cantarell-fonts-0.303.1.tar.xz",
+          "hash": "5756a90805c862bc7291a27e7f6dc357fa823d00cf02d8479e00662d559868e4",
+          "type": "tarball"
+        }
+      ],
+      "letter": "f",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/recipes/f/font-cantarell/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/recipes/f/font-cantarell/stone.yaml",
+      "category": "Fonts",
+      "indexedAt": "2026-11-15T02:00:00.000Z",
+      "packages": [
+        {
+          "name": "font-cantarell-ttf",
+          "summary": "static fonts for Cantarell font family",
+          "description": "Humanist sans-serif font for GNOME.",
+          "paths": [
+            "/usr/share/fonts/truetype/cantarell/*.ttf"
+          ]
+        }
+      ],
+      "install": "%install_dir %(installroot)/usr/share/fonts/truetype/cantarell\ncp -rv *.ttf %(installroot)/usr/share/fonts/truetype/cantarell/"
+    },
+    {
+      "name": "font-inter",
+      "version": "4.1",
+      "release": 1,
+      "homepage": "https://rsms.me/inter/",
+      "summary": "The Inter typeface family for computer screens",
+      "description": "Inter is a typeface carefully crafted and designed for computer screens, featuring tall x-height to aid in readability of mixed-case and lower-case text.",
+      "license": [
+        "OFL-1.1"
+      ],
+      "upstreams": [
+        {
+          "url": "https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip",
+          "hash": "740ad6ef39f8842bc3c4b9fb3993309a47ec9fc8a7b9319ee852ef76e33db3ea",
+          "type": "tarball"
+        }
+      ],
+      "letter": "f",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/recipes/f/font-inter/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/recipes/f/font-inter/stone.yaml",
+      "category": "Fonts",
+      "indexedAt": "2026-11-15T02:00:00.000Z",
+      "packages": [
+        {
+          "name": "font-inter-ttf",
+          "summary": "static fonts for Inter typeface",
+          "description": "Static TrueType fonts for the Inter typeface family.",
+          "paths": [
+            "/usr/share/fonts/truetype/inter/*.ttf"
+          ]
+        },
+        {
+          "name": "font-inter-variable",
+          "summary": "variable font for Inter typeface",
+          "description": "Variable font format for Inter typeface.",
+          "paths": [
+            "/usr/share/fonts/truetype/inter/*.woff2"
+          ]
+        }
+      ],
+      "install": "%install_dir %(installroot)/usr/share/fonts/truetype/inter\ncp -rv *.otf %(installroot)/usr/share/fonts/truetype/inter/"
+    },
+    {
+      "name": "font-jetbrains-mono",
+      "version": "2.304",
+      "release": 1,
+      "homepage": "https://www.jetbrains.com/lp/mono/",
+      "summary": "A typeface for developers by JetBrains",
+      "description": "JetBrains Mono is a free and open-source typeface designed for developers with distinct letterforms, coding ligatures, and balanced character proportions.",
+      "license": [
+        "OFL-1.1"
+      ],
+      "upstreams": [
+        {
+          "url": "https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip",
+          "hash": "6f6376c6ed29518d43ea0631e3008ba762705a824b782242d2218a7d90f4c099",
+          "type": "tarball"
+        }
+      ],
+      "letter": "f",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/recipes/f/font-jetbrains-mono/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/recipes/f/font-jetbrains-mono/stone.yaml",
+      "category": "Fonts",
+      "indexedAt": "2026-11-15T02:00:00.000Z",
+      "packages": [
+        {
+          "name": "font-jetbrains-mono-ttf",
+          "summary": "static fonts for jetbrains-mono",
+          "description": "Static TrueType fonts for the JetBrains Mono developer typeface.",
+          "paths": [
+            "/usr/share/fonts/truetype/jetbrains-mono/*.ttf"
+          ]
+        },
+        {
+          "name": "font-jetbrains-mono-ttf-vf",
+          "summary": "variable fonts for jetbrains-mono",
+          "description": "Variable TrueType font for the JetBrains Mono developer typeface.",
+          "paths": [
+            "/usr/share/fonts/truetype/jetbrains-mono/*-VariableFont_*.ttf"
+          ]
+        },
+        {
+          "name": "font-jetbrains-mono-woff2",
+          "summary": "webfonts for jetbrains-mono",
+          "description": "Web Open Font Format 2.0 (WOFF2) webfonts for JetBrains Mono.",
+          "paths": [
+            "/usr/share/fonts/woff2/jetbrains-mono/*.woff2"
+          ]
+        }
+      ],
+      "install": "%install_dir %(installroot)/usr/share/fonts/truetype/jetbrains-mono\ncp -rv fonts/ttf/*.ttf %(installroot)/usr/share/fonts/truetype/jetbrains-mono/"
+    },
+    {
+      "name": "font-noto",
+      "version": "2024.12.01",
+      "release": 2,
+      "homepage": "https://fonts.google.com/noto",
+      "summary": "Google Noto scalable font family for universal script support",
+      "description": "Noto fonts aims to provide a unified visual look and feel across all scripts in the Unicode Standard, eliminating \"tofu\" boxes across language boundaries.",
+      "license": [
+        "OFL-1.1"
+      ],
+      "upstreams": [
+        {
+          "url": "https://github.com/notofonts/notofonts.github.io/archive/refs/tags/noto-monthly-release-2024.12.01.tar.gz",
+          "hash": "4fa81729b469e38d17bce72a0256ea4cf9f242095a948c5e69e4ce89a804e1bc",
+          "type": "tarball"
+        }
+      ],
+      "letter": "f",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/recipes/f/font-noto/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/recipes/f/font-noto/stone.yaml",
+      "category": "Fonts",
+      "indexedAt": "2026-11-15T02:00:00.000Z",
+      "packages": [
+        {
+          "name": "font-noto-ttf",
+          "summary": "static fonts for Google Noto family",
+          "description": "Standard TrueType static font files for Google Noto.",
+          "paths": [
+            "/usr/share/fonts/truetype/noto/*.ttf"
+          ]
+        },
+        {
+          "name": "font-noto-cjk-ttf",
+          "summary": "CJK fonts for Google Noto family",
+          "description": "Chinese, Japanese, and Korean scripts for Google Noto.",
+          "paths": [
+            "/usr/share/fonts/truetype/noto-cjk/*.ttf"
+          ]
+        },
+        {
+          "name": "font-noto-emoji-ttf",
+          "summary": "color emoji font for Google Noto",
+          "description": "Full color Unicode emoji font.",
+          "paths": [
+            "/usr/share/fonts/truetype/noto-emoji/*.ttf"
+          ]
+        }
+      ],
+      "install": "%install_dir %(installroot)/usr/share/fonts/truetype/noto\ncp -rv *.ttf %(installroot)/usr/share/fonts/truetype/noto/"
+    },
+    {
       "name": "fontconfig",
       "version": "2.15.0",
       "release": 3,
@@ -1312,30 +1488,6 @@
       "install": "%cmake_install"
     },
     {
-      "name": "inter-font",
-      "version": "4.1",
-      "release": 1,
-      "homepage": "https://rsms.me/inter/",
-      "summary": "The Inter typeface family for computer screens",
-      "description": "Inter is a typeface carefully crafted and designed for computer screens, featuring tall x-height to aid in readability of mixed-case and lower-case text.",
-      "license": [
-        "OFL-1.1"
-      ],
-      "upstreams": [
-        {
-          "url": "https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip",
-          "hash": "740ad6ef39f8842bc3c4b9fb3993309a47ec9fc8a7b9319ee852ef76e33db3ea",
-          "type": "tarball"
-        }
-      ],
-      "letter": "i",
-      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/recipes/i/inter-font/stone.yaml",
-      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/recipes/i/inter-font/stone.yaml",
-      "category": "Fonts",
-      "indexedAt": "2026-11-15T02:00:00.000Z",
-      "install": "%install_dir %(installroot)/usr/share/fonts/truetype/inter\ncp -rv *.otf %(installroot)/usr/share/fonts/truetype/inter/"
-    },
-    {
       "name": "iwd",
       "version": "3.3",
       "release": 2,
@@ -1391,30 +1543,6 @@
       "setup": "%configure",
       "build": "%make",
       "install": "%make_install"
-    },
-    {
-      "name": "jetbrains-mono",
-      "version": "2.304",
-      "release": 1,
-      "homepage": "https://www.jetbrains.com/lp/mono/",
-      "summary": "A typeface for developers by JetBrains",
-      "description": "JetBrains Mono is a free and open-source typeface designed for developers with distinct letterforms, coding ligatures, and balanced character proportions.",
-      "license": [
-        "OFL-1.1"
-      ],
-      "upstreams": [
-        {
-          "url": "https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip",
-          "hash": "6f6376c6ed29518d43ea0631e3008ba762705a824b782242d2218a7d90f4c099",
-          "type": "tarball"
-        }
-      ],
-      "letter": "j",
-      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/recipes/j/jetbrains-mono/stone.yaml",
-      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/recipes/j/jetbrains-mono/stone.yaml",
-      "category": "Fonts",
-      "indexedAt": "2026-11-15T02:00:00.000Z",
-      "install": "%install_dir %(installroot)/usr/share/fonts/truetype/jetbrains-mono\ncp -rv fonts/ttf/*.ttf %(installroot)/usr/share/fonts/truetype/jetbrains-mono/"
     },
     {
       "name": "jq",
@@ -2228,30 +2356,6 @@
       "setup": "./configure --prefix=/usr --shared-openssl --shared-zlib --shared-libuv",
       "build": "%make",
       "install": "%make_install"
-    },
-    {
-      "name": "noto-fonts",
-      "version": "2024.12.01",
-      "release": 2,
-      "homepage": "https://fonts.google.com/noto",
-      "summary": "Google Noto scalable font family for universal script support",
-      "description": "Noto fonts aims to provide a unified visual look and feel across all scripts in the Unicode Standard, eliminating \"tofu\" boxes across language boundaries.",
-      "license": [
-        "OFL-1.1"
-      ],
-      "upstreams": [
-        {
-          "url": "https://github.com/notofonts/notofonts.github.io/archive/refs/tags/noto-monthly-release-2024.12.01.tar.gz",
-          "hash": "4fa81729b469e38d17bce72a0256ea4cf9f242095a948c5e69e4ce89a804e1bc",
-          "type": "tarball"
-        }
-      ],
-      "letter": "n",
-      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/recipes/n/noto-fonts/stone.yaml",
-      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/recipes/n/noto-fonts/stone.yaml",
-      "category": "Fonts",
-      "indexedAt": "2026-11-15T02:00:00.000Z",
-      "install": "%install_dir %(installroot)/usr/share/fonts/truetype/noto\ncp -rv *.ttf %(installroot)/usr/share/fonts/truetype/noto/"
     },
     {
       "name": "openssh",
@@ -3586,7 +3690,7 @@
     }
   ],
   "generatedAt": "2026-11-15T02:00:00.000Z",
-  "totalCount": 108,
+  "totalCount": 109,
   "repoUrl": "https://github.com/aerynOS/recipes",
   "commitSha": "d4e5f6a1b2c37890123456789abcdef012345678"
 }

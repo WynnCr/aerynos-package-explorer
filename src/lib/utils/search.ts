@@ -5,13 +5,15 @@ export type ExtendedSortOrder = SortOrder | 'relevance';
 
 const fuseOptions: IFuseOptions<Package> = {
   keys: [
-    { name: 'name', weight: 0.4 },
-    { name: 'summary', weight: 0.3 },
-    { name: 'description', weight: 0.15 },
-    { name: 'category', weight: 0.1 },
+    { name: 'name', weight: 0.35 },
+    { name: 'packages.name', weight: 0.3 },
+    { name: 'summary', weight: 0.2 },
+    { name: 'packages.summary', weight: 0.15 },
+    { name: 'description', weight: 0.1 },
+    { name: 'category', weight: 0.05 },
     { name: 'builddeps', weight: 0.05 },
   ],
-  threshold: 0.35,
+  threshold: 0.4,
   ignoreLocation: true,
   includeScore: true,
 };

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { packageStore } from '$lib/stores/packages.svelte';
   import { compareStore } from '$lib/stores/compare.svelte';
-  import { installCommand, formatDomain } from '$lib/utils/format';
+  import { installCommand, formatDomain, getBinaryPackages, getDefaultBinaryPackage } from '$lib/utils/format';
   import { copyToClipboard as writeToClipboard } from '$lib/utils/clipboard';
   import PackageCard from '$lib/components/package/PackageCard.svelte';
   import {
@@ -19,7 +19,8 @@
     Shield,
     FolderGit2,
     Code2,
-    AlertCircle
+    AlertCircle,
+    Package as PackageIcon
   } from 'lucide-svelte';
 
   let { params = { name: '' } }: { params?: { name: string } } = $props();
@@ -27,11 +28,61 @@
   let activeTab = $state<'overview' | 'dependencies' | 'subpackages' | 'build' | 'raw'>('overview');
   let copiedCommand = $state(false);
   let copiedHash = $state<string | null>(null);
+  let matchedSubpackage = $state<string | null>(null);
 
-  // Find package in store
-  let pkg = $derived(
-    packageStore.packages.find(p => p.name.toLowerCase() === (params?.name || '').toLowerCase())
-  );
+  // Robust package resolution: handles recipe name, subpackage name, or font- prefix alias
+  let pkg = $derived.by(() => {
+    const raw = (params?.name || '').toLowerCase().trim();
+    if (!raw) return undefined;
+
+    // 1. Exact recipe name match
+    let found = packageStore.packages.find(p => p.name.toLowerCase() === raw);
+    if (found) {
+      matchedSubpackage = null;
+      return found;
+    }
+
+    // 2. Direct subpackage match (e.g. font-jetbrains-mono-ttf -> font-jetbrains-mono)
+    found = packageStore.packages.find(p => p.packages?.some(sub => sub.name.toLowerCase() === raw));
+    if (found) {
+      matchedSubpackage = raw;
+      return found;
+    }
+
+    // 3. Font prefix aliases: 'jetbrains-mono' -> 'font-jetbrains-mono'
+    if (!raw.startsWith('font-')) {
+      found = packageStore.packages.find(p => p.name.toLowerCase() === `font-${raw}`);
+      if (found) {
+        matchedSubpackage = null;
+        return found;
+      }
+    } else {
+      found = packageStore.packages.find(p => p.name.toLowerCase() === raw.replace(/^font-/, ''));
+      if (found) {
+        matchedSubpackage = null;
+        return found;
+      }
+    }
+
+    // 4. Fuzzy search across recipe names and subpackages
+    return packageStore.packages.find(p =>
+      p.name.toLowerCase().includes(raw) ||
+      p.packages?.some(sub => sub.name.toLowerCase().includes(raw))
+    );
+  });
+
+  let binaryOptions = $derived(pkg ? getBinaryPackages(pkg) : []);
+  let selectedBinary = $state<string>('');
+
+  $effect(() => {
+    if (pkg) {
+      if (matchedSubpackage) {
+        selectedBinary = matchedSubpackage;
+      } else {
+        selectedBinary = getDefaultBinaryPackage(pkg);
+      }
+    }
+  });
 
   let isCompared = $derived(pkg ? compareStore.has(pkg.name) : false);
 
@@ -44,9 +95,10 @@
       : []
   );
 
-  async function copyInstall() {
+  async function copyInstall(binaryName?: string) {
     if (!pkg) return;
-    const cmd = installCommand(pkg.name);
+    const target = binaryName || selectedBinary || pkg.name;
+    const cmd = installCommand(target);
     const success = await writeToClipboard(cmd);
     if (success) {
       copiedCommand = true;
@@ -301,35 +353,65 @@
         </div>
 
         <!-- Prominent Install Command Banner -->
-        <div class="mt-6 rounded-xl border border-[#242836] bg-[#0d0f14] p-4">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div class="flex items-center gap-3">
-              <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 shrink-0">
-                <Terminal class="h-4 w-4" />
-              </div>
-              <div>
-                <div class="text-[11px] uppercase tracking-wider text-[#8891a8] font-semibold">
-                  Install transactional package via moss
+        <div class="mt-6 rounded-xl border border-[#242836] bg-[#0d0f14] p-5">
+          <div class="flex flex-col gap-3">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 shrink-0">
+                  <Terminal class="h-5 w-5" />
                 </div>
-                <div class="font-mono text-xs sm:text-sm text-[#e8eaf0] mt-0.5">
-                  sudo moss package add {pkg.name}
+                <div>
+                  <div class="text-[11px] uppercase tracking-wider text-[#8891a8] font-semibold flex items-center gap-2">
+                    <span>Install transactional package via moss</span>
+                    {#if binaryOptions.length > 1}
+                      <span class="rounded bg-orange-500/15 px-1.5 py-0.2 text-[10px] text-orange-400 border border-orange-500/30 font-mono">
+                        {binaryOptions.length} packages in recipe
+                      </span>
+                    {/if}
+                  </div>
+                  <div class="font-mono text-sm sm:text-base text-[#e8eaf0] mt-0.5 select-all font-medium">
+                    sudo moss package add {selectedBinary || pkg.name}
+                  </div>
                 </div>
               </div>
+
+              <button
+                type="button"
+                onclick={() => copyInstall(selectedBinary || pkg.name)}
+                class="flex items-center justify-center gap-1.5 rounded-lg bg-orange-500 px-4 py-2.5 text-xs font-semibold text-black hover:bg-orange-400 active:scale-95 transition shrink-0 shadow-sm"
+              >
+                {#if copiedCommand}
+                  <Check class="h-4 w-4" />
+                  <span>Copied!</span>
+                {:else}
+                  <Copy class="h-4 w-4" />
+                  <span>Copy Install Command</span>
+                {/if}
+              </button>
             </div>
 
-            <button
-              type="button"
-              onclick={copyInstall}
-              class="flex items-center justify-center gap-1.5 rounded-lg bg-orange-500 px-4 py-2 text-xs font-semibold text-black hover:bg-orange-400 active:scale-95 transition shrink-0"
-            >
-              {#if copiedCommand}
-                <Check class="h-4 w-4" />
-                <span>Copied to Clipboard!</span>
-              {:else}
-                <Copy class="h-4 w-4" />
-                <span>Copy Command</span>
-              {/if}
-            </button>
+            <!-- If recipe produces multiple packages (e.g. font subpackages or -devel/-libs), show pill selector -->
+            {#if binaryOptions.length > 1}
+              <div class="pt-3 border-t border-[#242836]/60 flex flex-wrap items-center gap-2">
+                <span class="text-xs text-[#8891a8] font-medium flex items-center gap-1">
+                  <PackageIcon class="h-3.5 w-3.5 text-orange-400" />
+                  <span>Select package to install:</span>
+                </span>
+                {#each binaryOptions as bin}
+                  <button
+                    type="button"
+                    onclick={() => { selectedBinary = bin.name; copyInstall(bin.name); }}
+                    class="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-mono transition {selectedBinary === bin.name ? 'bg-orange-500/25 text-orange-300 border border-orange-500/50 shadow-sm font-semibold' : 'bg-[#1a1e28] text-[#8891a8] hover:text-[#e8eaf0] border border-[#242836]'}"
+                    title={bin.summary || bin.name}
+                  >
+                    <span>{bin.name}</span>
+                    {#if bin.isDefault}
+                      <span class="text-[9px] uppercase px-1 rounded bg-orange-500/30 text-orange-200">default</span>
+                    {/if}
+                  </button>
+                {/each}
+              </div>
+            {/if}
           </div>
         </div>
       </div>

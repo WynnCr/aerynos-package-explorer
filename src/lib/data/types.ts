@@ -31,6 +31,7 @@ export interface Package {
   toolchain?: string;
   emul32?: boolean;
   packages?: SubPackage[];
+  defaultPackageName?: string;
   
   // Build phases (raw text, for display)
   setup?: string;

@@ -1,7 +1,71 @@
+import type { Package } from '$lib/data/types';
+
 /**
  * Format utilities for the AerynOS Package Explorer.
  * These are pure functions with no side effects.
  */
+
+export interface BinaryPackageOption {
+  name: string;
+  summary?: string;
+  isDefault?: boolean;
+}
+
+/**
+ * Returns all installable binary packages produced by this recipe.
+ * In AerynOS, a stone.yaml recipe compiles into one or more binary .stone packages (subpackages).
+ * For example, recipe 'font-jetbrains-mono' compiles into:
+ *   - 'font-jetbrains-mono-ttf'
+ *   - 'font-jetbrains-mono-ttf-vf'
+ *   - 'font-jetbrains-mono-woff2'
+ * moss installs the binary packages (e.g. `sudo moss package add font-jetbrains-mono-ttf`).
+ */
+export function getBinaryPackages(pkg: Package): BinaryPackageOption[] {
+  if (!pkg.packages || pkg.packages.length === 0) {
+    return [{ name: pkg.name, summary: pkg.summary, isDefault: true }];
+  }
+
+  const isFont = pkg.name.startsWith('font-');
+  const items: BinaryPackageOption[] = [];
+
+  // If not a font recipe and the base package is not in the subpackages list,
+  // the base package itself is usually built as a binary package (e.g. 'curl', 'openssl')
+  const hasBaseInSubpackages = pkg.packages.some(p => p.name === pkg.name);
+  if (!isFont && !hasBaseInSubpackages) {
+    items.push({ name: pkg.name, summary: pkg.summary, isDefault: true });
+  }
+
+  for (let i = 0; i < pkg.packages.length; i++) {
+    const sub = pkg.packages[i];
+    // For font recipes, default to -ttf (standard static TrueType)
+    const isDefault = isFont
+      ? (sub.name.endsWith('-ttf') || (!pkg.packages.some(p => p.name.endsWith('-ttf')) && i === 0))
+      : (items.length === 0 && i === 0);
+
+    items.push({
+      name: sub.name,
+      summary: sub.summary,
+      isDefault
+    });
+  }
+
+  // Ensure at least one item is flagged as default
+  if (!items.some(it => it.isDefault) && items.length > 0) {
+    items[0].isDefault = true;
+  }
+
+  return items;
+}
+
+/**
+ * Get the default binary package name to install for this recipe.
+ */
+export function getDefaultBinaryPackage(pkg: Package): string {
+  if (pkg.defaultPackageName) return pkg.defaultPackageName;
+  const list = getBinaryPackages(pkg);
+  const def = list.find(l => l.isDefault) || list[0];
+  return def ? def.name : pkg.name;
+}
 
 /** Format a date string to a human-readable relative or absolute format */
 export function formatDate(isoString: string): string {

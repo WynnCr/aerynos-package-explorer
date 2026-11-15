@@ -128,7 +128,7 @@ const required45Plus = [
   // Networking
   'wget', 'openssh', 'networkmanager', 'iwd', 'git',
   // Fonts
-  'noto-fonts', 'jetbrains-mono', 'inter-font',
+  'font-noto', 'font-jetbrains-mono', 'font-inter',
   // Libraries
   'glibc', 'zlib', 'zstd', 'libxml2', 'glib2', 'sqlite3',
   // Utilities
