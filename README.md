@@ -1,7 +1,7 @@
 # AerynOS Package Explorer (Unofficial)
 
 [![Status](https://img.shields.io/badge/Status-Unofficial_Community_Project-orange.svg)](#)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: WTFPL](https://img.shields.io/badge/License-WTFPL-brightgreen.svg)](http://www.wtfpl.net/)
 [![Svelte](https://img.shields.io/badge/Svelte-5-FF3E00?logo=svelte&logoColor=white)](https://svelte.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -224,5 +224,5 @@ Contributions are welcome! Please follow these guidelines:
 
 ## 📄 License
 
-This project is open-source software licensed under the [MIT License](LICENSE).
+This project is licensed under the **[WTFPL – Do What The Fuck You Want To Public License](LICENSE)**. See [wtfpl.net](http://www.wtfpl.net/) for the full license text.
 AerynOS, moss, and boulder are trademarks or projects of the AerynOS organization.

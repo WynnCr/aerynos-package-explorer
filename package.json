@@ -2,6 +2,7 @@
   "name": "aerynos-package-explorer",
   "private": true,
   "version": "0.1.0",
+  "license": "WTFPL",
   "type": "module",
   "scripts": {
     "dev": "vite",
