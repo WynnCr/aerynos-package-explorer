@@ -83,7 +83,10 @@
         </span>
       {/if}
 
-      <span class="rounded bg-[#1a1e28] px-1.5 py-0.5 font-mono text-[11px] text-[#8891a8] border border-[#242836] shrink-0">
+      <span
+        class="rounded bg-[#1a1e28] px-1.5 py-0.5 font-mono text-[11px] text-[#8891a8] border border-[#242836] shrink-0"
+        title="Recipe version from stone.yaml (volatile/git tree). May differ from unstable binary stream until promoted."
+      >
         v{pkg.version}-{pkg.release}
       </span>
 
@@ -111,20 +114,29 @@
         <span class="hidden lg:inline">{isCompared ? 'Compared' : 'Compare'}</span>
       </button>
 
-      <button
-        type="button"
-        onclick={(e) => copyInstallCommand(e, selectedBinary)}
-        class="flex items-center gap-1 rounded bg-[#1a1e28] px-2.5 py-1 font-mono text-xs text-[#8891a8] border border-[#242836] hover:border-orange-500/50 hover:text-[#e8eaf0] transition"
-        title="Copy: {installCommand(selectedBinary || pkg.name)}"
-      >
-        {#if copied}
-          <Check class="h-3.5 w-3.5 text-emerald-400" />
-          <span class="text-emerald-400">Copied!</span>
-        {:else}
-          <Copy class="h-3.5 w-3.5" />
-          <span class="hidden sm:inline font-mono">{selectedBinary || pkg.name}</span>
-        {/if}
-      </button>
+      {#if pkg.channel === 'volatile'}
+        <span
+          class="rounded bg-amber-500/15 px-2.5 py-1 font-mono text-xs text-amber-300 border border-amber-500/35"
+          title="In volatile testing repository only"
+        >
+          in volatile
+        </span>
+      {:else}
+        <button
+          type="button"
+          onclick={(e) => copyInstallCommand(e, selectedBinary)}
+          class="flex items-center gap-1 rounded bg-[#1a1e28] px-2.5 py-1 font-mono text-xs text-[#8891a8] border border-[#242836] hover:border-orange-500/50 hover:text-[#e8eaf0] transition"
+          title="Copy: {installCommand(selectedBinary || pkg.name)}"
+        >
+          {#if copied}
+            <Check class="h-3.5 w-3.5 text-emerald-400" />
+            <span class="text-emerald-400">Copied!</span>
+          {:else}
+            <Copy class="h-3.5 w-3.5" />
+            <span class="hidden sm:inline font-mono">{selectedBinary || pkg.name}</span>
+          {/if}
+        </button>
+      {/if}
     </div>
   </div>
 {:else}
@@ -144,7 +156,10 @@
           </a>
           <div class="mt-1 flex flex-wrap items-center gap-1.5">
             <!-- Version pill -->
-            <span class="rounded bg-[#1a1e28] px-2 py-0.5 font-mono text-[11px] font-medium text-[#8891a8] border border-[#242836]">
+            <span
+              class="rounded bg-[#1a1e28] px-2 py-0.5 font-mono text-[11px] font-medium text-[#8891a8] border border-[#242836]"
+              title="Recipe version from stone.yaml (volatile/git tree). May differ from unstable binary stream until promoted."
+            >
               v{pkg.version}-{pkg.release}
             </span>
 
@@ -194,14 +209,23 @@
           </div>
           <div class="flex flex-wrap gap-1">
             {#each binaryOptions as bin}
-              <button
-                type="button"
-                onclick={(e) => { e.stopPropagation(); selectedBinary = bin.name; copyInstallCommand(e, bin.name); }}
-                class="rounded px-2 py-0.5 text-[11px] font-mono transition {selectedBinary === bin.name ? 'bg-orange-500/25 text-orange-300 border border-orange-500/50' : 'bg-[#1a1e28] text-[#8891a8] hover:text-[#e8eaf0] border border-[#242836]'}"
-                title="Select and copy 'sudo moss package add {bin.name}' ({bin.summary || 'binary package'})"
-              >
-                {bin.name}
-              </button>
+              {#if pkg.channel === 'volatile'}
+                <span
+                  class="rounded px-2 py-0.5 text-[11px] font-mono bg-[#1a1e28] text-amber-300/80 border border-[#242836]"
+                  title={bin.summary || bin.name}
+                >
+                  {bin.name}
+                </span>
+              {:else}
+                <button
+                  type="button"
+                  onclick={(e) => { e.stopPropagation(); selectedBinary = bin.name; copyInstallCommand(e, bin.name); }}
+                  class="rounded px-2 py-0.5 text-[11px] font-mono transition {selectedBinary === bin.name ? 'bg-orange-500/25 text-orange-300 border border-orange-500/50' : 'bg-[#1a1e28] text-[#8891a8] hover:text-[#e8eaf0] border border-[#242836]'}"
+                  title="Select and copy 'sudo moss package add {bin.name}' ({bin.summary || 'binary package'})"
+                >
+                  {bin.name}
+                </button>
+              {/if}
             {/each}
           </div>
         </div>
@@ -255,22 +279,33 @@
         <div></div>
       {/if}
 
-      <!-- Quick Moss Install Command Button -->
-      <button
-        type="button"
-        onclick={(e) => copyInstallCommand(e, selectedBinary)}
-        class="inline-flex items-center gap-1.5 rounded-lg border border-[#242836] bg-[#1a1e28] px-2.5 py-1 font-mono text-xs text-[#e8eaf0] transition hover:border-orange-500/50 hover:bg-[#202533] active:scale-95"
-        title="Click to copy: {installCommand(selectedBinary || pkg.name)}"
-      >
-        {#if copied}
-          <Check class="h-3.5 w-3.5 text-emerald-400" />
-          <span class="text-emerald-400 font-sans text-xs font-semibold">Copied!</span>
-        {:else}
-          <Terminal class="h-3.5 w-3.5 text-orange-400" />
-          <span class="text-[11px] text-[#8891a8] font-mono max-w-[150px] truncate">{selectedBinary || pkg.name}</span>
-          <Copy class="h-3 w-3 text-[#8891a8] opacity-70" />
-        {/if}
-      </button>
+      {#if pkg.channel === 'volatile'}
+        <!-- Volatile Status Indicator (No install command or copy button) -->
+        <span
+          class="inline-flex items-center gap-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 font-mono text-[11px] text-amber-300"
+          title="In volatile testing repository only. Awaiting promotion to unstable."
+        >
+          <span class="h-1.5 w-1.5 rounded-full bg-amber-400"></span>
+          <span>in volatile</span>
+        </span>
+      {:else}
+        <!-- Quick Moss Install Command Button for Unstable Packages -->
+        <button
+          type="button"
+          onclick={(e) => copyInstallCommand(e, selectedBinary)}
+          class="inline-flex items-center gap-1.5 rounded-lg border border-[#242836] bg-[#1a1e28] px-2.5 py-1 font-mono text-xs text-[#e8eaf0] transition hover:border-orange-500/50 hover:bg-[#202533] active:scale-95"
+          title="Click to copy: {installCommand(selectedBinary || pkg.name)}"
+        >
+          {#if copied}
+            <Check class="h-3.5 w-3.5 text-emerald-400" />
+            <span class="text-emerald-400 font-sans text-xs font-semibold">Copied!</span>
+          {:else}
+            <Terminal class="h-3.5 w-3.5 text-orange-400" />
+            <span class="text-[11px] text-[#8891a8] font-mono max-w-[150px] truncate">{selectedBinary || pkg.name}</span>
+            <Copy class="h-3 w-3 text-[#8891a8] opacity-70" />
+          {/if}
+        </button>
+      {/if}
     </div>
   </div>
 {/if}

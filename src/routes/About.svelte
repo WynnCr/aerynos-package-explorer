@@ -4,30 +4,11 @@
     Box,
     Layers,
     FolderGit2,
-    CheckCircle2,
     ExternalLink,
-    Zap,
-    Shield,
-    Server,
-    Cpu,
     GitBranch,
     RefreshCw,
-    Info,
-    Copy,
-    Check
+    Info
   } from 'lucide-svelte';
-  import { copyToClipboard } from '$lib/utils/clipboard';
-
-  let copied = $state(false);
-
-  async function copyVolatileRepo() {
-    const cmd = `sudo moss repo add volatile https://cdn.aerynos.dev --root-index channel=main,version=stream/volatile -p 10\nsudo moss repo refresh`;
-    const ok = await copyToClipboard(cmd);
-    if (ok) {
-      copied = true;
-      setTimeout(() => copied = false, 2500);
-    }
-  }
 </script>
 
 <div class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8 space-y-12">
@@ -170,12 +151,12 @@
   <!-- Repository Channels Architecture: Unstable vs. Volatile -->
   <section class="space-y-6">
     <div class="flex items-center gap-2">
-      <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
+      <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20">
         <Info class="h-4 w-4" />
       </div>
       <div>
         <h2 class="text-xl font-bold text-[#e8eaf0]">Understanding AerynOS Repository Channels</h2>
-        <p class="text-xs text-[#8891a8]">How software builds, streams, and promotions work in moss and boulder.</p>
+        <p class="text-xs text-[#8891a8]">How software builds, testing streams, and package promotions work in moss and boulder.</p>
       </div>
     </div>
 
@@ -199,42 +180,73 @@
         <div class="rounded-xl border border-amber-500/20 bg-amber-500/5 p-5 space-y-3">
           <div class="flex items-center justify-between">
             <span class="font-mono text-sm font-bold text-amber-400">stream/volatile</span>
-            <span class="rounded bg-amber-500/20 px-2 py-0.5 text-[10px] uppercase font-semibold text-amber-300 border border-amber-500/30">Staging Stream</span>
+            <span class="rounded bg-amber-500/20 px-2 py-0.5 text-[10px] uppercase font-semibold text-amber-300 border border-amber-500/30">Maintainer & QA Testing</span>
           </div>
           <p class="text-xs text-[#8891a8] leading-relaxed">
-            The active staging channel where recipes merged into the upstream git repository land first. If a package (like newly packaged utilities or quick updates) is indexed in this explorer but moss reports not found, it is currently in <code class="text-amber-400 font-mono">volatile</code> awaiting promotion.
+            The active staging repository where newly merged recipes land first. This stream is intended for package maintainers and testers only to verify runtime behavior before graduation. End users do not need to activate this repository.
           </p>
-          <div class="rounded-lg bg-[#0d0f14] p-2.5 font-mono text-xs text-[#e8eaf0] border border-[#242836]">
-            <code>moss repo add volatile https://cdn.aerynos.dev ...</code>
+          <div class="rounded-lg bg-[#0d0f14] p-2.5 font-mono text-xs text-amber-400/90 border border-[#242836] flex items-center justify-between">
+            <span>Testing & QA stream</span>
+            <span class="text-[10px] text-[#8891a8]">Awaiting promotion</span>
           </div>
         </div>
       </div>
 
-      <!-- How to Enable Volatile -->
-      <div class="rounded-xl border border-[#242836] bg-[#0d0f14] p-5 space-y-3">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <div>
-            <h3 class="text-sm font-bold text-[#e8eaf0]">Enabling the Volatile Stream on your AerynOS machine</h3>
-            <p class="text-xs text-[#8891a8] mt-0.5">Run these commands in your terminal to access cutting-edge packages before their unstable graduation:</p>
-          </div>
-          <button
-            type="button"
-            onclick={copyVolatileRepo}
-            class="inline-flex items-center gap-1.5 rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-black hover:bg-orange-400 active:scale-95 transition shrink-0"
-          >
-            {#if copied}
-              <Check class="h-3.5 w-3.5" />
-              <span>Copied!</span>
-            {:else}
-              <Copy class="h-3.5 w-3.5" />
-              <span>Copy Commands</span>
-            {/if}
-          </button>
+      <!-- Package Promotion Workflow -->
+      <div class="rounded-xl border border-[#242836] bg-[#0d0f14] p-5 space-y-4">
+        <div>
+          <h3 class="text-sm font-bold text-[#e8eaf0] flex items-center gap-2">
+            <GitBranch class="h-4 w-4 text-orange-400" />
+            <span>Package Lifecycle & Promotion Workflow</span>
+          </h3>
+          <p class="text-xs text-[#8891a8] mt-1 leading-relaxed">
+            Software moves through structured stages from git pull request to your system:
+          </p>
         </div>
 
-        <pre class="overflow-x-auto rounded-lg bg-[#13161d] p-3 text-xs font-mono text-[#e8eaf0] border border-[#242836] leading-relaxed"><code>sudo moss repo add volatile https://cdn.aerynos.dev --root-index channel=main,version=stream/volatile -p 10
-sudo moss repo refresh
-sudo moss package add &lt;pkg&gt;</code></pre>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div class="rounded-lg border border-[#242836] bg-[#13161d] p-3.5 space-y-1.5">
+            <div class="flex items-center gap-2 font-semibold text-[#e8eaf0]">
+              <span class="flex h-5 w-5 items-center justify-center rounded-full bg-orange-500/20 text-orange-400 text-[11px] font-mono">1</span>
+              <span>Recipe Merged</span>
+            </div>
+            <p class="text-[#8891a8] text-[11px] leading-relaxed">
+              Pull request merged into upstream <code class="text-orange-300 font-mono">aerynOS/recipes</code>.
+            </p>
+          </div>
+
+          <div class="rounded-lg border border-amber-500/20 bg-[#13161d] p-3.5 space-y-1.5">
+            <div class="flex items-center gap-2 font-semibold text-amber-300">
+              <span class="flex h-5 w-5 items-center justify-center rounded-full bg-amber-500/20 text-amber-400 text-[11px] font-mono">2</span>
+              <span>Volatile Testing</span>
+            </div>
+            <p class="text-[#8891a8] text-[11px] leading-relaxed">
+              Built into <code class="text-amber-400 font-mono">stream/volatile</code> for maintainer and tester verification.
+            </p>
+          </div>
+
+          <div class="rounded-lg border border-emerald-500/20 bg-[#13161d] p-3.5 space-y-1.5">
+            <div class="flex items-center gap-2 font-semibold text-emerald-300">
+              <span class="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 text-[11px] font-mono">3</span>
+              <span>Unstable Promotion</span>
+            </div>
+            <p class="text-[#8891a8] text-[11px] leading-relaxed">
+              Promoted to <code class="text-emerald-400 font-mono">stream/unstable</code> and installable by all users via <code class="text-emerald-300 font-mono">moss</code>.
+            </p>
+          </div>
+        </div>
+
+        <div class="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3 text-xs text-[#8891a8] flex items-start gap-2.5">
+          <Info class="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
+          <div class="space-y-1 text-[11px] leading-relaxed">
+            <p>
+              <strong class="text-amber-300">Maintainer Notice:</strong> The <code class="font-mono text-amber-300">volatile</code> repository is intended for maintainers and testers only. Normal users should not enable volatile on production installations. Packages currently indexed in volatile will become available in the default <code class="font-mono text-emerald-300">unstable</code> channel once testing is complete.
+            </p>
+            <p class="pt-1 text-[#8891a8]/90">
+              <strong class="text-[#e8eaf0]">Why might an Explorer version differ from your installed version?</strong> This portal displays the version defined in upstream git recipes (<code class="font-mono text-orange-300">stone.yaml</code>). When a version bump is merged, that build lands in <code class="font-mono text-amber-300">volatile</code> first for QA. Until it graduates to <code class="font-mono text-emerald-300">unstable</code>, the binary version fetched by moss on your machine may temporarily reflect the previous release.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </section>

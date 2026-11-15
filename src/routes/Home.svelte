@@ -20,7 +20,8 @@
     Server,
     Monitor,
     Cpu,
-    ExternalLink
+    ExternalLink,
+    Info
   } from 'lucide-svelte';
 
   let searchQuery = $state('');
@@ -148,16 +149,16 @@
         </div>
       </div>
 
-      <!-- Channel Notice Banner -->
-      <div class="mt-3 mx-auto max-w-2xl rounded-xl border border-[#242836] bg-[#0d0f14]/80 px-4 py-2 text-xs text-[#8891a8] flex flex-col sm:flex-row items-center justify-between gap-2">
-        <div class="flex items-center gap-2 text-left">
-          <span class="flex h-2 w-2 rounded-full bg-emerald-400 shrink-0"></span>
-          <span>
-            Indexing official recipes across both <span class="font-mono text-emerald-400">unstable</span> and <span class="font-mono text-amber-400">volatile</span> (staging) streams.
-          </span>
+      <!-- Version & Channel Disclaimer Banner -->
+      <div class="mt-4 mx-auto max-w-2xl rounded-xl border border-[#242836] bg-[#0d0f14]/90 px-4 py-2.5 text-xs text-[#8891a8] flex flex-col sm:flex-row items-center justify-between gap-3 text-left">
+        <div class="flex items-start gap-2.5">
+          <Info class="h-4 w-4 text-orange-400 shrink-0 mt-0.5" />
+          <p class="leading-relaxed text-[11px]">
+            <strong class="text-[#e8eaf0]">Version notice:</strong> Package versions shown in this explorer are parsed directly from git recipes (<code class="text-orange-300 font-mono">stone.yaml</code>) that build into the <span class="text-amber-400 font-medium">volatile</span> staging stream first. The binary version currently in the default <span class="text-emerald-400 font-medium">unstable</span> channel may differ until promoted.
+          </p>
         </div>
-        <a href="#/about" class="text-orange-400 hover:underline shrink-0 text-[11px] font-medium">
-          Channel guide →
+        <a href="#/about" class="text-orange-400 hover:underline shrink-0 text-[11px] font-medium whitespace-nowrap">
+          Learn more →
         </a>
       </div>
     </div>

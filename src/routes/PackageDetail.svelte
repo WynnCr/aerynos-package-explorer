@@ -29,7 +29,6 @@
 
   let activeTab = $state<'overview' | 'dependencies' | 'subpackages' | 'build' | 'raw'>('overview');
   let copiedCommand = $state(false);
-  let copiedVolatileCmd = $state(false);
   let copiedHash = $state<string | null>(null);
 
   // Pure resolution: handles recipe name, subpackage name, or font- prefix alias without state mutations
@@ -111,16 +110,6 @@
     if (success) {
       copiedCommand = true;
       setTimeout(() => copiedCommand = false, 2000);
-    }
-  }
-
-  async function copyVolatileCommand(binaryName?: string) {
-    const target = binaryName || selectedBinary || pkg?.name || 'package';
-    const cmd = `sudo moss repo add volatile https://cdn.aerynos.dev --root-index channel=main,version=stream/volatile -p 10\nsudo moss repo refresh\nsudo moss package add ${target}`;
-    const success = await writeToClipboard(cmd);
-    if (success) {
-      copiedVolatileCmd = true;
-      setTimeout(() => copiedVolatileCmd = false, 2500);
     }
   }
 
@@ -284,7 +273,10 @@
                 {pkg.name}
               </h1>
 
-              <span class="rounded-md bg-[#1a1e28] px-2.5 py-1 font-mono text-xs font-semibold text-orange-400 border border-[#242836]">
+              <span
+                class="rounded-md bg-[#1a1e28] px-2.5 py-1 font-mono text-xs font-semibold text-orange-400 border border-[#242836]"
+                title="Version fetched from stone.yaml recipes in git (volatile tree). May temporarily differ from binary package in unstable."
+              >
                 v{pkg.version}-{pkg.release}
               </span>
 
@@ -375,121 +367,140 @@
           </div>
         </div>
 
-        <!-- Prominent Install Command Banner -->
-        <div class="mt-6 rounded-xl border border-[#242836] bg-[#0d0f14] p-5">
-          <div class="flex flex-col gap-3">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <div class="flex items-center gap-3">
-                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 shrink-0">
-                  <Terminal class="h-5 w-5" />
-                </div>
-                <div>
-                  <div class="text-[11px] uppercase tracking-wider text-[#8891a8] font-semibold flex items-center gap-2">
-                    <span>Install transactional package via moss</span>
-                    {#if binaryOptions.length > 1}
-                      <span class="rounded bg-orange-500/15 px-1.5 py-0.2 text-[10px] text-orange-400 border border-orange-500/30 font-mono">
-                        {binaryOptions.length} packages in recipe
-                      </span>
-                    {/if}
-                  </div>
-                  <div class="font-mono text-sm sm:text-base text-[#e8eaf0] mt-0.5 select-all font-medium">
-                    sudo moss package add {selectedBinary || pkg.name}
-                  </div>
-                </div>
+        <!-- Channel & Installation Section -->
+        {#if pkg.channel === 'volatile'}
+          <!-- Volatile Notice Box (No install command or copy button) -->
+          <div class="mt-6 rounded-xl border border-amber-500/30 bg-amber-500/10 p-5 space-y-3">
+            <div class="flex items-start gap-3.5">
+              <div class="rounded-lg bg-amber-500/20 p-2.5 text-amber-400 shrink-0 mt-0.5">
+                <Info class="h-5 w-5" />
               </div>
+              <div class="space-y-1.5 flex-1 min-w-0">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <span class="font-bold text-amber-300 text-sm sm:text-base">
+                    Currently in Volatile Testing Repository Only
+                  </span>
+                  <span class="rounded bg-amber-500/20 px-2.5 py-0.5 text-[11px] font-mono font-semibold text-amber-300 border border-amber-500/40">
+                    Awaiting Promotion to Unstable
+                  </span>
+                </div>
 
-              <button
-                type="button"
-                onclick={() => copyInstall(selectedBinary || pkg.name)}
-                class="flex items-center justify-center gap-1.5 rounded-lg bg-orange-500 px-4 py-2.5 text-xs font-semibold text-black hover:bg-orange-400 active:scale-95 transition shrink-0 shadow-sm"
-              >
-                {#if copiedCommand}
-                  <Check class="h-4 w-4" />
-                  <span>Copied!</span>
-                {:else}
-                  <Copy class="h-4 w-4" />
-                  <span>Copy Install Command</span>
-                {/if}
-              </button>
+                <p class="text-xs sm:text-sm text-[#e8eaf0] leading-relaxed">
+                  This package is currently available in the <span class="font-mono text-amber-400 font-semibold">volatile</span> testing repository only and has not yet been promoted to the main <span class="font-mono text-emerald-400 font-semibold">unstable</span> branch.
+                </p>
+
+                <p class="text-xs text-[#8891a8] leading-relaxed">
+                  The volatile repository is reserved for package maintainers and testers to perform QA validation. It is not available for standard system installation until it graduates to unstable.
+                </p>
+              </div>
             </div>
 
-            <!-- If recipe produces multiple packages (e.g. font subpackages or -devel/-libs), show pill selector -->
+            <!-- If recipe produces multiple packages, list them as informational tags without commands -->
             {#if binaryOptions.length > 1}
-              <div class="pt-3 border-t border-[#242836]/60 flex flex-wrap items-center gap-2">
+              <div class="pt-3 border-t border-amber-500/20 flex flex-wrap items-center gap-2">
                 <span class="text-xs text-[#8891a8] font-medium flex items-center gap-1">
-                  <PackageIcon class="h-3.5 w-3.5 text-orange-400" />
-                  <span>Select package to install:</span>
+                  <PackageIcon class="h-3.5 w-3.5 text-amber-400" />
+                  <span>Subpackages in recipe:</span>
                 </span>
                 {#each binaryOptions as bin}
-                  <button
-                    type="button"
-                    onclick={() => { selectedBinary = bin.name; copyInstall(bin.name); }}
-                    class="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-mono transition {selectedBinary === bin.name ? 'bg-orange-500/25 text-orange-300 border border-orange-500/50 shadow-sm font-semibold' : 'bg-[#1a1e28] text-[#8891a8] hover:text-[#e8eaf0] border border-[#242836]'}"
+                  <span
+                    class="rounded-lg bg-[#0d0f14] px-2.5 py-1 text-xs font-mono text-amber-300 border border-amber-500/30"
                     title={bin.summary || bin.name}
                   >
-                    <span>{bin.name}</span>
+                    {bin.name}
                     {#if bin.isDefault}
-                      <span class="text-[9px] uppercase px-1 rounded bg-orange-500/30 text-orange-200">default</span>
+                      <span class="text-[9px] uppercase px-1 rounded bg-amber-500/20 text-amber-200 ml-1">default</span>
                     {/if}
-                  </button>
+                  </span>
                 {/each}
               </div>
             {/if}
           </div>
-        </div>
-
-        <!-- Repository Channel Availability Callout -->
-        {#if pkg.channel === 'volatile'}
-          <div class="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-5 text-xs">
-            <div class="flex items-start gap-3">
-              <div class="rounded-lg bg-amber-500/20 p-2 text-amber-400 shrink-0">
-                <Info class="h-4 w-4" />
+        {:else if pkg.channel === 'recipe'}
+          <!-- Recipe Only Notice -->
+          <div class="mt-6 rounded-xl border border-purple-500/30 bg-purple-500/10 p-5 space-y-2">
+            <div class="flex items-start gap-3.5">
+              <div class="rounded-lg bg-purple-500/20 p-2.5 text-purple-400 shrink-0 mt-0.5">
+                <Info class="h-5 w-5" />
               </div>
-              <div class="space-y-2 flex-1 min-w-0">
+              <div class="space-y-1.5 flex-1 min-w-0">
                 <div class="flex flex-wrap items-center justify-between gap-2">
-                  <div class="font-semibold text-amber-300 flex items-center gap-1.5 text-sm">
-                    <span>Volatile Staging Repository Only</span>
-                  </div>
-                  <span class="rounded bg-amber-500/20 px-2 py-0.5 text-[10px] font-mono font-semibold text-amber-300 border border-amber-500/40">
-                    Awaiting Unstable Sync
+                  <span class="font-bold text-purple-300 text-sm sm:text-base">Recipe Only (Git Source Tree)</span>
+                  <span class="rounded bg-purple-500/20 px-2.5 py-0.5 text-[11px] font-mono font-semibold text-purple-300 border border-purple-500/40">
+                    Pending Build
                   </span>
                 </div>
-
-                <p class="text-[#e8eaf0] leading-relaxed">
-                  This package is currently available in the <span class="font-mono text-amber-400 font-semibold">volatile</span> staging stream only and has not yet been synced to the default <span class="font-mono text-emerald-400 font-semibold">unstable</span> channel.
+                <p class="text-xs text-[#8891a8] leading-relaxed">
+                  This recipe is tracked in the git repository but binary packages have not yet been built or published to the moss repository channels.
                 </p>
-
-                <p class="text-[#8891a8] leading-relaxed">
-                  If you run <code class="rounded bg-[#0d0f14] px-1.5 py-0.5 font-mono text-orange-400 font-semibold">sudo moss package add {selectedBinary || pkg.name}</code> on a standard AerynOS installation, moss will report <span class="italic text-rose-300">package not found</span> until you enable the volatile stream.
-                </p>
-
-                <div class="pt-2">
-                  <div class="rounded-lg border border-[#242836] bg-[#0d0f14] p-3 space-y-2.5">
-                    <div class="flex items-center justify-between">
-                      <span class="font-semibold text-orange-400 text-xs">How to install from volatile:</span>
-                      <button
-                        type="button"
-                        onclick={() => copyVolatileCommand(selectedBinary || pkg.name)}
-                        class="inline-flex items-center gap-1.5 rounded bg-orange-500/20 px-2 py-1 text-[11px] font-medium text-orange-300 border border-orange-500/40 hover:bg-orange-500/30 transition"
-                      >
-                        {#if copiedVolatileCmd}
-                          <Check class="h-3 w-3 text-emerald-400" />
-                          <span class="text-emerald-400">Copied!</span>
-                        {:else}
-                          <Copy class="h-3 w-3" />
-                          <span>Copy Commands</span>
-                        {/if}
-                      </button>
-                    </div>
-                    <pre class="overflow-x-auto rounded bg-[#13161d] p-3 font-mono text-xs text-[#e8eaf0] border border-[#242836] leading-relaxed"><code>sudo moss repo add volatile https://cdn.aerynos.dev --root-index channel=main,version=stream/volatile -p 10
-sudo moss repo refresh
-sudo moss package add {selectedBinary || pkg.name}</code></pre>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         {:else}
+          <!-- Prominent Install Command Banner for Unstable Packages -->
+          <div class="mt-6 rounded-xl border border-[#242836] bg-[#0d0f14] p-5">
+            <div class="flex flex-col gap-3">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 shrink-0">
+                    <Terminal class="h-5 w-5" />
+                  </div>
+                  <div>
+                    <div class="text-[11px] uppercase tracking-wider text-[#8891a8] font-semibold flex items-center gap-2">
+                      <span>Install transactional package via moss</span>
+                      {#if binaryOptions.length > 1}
+                        <span class="rounded bg-orange-500/15 px-1.5 py-0.2 text-[10px] text-orange-400 border border-orange-500/30 font-mono">
+                          {binaryOptions.length} packages in recipe
+                        </span>
+                      {/if}
+                    </div>
+                    <div class="font-mono text-sm sm:text-base text-[#e8eaf0] mt-0.5 select-all font-medium">
+                      sudo moss package add {selectedBinary || pkg.name}
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onclick={() => copyInstall(selectedBinary || pkg.name)}
+                  class="flex items-center justify-center gap-1.5 rounded-lg bg-orange-500 px-4 py-2.5 text-xs font-semibold text-black hover:bg-orange-400 active:scale-95 transition shrink-0 shadow-sm"
+                >
+                  {#if copiedCommand}
+                    <Check class="h-4 w-4" />
+                    <span>Copied!</span>
+                  {:else}
+                    <Copy class="h-4 w-4" />
+                    <span>Copy Install Command</span>
+                  {/if}
+                </button>
+              </div>
+
+              <!-- If recipe produces multiple packages (e.g. font subpackages or -devel/-libs), show pill selector -->
+              {#if binaryOptions.length > 1}
+                <div class="pt-3 border-t border-[#242836]/60 flex flex-wrap items-center gap-2">
+                  <span class="text-xs text-[#8891a8] font-medium flex items-center gap-1">
+                    <PackageIcon class="h-3.5 w-3.5 text-orange-400" />
+                    <span>Select package to install:</span>
+                  </span>
+                  {#each binaryOptions as bin}
+                    <button
+                      type="button"
+                      onclick={() => { selectedBinary = bin.name; copyInstall(bin.name); }}
+                      class="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-mono transition {selectedBinary === bin.name ? 'bg-orange-500/25 text-orange-300 border border-orange-500/50 shadow-sm font-semibold' : 'bg-[#1a1e28] text-[#8891a8] hover:text-[#e8eaf0] border border-[#242836]'}"
+                      title={bin.summary || bin.name}
+                    >
+                      <span>{bin.name}</span>
+                      {#if bin.isDefault}
+                        <span class="text-[9px] uppercase px-1 rounded bg-orange-500/30 text-orange-200">default</span>
+                      {/if}
+                    </button>
+                  {/each}
+                </div>
+              {/if}
+            </div>
+          </div>
+
+          <!-- Channel Availability Info for Unstable Packages -->
           <div class="mt-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-xs">
             <div class="flex items-start gap-3">
               <div class="rounded-lg bg-emerald-500/10 p-2 text-emerald-400 shrink-0">
@@ -506,6 +517,9 @@ sudo moss package add {selectedBinary || pkg.name}</code></pre>
                 </div>
                 <p class="text-[#8891a8] leading-relaxed">
                   This package is part of the standard <span class="font-mono text-emerald-400 font-medium">unstable</span> stream configured on all AerynOS systems. You can install it immediately with <code class="rounded bg-[#0d0f14] px-1.5 py-0.5 font-mono text-orange-400 font-semibold">sudo moss package add {selectedBinary || pkg.name}</code>.
+                </p>
+                <p class="text-[#8891a8]/80 text-[11px] leading-relaxed pt-1.5 border-t border-emerald-500/15">
+                  <span class="font-medium text-amber-300">Version disclaimer:</span> The displayed package version (<span class="font-mono text-orange-300">v{pkg.version}-{pkg.release}</span>) is fetched directly from git recipes (<code class="font-mono text-orange-300">stone.yaml</code>), which land in the <span class="font-mono text-amber-300">volatile</span> testing stream first. The binary package version currently served in the default <span class="font-mono text-emerald-300">unstable</span> repository may temporarily differ until testing finishes and the build graduates.
                 </p>
               </div>
             </div>
@@ -652,13 +666,13 @@ sudo moss package add {selectedBinary || pkg.name}</code></pre>
                     <span class="font-mono font-semibold text-[#e8eaf0]">{pkg.name}</span>
                   </div>
 
-                  <div class="flex justify-between pt-2">
-                    <span class="text-[#8891a8]">Version</span>
+                  <div class="flex justify-between pt-2" title="Source recipe version defined in stone.yaml">
+                    <span class="text-[#8891a8]">Recipe Version</span>
                     <span class="font-mono text-[#e8eaf0]">{pkg.version}</span>
                   </div>
 
-                  <div class="flex justify-between pt-2">
-                    <span class="text-[#8891a8]">Release</span>
+                  <div class="flex justify-between pt-2" title="Source recipe build release counter in stone.yaml">
+                    <span class="text-[#8891a8]">Recipe Release</span>
                     <span class="font-mono text-[#e8eaf0]">{pkg.release}</span>
                   </div>
 
@@ -788,20 +802,26 @@ sudo moss package add {selectedBinary || pkg.name}</code></pre>
                 <div class="rounded-xl border border-[#242836] bg-[#13161d] p-5 space-y-3">
                   <div class="flex items-center justify-between">
                     <span class="font-mono text-base font-bold text-orange-400">{sub.name}</span>
-                    <button
-                      type="button"
-                      onclick={() => copyToClipboard(`sudo moss package add ${sub.name}`, sub.name)}
-                      class="flex items-center gap-1 rounded bg-[#1a1e28] px-2 py-1 font-mono text-xs text-[#8891a8] border border-[#242836] hover:text-[#e8eaf0]"
-                      title="Copy install command"
-                    >
-                      {#if copiedHash === sub.name}
-                        <Check class="h-3.5 w-3.5 text-emerald-400" />
-                        <span class="text-emerald-400">Copied</span>
-                      {:else}
-                        <Copy class="h-3.5 w-3.5" />
-                        <span>moss add</span>
-                      {/if}
-                    </button>
+                    {#if pkg.channel === 'volatile' || sub.channel === 'volatile'}
+                      <span class="rounded bg-amber-500/15 px-2 py-0.5 font-mono text-xs text-amber-300 border border-amber-500/30">
+                        in volatile
+                      </span>
+                    {:else}
+                      <button
+                        type="button"
+                        onclick={() => copyToClipboard(`sudo moss package add ${sub.name}`, sub.name)}
+                        class="flex items-center gap-1 rounded bg-[#1a1e28] px-2 py-1 font-mono text-xs text-[#8891a8] border border-[#242836] hover:text-[#e8eaf0]"
+                        title="Copy install command"
+                      >
+                        {#if copiedHash === sub.name}
+                          <Check class="h-3.5 w-3.5 text-emerald-400" />
+                          <span class="text-emerald-400">Copied</span>
+                        {:else}
+                          <Copy class="h-3.5 w-3.5" />
+                          <span>moss add</span>
+                        {/if}
+                      </button>
+                    {/if}
                   </div>
 
                   {#if sub.summary}

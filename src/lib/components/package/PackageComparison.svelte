@@ -79,7 +79,7 @@
                     >
                       {pkg.name}
                     </a>
-                    <div class="mt-1 text-xs font-mono text-[#8891a8]">
+                    <div class="mt-1 text-xs font-mono text-[#8891a8]" title="Recipe version defined in stone.yaml">
                       v{pkg.version}-{pkg.release}
                     </div>
                   </div>
@@ -115,18 +115,25 @@
             <td class="p-4 font-medium text-[#8891a8]">Installation</td>
             {#each packages as pkg}
               <td class="p-4">
-                <button
-                  type="button"
-                  onclick={() => copyCommand(pkg.name)}
-                  class="flex w-full items-center justify-between rounded-lg border border-[#242836] bg-[#0d0f14] px-2.5 py-1.5 font-mono text-xs text-[#e8eaf0] hover:border-orange-500/50 transition group"
-                >
-                  <span class="truncate">sudo moss package add {pkg.name}</span>
-                  {#if copiedStates[pkg.name]}
-                    <Check class="h-3.5 w-3.5 text-emerald-400 shrink-0 ml-2" />
-                  {:else}
-                    <Copy class="h-3.5 w-3.5 text-[#8891a8] group-hover:text-orange-400 shrink-0 ml-2" />
-                  {/if}
-                </button>
+                {#if pkg.channel === 'volatile'}
+                  <div class="rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 font-mono text-xs text-amber-300 flex items-center justify-between">
+                    <span>In volatile testing only</span>
+                    <span class="text-[10px] uppercase font-semibold text-amber-400">Not in unstable</span>
+                  </div>
+                {:else}
+                  <button
+                    type="button"
+                    onclick={() => copyCommand(pkg.name)}
+                    class="flex w-full items-center justify-between rounded-lg border border-[#242836] bg-[#0d0f14] px-2.5 py-1.5 font-mono text-xs text-[#e8eaf0] hover:border-orange-500/50 transition group"
+                  >
+                    <span class="truncate">sudo moss package add {pkg.name}</span>
+                    {#if copiedStates[pkg.name]}
+                      <Check class="h-3.5 w-3.5 text-emerald-400 shrink-0 ml-2" />
+                    {:else}
+                      <Copy class="h-3.5 w-3.5 text-[#8891a8] group-hover:text-orange-400 shrink-0 ml-2" />
+                    {/if}
+                  </button>
+                {/if}
               </td>
             {/each}
           </tr>
