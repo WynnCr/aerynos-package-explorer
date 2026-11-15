@@ -1,62 +1,125 @@
 @import "tailwindcss";
 
+/*
+ * Palette: warm neutrals, one accent. Orange is for links, the active
+ * nav item and focus rings; nothing else gets a colour except the two
+ * stream states (ok = unstable, warn = volatile).
+ */
+@theme {
+  --color-page: #131211;
+  --color-surface: #191816;
+  --color-raised: #211f1c;
+  --color-line: #2c2924;
+  --color-fg: #e2dfd8;
+  --color-muted: #8f897d;
+  --color-accent: #e8864a;
+  --color-ok: #86b36f;
+  --color-warn: #d6a640;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
 :root {
   color-scheme: dark;
 }
 
-@theme {
-  --color-aery-bg: #0d0f14;
-  --color-aery-surface: #13161d;
-  --color-aery-surface2: #1a1e28;
-  --color-aery-border: #242836;
-  --color-aery-text: #e8eaf0;
-  --color-aery-muted: #8891a8;
-  --color-aery-orange: #f97316;
-  --color-aery-orange-dim: rgba(249,115,22,0.15);
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+@layer base {
+  html {
+    font-size: 15px;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--color-page);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  code,
+  pre,
+  kbd {
+    font-family: var(--font-mono);
+  }
+
+  :not(pre) > code {
+    font-size: 0.9em;
+    background: var(--color-raised);
+    border-radius: 3px;
+    padding: 0.1em 0.35em;
+  }
+
+  pre {
+    overflow-x: auto;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
+@layer components {
+  /* Inline link inside running text */
+  .link {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+    text-underline-offset: 3px;
+  }
+  .link:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* Small text-style button, used for row actions */
+  .act {
+    color: var(--color-muted);
+    font-size: 0.875rem;
+    cursor: pointer;
+    background: none;
+    border: 0;
+    padding: 0;
+  }
+  .act:hover {
+    color: var(--color-fg);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .act[aria-pressed="true"] {
+    color: var(--color-accent);
+  }
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  background-color: #0d0f14;
-  color: #e8eaf0;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
-::selection {
-  background-color: rgba(249, 115, 22, 0.3);
-  color: #e8eaf0;
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #0d0f14;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #242836;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #8891a8;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-code, pre {
-  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

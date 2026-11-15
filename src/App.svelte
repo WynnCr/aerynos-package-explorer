@@ -57,10 +57,10 @@
   });
 </script>
 
-<div class="min-h-screen flex flex-col bg-[#0d0f14] text-[#e8eaf0] antialiased selection:bg-orange-500/30 selection:text-orange-200">
+<div class="min-h-screen flex flex-col">
   <Nav />
-  
-  <main class="flex-1 w-full pb-16">
+
+  <main class="flex-1 w-full pb-12">
     <Router
       {routes}
       restoreScrollState={true}

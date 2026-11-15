@@ -5,25 +5,6 @@
   import { copyToClipboard as writeToClipboard } from '$lib/utils/clipboard';
   import PackageCard from '$lib/components/package/PackageCard.svelte';
   import ChannelBadge from '$lib/components/package/ChannelBadge.svelte';
-  import {
-    ArrowLeft,
-    Copy,
-    Check,
-    Scale,
-    ExternalLink,
-    Terminal,
-    Layers,
-    Box,
-    FileText,
-    Cpu,
-    GitBranch,
-    Shield,
-    FolderGit2,
-    Code2,
-    AlertCircle,
-    Info,
-    Package as PackageIcon
-  } from 'lucide-svelte';
 
   let { params = { name: '' } }: { params?: { name: string } } = $props();
 
@@ -228,732 +209,279 @@
   }
 </script>
 
-<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-  <!-- Back navigation button -->
-  <div class="mb-6">
-    <a
-      href="#/"
-      class="inline-flex items-center gap-2 rounded-lg border border-[#242836] bg-[#13161d] px-3 py-1.5 text-xs font-medium text-[#8891a8] hover:border-orange-500/50 hover:text-[#e8eaf0] transition"
-    >
-      <ArrowLeft class="h-3.5 w-3.5" />
-      <span>Back to packages</span>
-    </a>
-  </div>
+{#snippet tab(id: typeof activeTab, label: string, count?: number)}
+  <button
+    type="button"
+    role="tab"
+    aria-selected={activeTab === id}
+    onclick={() => (activeTab = id)}
+    class="shrink-0 border-b-2 px-1 pb-2 text-sm {activeTab === id ? 'border-accent text-fg' : 'border-transparent text-muted hover:text-fg'}"
+  >
+    {label}{#if count}<span class="text-muted">&nbsp;({count})</span>{/if}
+  </button>
+{/snippet}
+
+{#snippet depList(deps: string[], showKind: boolean)}
+  <ul class="divide-y divide-line border-y border-line">
+    {#each deps as dep}
+      {@const parsed = parseDep(dep)}
+      <li class="flex items-baseline justify-between gap-3 py-1.5 font-mono text-sm">
+        <span class="min-w-0 truncate">
+          {#if showKind && parsed.kind}<span class="text-muted">{parsed.kind}:</span>{/if}
+          {#if parsed.hasPackage}
+            <a class="link" href="#/package/{parsed.target}">{parsed.target}</a>
+          {:else}
+            {parsed.target}
+          {/if}
+        </span>
+        {#if parsed.hasPackage}<span class="shrink-0 font-sans text-xs text-muted">in index</span>{/if}
+      </li>
+    {/each}
+  </ul>
+{/snippet}
+
+<div class="mx-auto max-w-5xl px-4 py-8 sm:px-6">
+  <p class="mb-6 text-sm"><a class="link" href="#/">← All packages</a></p>
 
   {#if packageStore.loading}
-    <div class="rounded-xl border border-[#242836] bg-[#13161d] p-16 text-center">
-      <div class="inline-block h-8 w-8 animate-spin rounded-full border-2 border-orange-500 border-t-transparent"></div>
-      <p class="mt-4 text-sm text-[#8891a8]">Loading package details...</p>
-    </div>
+    <p class="py-12 text-muted">Loading the package index…</p>
   {:else if !pkg}
-    <div class="rounded-xl border border-[#242836] bg-[#13161d] p-16 text-center">
-      <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-[#1a1e28] text-orange-400 border border-[#242836]">
-        <AlertCircle class="h-6 w-6" />
-      </div>
-      <h2 class="mt-4 text-xl font-bold text-[#e8eaf0]">Package Not Found</h2>
-      <p class="mt-2 text-sm text-[#8891a8] max-w-md mx-auto">
-        No package matching <span class="font-mono text-orange-400 font-semibold">{params?.name}</span> was found in the AerynOS recipe index.
+    <div class="py-12">
+      <h1 class="text-xl font-semibold">No such package</h1>
+      <p class="mt-2 text-muted">
+        Nothing in the index matches <code>{params?.name}</code>. It may have been renamed or removed,
+        or the index may be out of date.
       </p>
-      <a
-        href="#/"
-        class="mt-6 inline-flex items-center gap-2 rounded-lg bg-orange-500 px-4 py-2 text-xs font-semibold text-black hover:bg-orange-400 transition"
-      >
-        <span>Explore All Packages</span>
-      </a>
+      <p class="mt-4"><a class="link" href="#/">Search all packages</a></p>
     </div>
   {:else}
-    <!-- Main Package Content -->
-    <div class="space-y-8">
-      <!-- Package Header Banner -->
-      <div class="rounded-2xl border border-[#242836] bg-[#13161d] p-6 sm:p-8 shadow-xl">
-        <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div class="space-y-3">
-            <div class="flex flex-wrap items-center gap-3">
-              <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#e8eaf0]">
-                {pkg.name}
-              </h1>
+    <header class="space-y-3">
+      <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+        <h1 class="font-mono text-2xl font-semibold">{pkg.name}</h1>
+        <span
+          class="font-mono text-muted"
+          title="Version from stone.yaml on the main branch. The unstable stream may still ship an older one."
+        >{pkg.version}-{pkg.release}</span>
+        <ChannelBadge channel={pkg.channel} size="md" />
+      </div>
 
-              <span
-                class="rounded-md bg-[#1a1e28] px-2.5 py-1 font-mono text-xs font-semibold text-orange-400 border border-[#242836]"
-                title="Version fetched from stone.yaml recipes in git (main channel). May temporarily differ from binary package in unstable stream."
-              >
-                v{pkg.version}-{pkg.release}
-              </span>
+      <p class="max-w-3xl text-lg">{pkg.summary}</p>
 
-              <ChannelBadge channel={pkg.channel} size="md" />
+      <p class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
+        {#if pkg.category}<a class="hover:text-fg" href="#/categories/{encodeURIComponent(pkg.category)}">{pkg.category}</a>{/if}
+        <span>{(pkg.license || []).join(', ') || 'license unknown'}</span>
+        {#if pkg.toolchain && pkg.toolchain !== 'llvm'}<span>toolchain {pkg.toolchain}</span>{/if}
+        {#if pkg.emul32}<span>emul32</span>{/if}
+      </p>
 
-              {#if pkg.category}
-                <a
-                  href="#/categories/{encodeURIComponent(pkg.category)}"
-                  class="rounded-md bg-orange-500/10 px-2.5 py-1 text-xs font-medium text-orange-400 border border-orange-500/20 hover:bg-orange-500/20 transition"
-                >
-                  {pkg.category}
-                </a>
-              {/if}
+      <p class="flex flex-wrap gap-x-5 gap-y-1 text-sm">
+        {#if pkg.homepage}
+          <a class="link" href={pkg.homepage} target="_blank" rel="noopener noreferrer">{formatDomain(pkg.homepage)}</a>
+        {/if}
+        <a class="link" href={pkg.recipeUrl} target="_blank" rel="noopener noreferrer">stone.yaml on GitHub</a>
+        <button type="button" class="act" aria-pressed={isCompared} onclick={() => compareStore.toggle(pkg)}>
+          {isCompared ? 'remove from comparison' : 'add to comparison'}
+        </button>
+      </p>
+    </header>
 
-              {#if pkg.license && pkg.license.length > 0}
-                <div class="flex flex-wrap gap-1">
-                  {#each pkg.license as lic}
-                    <span class="rounded bg-[#1a1e28] px-2 py-0.5 text-xs text-[#8891a8] border border-[#242836]">
-                      {lic}
-                    </span>
-                  {/each}
-                </div>
-              {/if}
-            </div>
-
-            <p class="text-sm sm:text-base text-[#8891a8] max-w-3xl leading-relaxed">
-              {pkg.summary}
-            </p>
-
-            <div class="flex flex-wrap items-center gap-4 text-xs text-[#8891a8] pt-1">
-              {#if pkg.homepage}
-                <a
-                  href={pkg.homepage}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="flex items-center gap-1.5 text-orange-400 hover:underline"
-                >
-                  <ExternalLink class="h-3.5 w-3.5" />
-                  <span>{formatDomain(pkg.homepage)}</span>
-                </a>
-              {/if}
-
-              <a
-                href={pkg.recipeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="flex items-center gap-1.5 hover:text-[#e8eaf0] transition"
-              >
-                <FolderGit2 class="h-3.5 w-3.5" />
-                <span class="font-mono">recipes/{pkg.letter}/{pkg.name}/stone.yaml</span>
-              </a>
-
-              {#if pkg.toolchain && pkg.toolchain !== 'llvm'}
-                <span class="flex items-center gap-1 text-amber-400 font-mono">
-                  <Cpu class="h-3.5 w-3.5" />
-                  <span>toolchain: {pkg.toolchain}</span>
-                </span>
-              {/if}
-
-              {#if pkg.emul32}
-                <span class="rounded bg-purple-500/15 px-2 py-0.5 font-mono text-[11px] text-purple-300 border border-purple-500/30">
-                  emul32 (32-bit enabled)
-                </span>
-              {/if}
-            </div>
-          </div>
-
-          <!-- Quick Actions Panel -->
-          <div class="flex flex-wrap lg:flex-col gap-2.5 shrink-0">
-            <button
-              type="button"
-              onclick={() => compareStore.toggle(pkg)}
-              class="flex items-center justify-center gap-2 rounded-lg border px-4 py-2 text-xs font-medium transition {isCompared ? 'bg-orange-500/20 text-orange-400 border-orange-500/40' : 'border-[#242836] bg-[#1a1e28] text-[#8891a8] hover:text-[#e8eaf0] hover:border-[#8891a8]/40'}"
-            >
-              <Scale class="h-4 w-4" />
-              <span>{isCompared ? 'In Compare List' : 'Add to Compare'}</span>
-            </button>
-
-            <a
-              href={pkg.recipeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="flex items-center justify-center gap-2 rounded-lg border border-[#242836] bg-[#1a1e28] px-4 py-2 text-xs font-medium text-[#8891a8] hover:text-[#e8eaf0] hover:border-[#8891a8]/40 transition"
-            >
-              <GitBranch class="h-4 w-4" />
-              <span>View stone.yaml</span>
-            </a>
-          </div>
+    <section class="mt-8 space-y-3">
+      {#if pkg.channel === 'volatile'}
+        <p class="border-l-2 border-warn pl-4">
+          <strong class="font-medium text-warn">Volatile only.</strong>
+          This recipe is in the newest snapshot (<code>stream/volatile</code>) but hasn't been promoted
+          to <code>stream/unstable</code>, which is what systems follow by default, so you can't install
+          it with moss on a normal setup yet.
+        </p>
+        {#if binaryOptions.length > 1}
+          <p class="text-sm text-muted">
+            It builds: {#each binaryOptions as bin, i}<code>{bin.name}</code>{i < binaryOptions.length - 1 ? ', ' : ''}{/each}
+          </p>
+        {/if}
+      {:else if pkg.channel === 'recipe'}
+        <p class="border-l-2 border-line pl-4 text-muted">
+          Recipe only. It's in git, but no binary package has been built for it yet.
+        </p>
+      {:else}
+        <div class="flex items-center justify-between gap-3 rounded border border-line bg-surface px-4 py-3">
+          <code class="select-all !bg-transparent !p-0 text-base">sudo moss package add {selectedBinary || pkg.name}</code>
+          <button type="button" class="act shrink-0" onclick={() => copyInstall(selectedBinary || pkg.name)}>
+            {copiedCommand ? 'copied' : 'copy'}
+          </button>
         </div>
 
-        <!-- Stream & Installation Section -->
-        {#if pkg.channel === 'volatile'}
-          <!-- Volatile Notice Box (No install command or copy button) -->
-          <div class="mt-6 rounded-xl border border-amber-500/30 bg-amber-500/10 p-5 space-y-3">
-            <div class="flex items-start gap-3.5">
-              <div class="rounded-lg bg-amber-500/20 p-2.5 text-amber-400 shrink-0 mt-0.5">
-                <Info class="h-5 w-5" />
-              </div>
-              <div class="space-y-1.5 flex-1 min-w-0">
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                  <span class="font-bold text-amber-300 text-sm sm:text-base">
-                    Currently in Volatile Stream Only
-                  </span>
-                  <span class="rounded bg-amber-500/20 px-2.5 py-0.5 text-[11px] font-mono font-semibold text-amber-300 border border-amber-500/40">
-                    Awaiting Tag & Promotion to Unstable
-                  </span>
-                </div>
-
-                <p class="text-xs sm:text-sm text-[#e8eaf0] leading-relaxed">
-                  This package is currently indexed at the tip of the <span class="font-mono text-amber-400 font-semibold">stream/volatile</span> pointer in the main channel and has not yet been promoted to <span class="font-mono text-emerald-400 font-semibold">stream/unstable</span>.
-                </p>
-
-                <p class="text-xs text-[#8891a8] leading-relaxed">
-                  Regular systems configured for the default unstable stream cannot install this package yet. Once this milestone is verified and tagged by maintainers, the unstable stream will be repointed to include it.
-                </p>
-              </div>
-            </div>
-
-            <!-- If recipe produces multiple packages, list them as informational tags without commands -->
-            {#if binaryOptions.length > 1}
-              <div class="pt-3 border-t border-amber-500/20 flex flex-wrap items-center gap-2">
-                <span class="text-xs text-[#8891a8] font-medium flex items-center gap-1">
-                  <PackageIcon class="h-3.5 w-3.5 text-amber-400" />
-                  <span>Subpackages in recipe:</span>
-                </span>
-                {#each binaryOptions as bin}
-                  <span
-                    class="rounded-lg bg-[#0d0f14] px-2.5 py-1 text-xs font-mono text-amber-300 border border-amber-500/30"
-                    title={bin.summary || bin.name}
-                  >
-                    {bin.name}
-                    {#if bin.isDefault}
-                      <span class="text-[9px] uppercase px-1 rounded bg-amber-500/20 text-amber-200 ml-1">default</span>
-                    {/if}
-                  </span>
-                {/each}
-              </div>
-            {/if}
-          </div>
-        {:else if pkg.channel === 'recipe'}
-          <!-- Recipe Only Notice -->
-          <div class="mt-6 rounded-xl border border-purple-500/30 bg-purple-500/10 p-5 space-y-2">
-            <div class="flex items-start gap-3.5">
-              <div class="rounded-lg bg-purple-500/20 p-2.5 text-purple-400 shrink-0 mt-0.5">
-                <Info class="h-5 w-5" />
-              </div>
-              <div class="space-y-1.5 flex-1 min-w-0">
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                  <span class="font-bold text-purple-300 text-sm sm:text-base">Recipe Only (Git Source Tree)</span>
-                  <span class="rounded bg-purple-500/20 px-2.5 py-0.5 text-[11px] font-mono font-semibold text-purple-300 border border-purple-500/40">
-                    Pending Build
-                  </span>
-                </div>
-                <p class="text-xs text-[#8891a8] leading-relaxed">
-                  This recipe is tracked in the git repository but binary packages have not yet been built or published to the moss repository streams.
-                </p>
-              </div>
-            </div>
-          </div>
-        {:else}
-          <!-- Prominent Install Command Banner for Unstable Packages -->
-          <div class="mt-6 rounded-xl border border-[#242836] bg-[#0d0f14] p-5">
-            <div class="flex flex-col gap-3">
-              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 shrink-0">
-                    <Terminal class="h-5 w-5" />
-                  </div>
-                  <div>
-                    <div class="text-[11px] uppercase tracking-wider text-[#8891a8] font-semibold flex items-center gap-2">
-                      <span>Install transactional package via moss</span>
-                      {#if binaryOptions.length > 1}
-                        <span class="rounded bg-orange-500/15 px-1.5 py-0.2 text-[10px] text-orange-400 border border-orange-500/30 font-mono">
-                          {binaryOptions.length} packages in recipe
-                        </span>
-                      {/if}
-                    </div>
-                    <div class="font-mono text-sm sm:text-base text-[#e8eaf0] mt-0.5 select-all font-medium">
-                      sudo moss package add {selectedBinary || pkg.name}
-                    </div>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onclick={() => copyInstall(selectedBinary || pkg.name)}
-                  class="flex items-center justify-center gap-1.5 rounded-lg bg-orange-500 px-4 py-2.5 text-xs font-semibold text-black hover:bg-orange-400 active:scale-95 transition shrink-0 shadow-sm"
-                >
-                  {#if copiedCommand}
-                    <Check class="h-4 w-4" />
-                    <span>Copied!</span>
-                  {:else}
-                    <Copy class="h-4 w-4" />
-                    <span>Copy Install Command</span>
-                  {/if}
-                </button>
-              </div>
-
-              <!-- If recipe produces multiple packages (e.g. font subpackages or -devel/-libs), show pill selector -->
-              {#if binaryOptions.length > 1}
-                <div class="pt-3 border-t border-[#242836]/60 flex flex-wrap items-center gap-2">
-                  <span class="text-xs text-[#8891a8] font-medium flex items-center gap-1">
-                    <PackageIcon class="h-3.5 w-3.5 text-orange-400" />
-                    <span>Select package to install:</span>
-                  </span>
-                  {#each binaryOptions as bin}
-                    <button
-                      type="button"
-                      onclick={() => { selectedBinary = bin.name; copyInstall(bin.name); }}
-                      class="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-mono transition {selectedBinary === bin.name ? 'bg-orange-500/25 text-orange-300 border border-orange-500/50 shadow-sm font-semibold' : 'bg-[#1a1e28] text-[#8891a8] hover:text-[#e8eaf0] border border-[#242836]'}"
-                      title={bin.summary || bin.name}
-                    >
-                      <span>{bin.name}</span>
-                      {#if bin.isDefault}
-                        <span class="text-[9px] uppercase px-1 rounded bg-orange-500/30 text-orange-200">default</span>
-                      {/if}
-                    </button>
-                  {/each}
-                </div>
-              {/if}
-            </div>
-          </div>
-
-          <!-- Stream Availability Info for Unstable Packages -->
-          <div class="mt-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-xs">
-            <div class="flex items-start gap-3">
-              <div class="rounded-lg bg-emerald-500/10 p-2 text-emerald-400 shrink-0">
-                <Check class="h-4 w-4" />
-              </div>
-              <div class="space-y-1.5 flex-1 min-w-0">
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                  <div class="font-semibold text-emerald-300 flex items-center gap-1.5">
-                    <span>Available in Unstable Stream</span>
-                  </div>
-                  <span class="rounded bg-emerald-500/15 px-2 py-0.5 text-[10px] font-mono text-emerald-400 border border-emerald-500/30">
-                    Ready to Install
-                  </span>
-                </div>
-                <p class="text-[#8891a8] leading-relaxed">
-                  This package is part of the standard <span class="font-mono text-emerald-400 font-medium">stream/unstable</span> configured on all AerynOS systems. You can install it immediately with <code class="rounded bg-[#0d0f14] px-1.5 py-0.5 font-mono text-orange-400 font-semibold">sudo moss package add {selectedBinary || pkg.name}</code>.
-                </p>
-                <p class="text-[#8891a8]/80 text-[11px] leading-relaxed pt-1.5 border-t border-emerald-500/15">
-                  <span class="font-medium text-amber-300">Version disclaimer:</span> The displayed package version (<span class="font-mono text-orange-300">v{pkg.version}-{pkg.release}</span>) is fetched directly from git recipes (<code class="font-mono text-orange-300">stone.yaml</code>), which land at the tip of the <span class="font-mono text-amber-300">volatile</span> stream first. The binary package version currently served in the tagged <span class="font-mono text-emerald-300">unstable</span> stream may temporarily differ until the milestone is tagged and promoted.
-                </p>
-              </div>
-            </div>
-          </div>
-        {/if}
-      </div>
-
-      <!-- Navigation Tabs -->
-      <div class="flex items-center gap-2 border-b border-[#242836] overflow-x-auto no-scrollbar">
-        <button
-          type="button"
-          onclick={() => activeTab = 'overview'}
-          class="flex items-center gap-2 border-b-2 px-4 py-3 text-xs sm:text-sm font-medium transition-colors shrink-0 {activeTab === 'overview' ? 'border-orange-500 text-orange-400' : 'border-transparent text-[#8891a8] hover:text-[#e8eaf0]'}"
-        >
-          <FileText class="h-4 w-4" />
-          <span>Overview</span>
-        </button>
-
-        <button
-          type="button"
-          onclick={() => activeTab = 'dependencies'}
-          class="flex items-center gap-2 border-b-2 px-4 py-3 text-xs sm:text-sm font-medium transition-colors shrink-0 {activeTab === 'dependencies' ? 'border-orange-500 text-orange-400' : 'border-transparent text-[#8891a8] hover:text-[#e8eaf0]'}"
-        >
-          <Box class="h-4 w-4" />
-          <span>Dependencies</span>
-          {#if (pkg.builddeps?.length || 0) + (pkg.rundeps?.length || 0) > 0}
-            <span class="rounded bg-[#1a1e28] px-1.5 py-0.2 text-[10px] font-mono text-[#8891a8]">
-              {(pkg.builddeps?.length || 0) + (pkg.rundeps?.length || 0)}
-            </span>
-          {/if}
-        </button>
-
-        {#if pkg.packages && pkg.packages.length > 0}
-          <button
-            type="button"
-            onclick={() => activeTab = 'subpackages'}
-            class="flex items-center gap-2 border-b-2 px-4 py-3 text-xs sm:text-sm font-medium transition-colors shrink-0 {activeTab === 'subpackages' ? 'border-orange-500 text-orange-400' : 'border-transparent text-[#8891a8] hover:text-[#e8eaf0]'}"
-          >
-            <Layers class="h-4 w-4" />
-            <span>Subpackages</span>
-            <span class="rounded bg-[#1a1e28] px-1.5 py-0.2 text-[10px] font-mono text-[#8891a8]">
-              {pkg.packages.length}
-            </span>
-          </button>
+        {#if binaryOptions.length > 1}
+          <p class="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm text-muted">
+            This recipe builds several packages:
+            {#each binaryOptions as bin}
+              <button
+                type="button"
+                class="font-mono {selectedBinary === bin.name ? 'text-accent underline underline-offset-4' : 'hover:text-fg'}"
+                title={bin.summary || bin.name}
+                onclick={() => (selectedBinary = bin.name)}
+              >{bin.name}</button>
+            {/each}
+          </p>
         {/if}
 
-        {#if pkg.setup || pkg.build || pkg.install || pkg.check || pkg.environment}
-          <button
-            type="button"
-            onclick={() => activeTab = 'build'}
-            class="flex items-center gap-2 border-b-2 px-4 py-3 text-xs sm:text-sm font-medium transition-colors shrink-0 {activeTab === 'build' ? 'border-orange-500 text-orange-400' : 'border-transparent text-[#8891a8] hover:text-[#e8eaf0]'}"
-          >
-            <Code2 class="h-4 w-4" />
-            <span>Build Phases</span>
-          </button>
-        {/if}
+        <p class="text-sm text-muted">
+          The version above comes from the recipe on <code>main</code>. The unstable stream may still ship an
+          older build until maintainers tag and promote it.
+        </p>
+      {/if}
+    </section>
 
-        <button
-          type="button"
-          onclick={() => activeTab = 'raw'}
-          class="flex items-center gap-2 border-b-2 px-4 py-3 text-xs sm:text-sm font-medium transition-colors shrink-0 {activeTab === 'raw' ? 'border-orange-500 text-orange-400' : 'border-transparent text-[#8891a8] hover:text-[#e8eaf0]'}"
-        >
-          <FolderGit2 class="h-4 w-4" />
-          <span>Raw Recipe (stone.yaml)</span>
-        </button>
-      </div>
+    <div class="mt-10 flex gap-5 overflow-x-auto border-b border-line no-scrollbar" role="tablist">
+      {@render tab('overview', 'Overview')}
+      {@render tab('dependencies', 'Dependencies', (pkg.builddeps?.length || 0) + (pkg.rundeps?.length || 0))}
+      {#if pkg.packages && pkg.packages.length > 0}
+        {@render tab('subpackages', 'Subpackages', pkg.packages.length)}
+      {/if}
+      {#if pkg.setup || pkg.build || pkg.install || pkg.check || pkg.environment}
+        {@render tab('build', 'Build steps')}
+      {/if}
+      {@render tab('raw', 'stone.yaml')}
+    </div>
 
-      <!-- Tab Content Area -->
-      <div class="space-y-6">
-        <!-- 1. OVERVIEW TAB -->
-        {#if activeTab === 'overview'}
-          <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-            <!-- Left 2 Cols: Description & Upstreams -->
-            <div class="space-y-6 lg:col-span-2">
-              <div class="rounded-xl border border-[#242836] bg-[#13161d] p-6">
-                <h3 class="text-sm font-semibold uppercase tracking-wider text-[#8891a8] mb-3">
-                  About this package
-                </h3>
-                <p class="whitespace-pre-line text-sm leading-relaxed text-[#e8eaf0]">
-                  {pkg.description || pkg.summary}
-                </p>
-              </div>
+    <div class="mt-6">
+      {#if activeTab === 'overview'}
+        <div class="grid gap-10 lg:grid-cols-[1fr_16rem]">
+          <div class="space-y-8">
+            <section>
+              <h2 class="mb-2 font-semibold">Description</h2>
+              <p class="whitespace-pre-line">{pkg.description || pkg.summary}</p>
+            </section>
 
-              <!-- Upstream Downloads & Checksums -->
-              <div class="rounded-xl border border-[#242836] bg-[#13161d] p-6">
-                <h3 class="text-sm font-semibold uppercase tracking-wider text-[#8891a8] mb-3">
-                  Upstream Sources & Verification
-                </h3>
-
-                {#if pkg.upstreams && pkg.upstreams.length > 0}
-                  <div class="space-y-3">
-                    {#each pkg.upstreams as u, i}
-                      <div class="rounded-lg border border-[#242836] bg-[#0d0f14] p-3 text-xs">
-                        <div class="flex items-center justify-between gap-2">
-                          <a
-                            href={u.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="font-mono text-orange-400 hover:underline truncate"
-                          >
-                            {u.url}
-                          </a>
-                          <span class="rounded bg-[#1a1e28] px-1.5 py-0.5 text-[10px] text-[#8891a8] uppercase border border-[#242836] shrink-0">
-                            {u.type}
-                          </span>
+            <section>
+              <h2 class="mb-2 font-semibold">Upstream sources</h2>
+              {#if pkg.upstreams && pkg.upstreams.length > 0}
+                <ul class="space-y-3">
+                  {#each pkg.upstreams as u, i}
+                    <li class="text-sm">
+                      <a class="link break-all font-mono" href={u.url} target="_blank" rel="noopener noreferrer">{u.url}</a>
+                      <span class="text-muted">({u.type})</span>
+                      {#if u.hash}
+                        <div class="mt-1 flex items-baseline gap-3 font-mono text-xs text-muted">
+                          <span class="break-all">sha256 {u.hash}</span>
+                          <button type="button" class="act shrink-0 font-sans" onclick={() => copyToClipboard(u.hash, `hash-${i}`)}>
+                            {copiedHash === `hash-${i}` ? 'copied' : 'copy'}
+                          </button>
                         </div>
+                      {/if}
+                    </li>
+                  {/each}
+                </ul>
+              {:else}
+                <p class="text-sm text-muted">No upstream sources recorded.</p>
+              {/if}
+            </section>
+          </div>
 
-                        {#if u.hash}
-                          <div class="mt-2 flex items-center justify-between gap-2 border-t border-[#242836]/60 pt-2 font-mono text-[11px] text-[#8891a8]">
-                            <span class="truncate">SHA256: {u.hash}</span>
-                            <button
-                              type="button"
-                              onclick={() => copyToClipboard(u.hash, `hash-${i}`)}
-                              class="rounded p-1 hover:text-white transition shrink-0"
-                              title="Copy SHA256 checksum"
-                            >
-                              {#if copiedHash === `hash-${i}`}
-                                <Check class="h-3.5 w-3.5 text-emerald-400" />
-                              {:else}
-                                <Copy class="h-3.5 w-3.5" />
-                              {/if}
-                            </button>
-                          </div>
-                        {/if}
-                      </div>
-                    {/each}
-                  </div>
+          <dl class="h-fit divide-y divide-line self-start border-y border-line text-sm">
+            {#each [
+              ['Recipe', pkg.name],
+              ['Version', pkg.version],
+              ['Release', String(pkg.release)],
+              ['Directory', `recipes/${pkg.letter}/${pkg.name}/`],
+              ['Toolchain', pkg.toolchain || 'llvm'],
+              ['emul32', pkg.emul32 ? 'yes' : 'no'],
+              ['Indexed', pkg.indexedAt ? new Date(pkg.indexedAt).toISOString().slice(0, 10) : 'unknown']
+            ] as [k, v]}
+              <div class="flex justify-between gap-3 py-1.5">
+                <dt class="text-muted">{k}</dt>
+                <dd class="break-all text-right font-mono">{v}</dd>
+              </div>
+            {/each}
+          </dl>
+        </div>
+      {/if}
+
+      {#if activeTab === 'dependencies'}
+        <div class="grid gap-10 lg:grid-cols-2">
+          <section>
+            <h2 class="mb-2 font-semibold">Build <span class="font-normal text-muted">({pkg.builddeps?.length || 0})</span></h2>
+            {#if pkg.builddeps && pkg.builddeps.length > 0}
+              {@render depList(pkg.builddeps, true)}
+            {:else}
+              <p class="text-sm text-muted">None listed.</p>
+            {/if}
+          </section>
+
+          <section>
+            <h2 class="mb-2 font-semibold">Runtime <span class="font-normal text-muted">({pkg.rundeps?.length || 0})</span></h2>
+            {#if pkg.rundeps && pkg.rundeps.length > 0}
+              {@render depList(pkg.rundeps, false)}
+            {:else}
+              <p class="text-sm text-muted">
+                None listed in the recipe. moss works out library dependencies from the built binaries.
+              </p>
+            {/if}
+          </section>
+        </div>
+      {/if}
+
+      {#if activeTab === 'subpackages' && pkg.packages && pkg.packages.length > 0}
+        <ul class="divide-y divide-line border-y border-line">
+          {#each pkg.packages as sub}
+            <li class="py-3">
+              <div class="flex items-baseline justify-between gap-3">
+                <span class="font-mono font-medium">{sub.name}</span>
+                {#if pkg.channel === 'volatile' || sub.channel === 'volatile'}
+                  <span class="text-sm text-warn">volatile only</span>
                 {:else}
-                  <p class="text-xs text-[#8891a8]">No explicit upstream sources recorded.</p>
+                  <button type="button" class="act" onclick={() => copyToClipboard(`sudo moss package add ${sub.name}`, sub.name)}>
+                    {copiedHash === sub.name ? 'copied' : 'copy command'}
+                  </button>
                 {/if}
               </div>
-            </div>
-
-            <!-- Right 1 Col: Metadata Card -->
-            <div class="space-y-6">
-              <div class="rounded-xl border border-[#242836] bg-[#13161d] p-6 space-y-4 text-xs">
-                <h3 class="text-sm font-semibold uppercase tracking-wider text-[#8891a8]">
-                  Package Metadata
-                </h3>
-
-                <div class="space-y-3 divide-y divide-[#242836]/60">
-                  <div class="flex justify-between pt-2">
-                    <span class="text-[#8891a8]">Name</span>
-                    <span class="font-mono font-semibold text-[#e8eaf0]">{pkg.name}</span>
-                  </div>
-
-                  <div class="flex justify-between pt-2" title="Source recipe version defined in stone.yaml">
-                    <span class="text-[#8891a8]">Recipe Version</span>
-                    <span class="font-mono text-[#e8eaf0]">{pkg.version}</span>
-                  </div>
-
-                  <div class="flex justify-between pt-2" title="Source recipe build release counter in stone.yaml">
-                    <span class="text-[#8891a8]">Recipe Release</span>
-                    <span class="font-mono text-[#e8eaf0]">{pkg.release}</span>
-                  </div>
-
-                  <div class="flex justify-between pt-2">
-                    <span class="text-[#8891a8]">Directory Shard</span>
-                    <span class="font-mono text-orange-400">recipes/{pkg.letter}/</span>
-                  </div>
-
-                  <div class="flex justify-between pt-2">
-                    <span class="text-[#8891a8]">Toolchain</span>
-                    <span class="font-mono text-[#e8eaf0]">{pkg.toolchain || 'llvm'}</span>
-                  </div>
-
-                  <div class="flex justify-between pt-2">
-                    <span class="text-[#8891a8]">Emul32</span>
-                    <span class="font-mono text-[#e8eaf0]">{pkg.emul32 ? 'Supported' : 'No'}</span>
-                  </div>
-
-                  <div class="flex justify-between pt-2">
-                    <span class="text-[#8891a8]">Indexed At</span>
-                    <span class="text-[#8891a8]">{pkg.indexedAt ? new Date(pkg.indexedAt).toLocaleDateString() : 'N/A'}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        {/if}
-
-        <!-- 2. DEPENDENCIES TAB -->
-        {#if activeTab === 'dependencies'}
-          <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <!-- Build Dependencies -->
-            <div class="rounded-xl border border-[#242836] bg-[#13161d] p-6">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="text-sm font-semibold uppercase tracking-wider text-[#8891a8]">
-                  Build Dependencies (builddeps)
-                </h3>
-                <span class="rounded bg-[#1a1e28] px-2 py-0.5 font-mono text-xs text-orange-400 border border-[#242836]">
-                  {pkg.builddeps?.length || 0}
-                </span>
-              </div>
-
-              {#if pkg.builddeps && pkg.builddeps.length > 0}
-                <div class="space-y-2 max-h-[500px] overflow-y-auto pr-1">
-                  {#each pkg.builddeps as dep}
-                    {@const parsed = parseDep(dep)}
-                    <div class="flex items-center justify-between rounded-lg border border-[#242836] bg-[#0d0f14] px-3 py-2 text-xs">
-                      <div class="flex items-center gap-2 min-w-0">
-                        {#if parsed.kind}
-                          <span class="rounded bg-sky-500/15 px-1.5 py-0.5 font-mono text-[10px] text-sky-400 border border-sky-500/30 shrink-0">
-                            {parsed.kind}
-                          </span>
-                        {/if}
-
-                        {#if parsed.hasPackage}
-                          <a
-                            href="#/package/{parsed.target}"
-                            class="font-mono font-medium text-orange-400 hover:underline truncate"
-                          >
-                            {parsed.target}
-                          </a>
-                        {:else}
-                          <span class="font-mono text-[#e8eaf0] truncate">{parsed.target}</span>
-                        {/if}
-                      </div>
-
-                      {#if parsed.hasPackage}
-                        <span class="text-[10px] text-[#8891a8] shrink-0 ml-2">In repo</span>
-                      {/if}
-                    </div>
-                  {/each}
-                </div>
-              {:else}
-                <p class="text-xs text-[#8891a8]">No explicit build dependencies recorded.</p>
+              {#if sub.summary}<p class="text-sm text-muted">{sub.summary}</p>{/if}
+              {#if sub.paths && sub.paths.length > 0}
+                <p class="mt-2 break-all font-mono text-xs text-muted">{sub.paths.join('   ')}</p>
               {/if}
-            </div>
+            </li>
+          {/each}
+        </ul>
+      {/if}
 
-            <!-- Runtime Dependencies -->
-            <div class="rounded-xl border border-[#242836] bg-[#13161d] p-6">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="text-sm font-semibold uppercase tracking-wider text-[#8891a8]">
-                  Runtime Dependencies (rundeps)
-                </h3>
-                <span class="rounded bg-[#1a1e28] px-2 py-0.5 font-mono text-xs text-orange-400 border border-[#242836]">
-                  {pkg.rundeps?.length || 0}
-                </span>
-              </div>
-
-              {#if pkg.rundeps && pkg.rundeps.length > 0}
-                <div class="space-y-2 max-h-[500px] overflow-y-auto pr-1">
-                  {#each pkg.rundeps as dep}
-                    {@const parsed = parseDep(dep)}
-                    <div class="flex items-center justify-between rounded-lg border border-[#242836] bg-[#0d0f14] px-3 py-2 text-xs">
-                      <div class="flex items-center gap-2 min-w-0">
-                        {#if parsed.hasPackage}
-                          <a
-                            href="#/package/{parsed.target}"
-                            class="font-mono font-medium text-orange-400 hover:underline truncate"
-                          >
-                            {parsed.target}
-                          </a>
-                        {:else}
-                          <span class="font-mono text-[#e8eaf0] truncate">{parsed.target}</span>
-                        {/if}
-                      </div>
-
-                      {#if parsed.hasPackage}
-                        <span class="text-[10px] text-[#8891a8] shrink-0 ml-2">In repo</span>
-                      {/if}
-                    </div>
-                  {/each}
-                </div>
-              {:else}
-                <p class="text-xs text-[#8891a8]">
-                  No explicit runtime dependencies defined. moss resolves dynamic library dependencies automatically via ELF analysis.
-                </p>
-              {/if}
-            </div>
-          </div>
-        {/if}
-
-        <!-- 3. SUBPACKAGES TAB -->
-        {#if activeTab === 'subpackages' && pkg.packages && pkg.packages.length > 0}
-          <div class="space-y-4">
-            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {#each pkg.packages as sub}
-                <div class="rounded-xl border border-[#242836] bg-[#13161d] p-5 space-y-3">
-                  <div class="flex items-center justify-between">
-                    <span class="font-mono text-base font-bold text-orange-400">{sub.name}</span>
-                    {#if pkg.channel === 'volatile' || sub.channel === 'volatile'}
-                      <span class="rounded bg-amber-500/15 px-2 py-0.5 font-mono text-xs text-amber-300 border border-amber-500/30">
-                        in volatile stream
-                      </span>
-                    {:else}
-                      <button
-                        type="button"
-                        onclick={() => copyToClipboard(`sudo moss package add ${sub.name}`, sub.name)}
-                        class="flex items-center gap-1 rounded bg-[#1a1e28] px-2 py-1 font-mono text-xs text-[#8891a8] border border-[#242836] hover:text-[#e8eaf0]"
-                        title="Copy install command"
-                      >
-                        {#if copiedHash === sub.name}
-                          <Check class="h-3.5 w-3.5 text-emerald-400" />
-                          <span class="text-emerald-400">Copied</span>
-                        {:else}
-                          <Copy class="h-3.5 w-3.5" />
-                          <span>moss add</span>
-                        {/if}
-                      </button>
-                    {/if}
-                  </div>
-
-                  {#if sub.summary}
-                    <p class="text-xs text-[#8891a8] leading-relaxed">{sub.summary}</p>
-                  {/if}
-
-                  {#if sub.paths && sub.paths.length > 0}
-                    <div class="border-t border-[#242836]/60 pt-3">
-                      <div class="text-[11px] font-semibold text-[#8891a8] uppercase tracking-wider mb-1.5">
-                        Matched Paths:
-                      </div>
-                      <div class="space-y-1">
-                        {#each sub.paths as path}
-                          <div class="rounded bg-[#0d0f14] px-2 py-1 font-mono text-[11px] text-[#8891a8]">
-                            {path}
-                          </div>
-                        {/each}
-                      </div>
-                    </div>
-                  {/if}
-                </div>
-              {/each}
-            </div>
-          </div>
-        {/if}
-
-        <!-- 4. BUILD PHASES TAB -->
-        {#if activeTab === 'build'}
-          <div class="space-y-4">
-            {#if pkg.environment}
-              <div class="rounded-xl border border-[#242836] bg-[#13161d] p-5">
-                <div class="font-mono text-xs font-semibold text-orange-400 mb-2">environment :</div>
-                <pre class="overflow-x-auto rounded-lg bg-[#0d0f14] p-4 text-xs font-mono text-[#e8eaf0] border border-[#242836]"><code>{pkg.environment}</code></pre>
-              </div>
+      {#if activeTab === 'build'}
+        <div class="space-y-6">
+          {#each [['environment', pkg.environment], ['setup', pkg.setup], ['build', pkg.build], ['install', pkg.install], ['check', pkg.check]] as [label, body]}
+            {#if body}
+              <section>
+                <h2 class="mb-1 font-mono text-sm text-muted">{label}</h2>
+                <pre><code>{body}</code></pre>
+              </section>
             {/if}
+          {/each}
+        </div>
+      {/if}
 
-            {#if pkg.setup}
-              <div class="rounded-xl border border-[#242836] bg-[#13161d] p-5">
-                <div class="font-mono text-xs font-semibold text-orange-400 mb-2">setup :</div>
-                <pre class="overflow-x-auto rounded-lg bg-[#0d0f14] p-4 text-xs font-mono text-[#e8eaf0] border border-[#242836]"><code>{pkg.setup}</code></pre>
-              </div>
-            {/if}
-
-            {#if pkg.build}
-              <div class="rounded-xl border border-[#242836] bg-[#13161d] p-5">
-                <div class="font-mono text-xs font-semibold text-orange-400 mb-2">build :</div>
-                <pre class="overflow-x-auto rounded-lg bg-[#0d0f14] p-4 text-xs font-mono text-[#e8eaf0] border border-[#242836]"><code>{pkg.build}</code></pre>
-              </div>
-            {/if}
-
-            {#if pkg.install}
-              <div class="rounded-xl border border-[#242836] bg-[#13161d] p-5">
-                <div class="font-mono text-xs font-semibold text-orange-400 mb-2">install :</div>
-                <pre class="overflow-x-auto rounded-lg bg-[#0d0f14] p-4 text-xs font-mono text-[#e8eaf0] border border-[#242836]"><code>{pkg.install}</code></pre>
-              </div>
-            {/if}
-
-            {#if pkg.check}
-              <div class="rounded-xl border border-[#242836] bg-[#13161d] p-5">
-                <div class="font-mono text-xs font-semibold text-orange-400 mb-2">check :</div>
-                <pre class="overflow-x-auto rounded-lg bg-[#0d0f14] p-4 text-xs font-mono text-[#e8eaf0] border border-[#242836]"><code>{pkg.check}</code></pre>
-              </div>
-            {/if}
-          </div>
-        {/if}
-
-        <!-- 5. RAW RECIPE TAB -->
-        {#if activeTab === 'raw'}
-          <div class="rounded-xl border border-[#242836] bg-[#13161d] p-5 space-y-4">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="font-mono text-xs text-orange-400 font-semibold">stone.yaml</span>
-                <span class="text-xs text-[#8891a8]">— boulder recipe specification</span>
-              </div>
-
-              <div class="flex items-center gap-2">
-                <button
-                  type="button"
-                  onclick={() => copyToClipboard(generateRecipeYaml(pkg), 'yaml')}
-                  class="flex items-center gap-1.5 rounded-lg border border-[#242836] bg-[#1a1e28] px-3 py-1.5 text-xs text-[#8891a8] hover:text-[#e8eaf0] transition"
-                >
-                  {#if copiedHash === 'yaml'}
-                    <Check class="h-3.5 w-3.5 text-emerald-400" />
-                    <span>Copied!</span>
-                  {:else}
-                    <Copy class="h-3.5 w-3.5" />
-                    <span>Copy YAML</span>
-                  {/if}
-                </button>
-
-                <a
-                  href={pkg.recipeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="flex items-center gap-1.5 rounded-lg border border-[#242836] bg-[#1a1e28] px-3 py-1.5 text-xs text-orange-400 hover:bg-[#242836] transition"
-                >
-                  <ExternalLink class="h-3.5 w-3.5" />
-                  <span>GitHub Blob</span>
-                </a>
-              </div>
-            </div>
-
-            <pre class="overflow-x-auto rounded-xl bg-[#0d0f14] p-5 text-xs font-mono text-[#e8eaf0] border border-[#242836] leading-relaxed"><code>{generateRecipeYaml(pkg)}</code></pre>
-          </div>
-        {/if}
-      </div>
-
-      <!-- Related Packages Section -->
-      {#if relatedPackages.length > 0}
-        <div class="border-t border-[#242836] pt-10">
-          <div class="flex items-center justify-between mb-6">
-            <div>
-              <h2 class="text-lg font-bold text-[#e8eaf0]">
-                More in <span class="text-orange-400">{pkg.category}</span>
-              </h2>
-              <p class="text-xs text-[#8891a8]">Other packages in the same ecosystem category.</p>
-            </div>
-            <a
-              href="#/categories/{encodeURIComponent(pkg.category || 'Other')}"
-              class="text-xs font-medium text-orange-400 hover:underline"
-            >
-              View all {pkg.category} packages →
-            </a>
-          </div>
-
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {#each relatedPackages as related}
-              <PackageCard pkg={related} />
-            {/each}
-          </div>
+      {#if activeTab === 'raw'}
+        <div class="space-y-3">
+          <p class="flex flex-wrap items-baseline gap-x-5 gap-y-1 text-sm text-muted">
+            Rebuilt from the index, so formatting and comments differ from the file in git.
+            <button type="button" class="act" onclick={() => copyToClipboard(generateRecipeYaml(pkg), 'yaml')}>
+              {copiedHash === 'yaml' ? 'copied' : 'copy'}
+            </button>
+            <a class="link" href={pkg.recipeUrl} target="_blank" rel="noopener noreferrer">original on GitHub</a>
+          </p>
+          <pre><code>{generateRecipeYaml(pkg)}</code></pre>
         </div>
       {/if}
     </div>
+
+    {#if relatedPackages.length > 0}
+      <section class="mt-12">
+        <div class="flex items-baseline justify-between">
+          <h2 class="font-semibold">More in {pkg.category}</h2>
+          <a class="link text-sm" href="#/categories/{encodeURIComponent(pkg.category || 'Other')}">all {pkg.category}</a>
+        </div>
+        <div class="mt-2 border-t border-line">
+          {#each relatedPackages as related}
+            <PackageCard pkg={related} compact={true} />
+          {/each}
+        </div>
+      </section>
+    {/if}
   {/if}
 </div>

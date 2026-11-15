@@ -163,7 +163,7 @@ export function highlightMatches(text: string, query: string): string {
   return parts
     .map(part => {
       if (part.toLowerCase() === query.trim().toLowerCase()) {
-        return `<mark class="bg-orange-500/20 text-orange-300 rounded px-0.5">${escapeHtml(part)}</mark>`;
+        return `<mark class="rounded-sm bg-accent/25 px-0.5 text-fg">${escapeHtml(part)}</mark>`;
       }
       return escapeHtml(part);
     })

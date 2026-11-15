@@ -6,39 +6,22 @@
   import SearchBar from '$lib/components/search/SearchBar.svelte';
   import FilterPanel from '$lib/components/search/FilterPanel.svelte';
   import PackageCard from '$lib/components/package/PackageCard.svelte';
-  import {
-    LayoutGrid,
-    List,
-    Package,
-    Shield,
-    Layers,
-    Clock,
-    Sparkles,
-    RotateCcw,
-    Code,
-    Terminal,
-    Server,
-    Monitor,
-    Cpu,
-    ExternalLink,
-    Info
-  } from 'lucide-svelte';
 
   let searchQuery = $state('');
   let filters = $state<SearchFilters>({});
   let sort = $state<ExtendedSortOrder>('relevance');
-  let viewMode = $state<'grid' | 'list'>('grid');
-  let displayLimit = $state(36);
+  let displayLimit = $state(50);
 
-  // Compute live stats
   let totalCount = $derived(packageStore.packages.length);
-  
+
   let uniqueLicenses = $derived(
-    Array.from(new Set(packageStore.packages.flatMap(p => p.license || []))).filter(Boolean)
+    Array.from(new Set(packageStore.packages.flatMap(p => p.license || []))).filter(Boolean).sort((a, b) => a.localeCompare(b))
   );
 
-  let uniqueCategories = $derived(
-    Array.from(new Set(packageStore.packages.map(p => p.category || 'Other'))).filter(Boolean)
+  let categories = $derived(
+    Array.from(new Set(packageStore.packages.map(p => p.category || 'Other'))).sort((a, b) =>
+      a === 'Other' ? 1 : b === 'Other' ? -1 : a.localeCompare(b)
+    )
   );
 
   let letterCounts = $derived.by(() => {
@@ -50,30 +33,11 @@
     return counts;
   });
 
-  // Filtered & sorted results
   let filteredList = $derived(
     searchPackages(packageStore.packages, searchQuery, filters, sort)
   );
 
   let visiblePackages = $derived(filteredList.slice(0, displayLimit));
-
-  // Quick Discovery Picks
-  let recentlyUpdated = $derived(
-    [...packageStore.packages]
-      .sort((a, b) => b.release - a.release)
-      .slice(0, 4)
-  );
-
-  let isSearchingOrFiltered = $derived(
-    Boolean(
-      searchQuery.trim() ||
-      filters.category ||
-      filters.license ||
-      filters.letter ||
-      filters.toolchain ||
-      sort !== 'relevance'
-    )
-  );
 
   function resetAll() {
     searchQuery = '';
@@ -82,166 +46,50 @@
   }
 </script>
 
-<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-10">
-  <!-- Hero Section -->
-  <section class="relative overflow-hidden rounded-2xl border border-[#242836] bg-gradient-to-b from-[#161a24] to-[#10131a] p-8 sm:p-12 text-center shadow-2xl">
-    <div class="mx-auto max-w-3xl space-y-4">
-      <div class="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-xs font-semibold text-orange-400">
-        <Sparkles class="h-3.5 w-3.5" />
-        <span>Unofficial Community Package Explorer</span>
-      </div>
+<div class="mx-auto max-w-5xl px-4 py-8 sm:px-6">
+  <h1 class="text-xl font-semibold">AerynOS packages</h1>
+  <p class="mt-1 text-muted">
+    Search the recipes in <a class="link" href="https://github.com/aerynOS/recipes">aerynOS/recipes</a>.
+    This is an unofficial index; the AerynOS project doesn't run it.
+  </p>
 
-      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#e8eaf0]">
-        Explore <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500">AerynOS</span> Packages
-      </h1>
+  <div class="mt-5">
+    <SearchBar bind:value={searchQuery} />
+  </div>
 
-      <p class="text-sm sm:text-base text-[#8891a8] max-w-2xl mx-auto leading-relaxed">
-        An unofficial, community-maintained portal to search, discover, and inspect packages across the modern, atomic AerynOS ecosystem. Built with <code class="text-orange-300 font-mono text-xs">boulder</code> recipes and installed with <code class="text-orange-300 font-mono text-xs">moss</code>.
-      </p>
+  <p class="mt-3 text-sm text-muted">
+    {totalCount} recipes
+    {#if packageStore.generatedAt}
+      · indexed <span title={formatAbsoluteDate(packageStore.generatedAt)}>{formatDate(packageStore.generatedAt).toLowerCase()}</span>
+    {/if}
+    {#if packageStore.channelStats}
+      ·
+      <button
+        type="button"
+        class="act"
+        aria-pressed={filters.channel === 'unstable'}
+        onclick={() => { filters = { ...filters, channel: filters.channel === 'unstable' ? undefined : 'unstable' }; }}
+      >{packageStore.channelStats.bothCount} in unstable</button>,
+      <button
+        type="button"
+        class="act"
+        aria-pressed={filters.channel === 'volatile'}
+        onclick={() => { filters = { ...filters, channel: filters.channel === 'volatile' ? undefined : 'volatile' }; }}
+      >{packageStore.channelStats.volatileOnlyCount} volatile only</button>
+    {/if}
+  </p>
 
-      <!-- Prominent Hero Search Bar -->
-      <div class="pt-4 max-w-2xl mx-auto">
-        <SearchBar bind:value={searchQuery} autofocus={false} />
-      </div>
+  <details class="mt-2 text-sm text-muted">
+    <summary class="cursor-pointer hover:text-fg">Why can a version here differ from what moss installs?</summary>
+    <p class="mt-2 max-w-2xl">
+      Versions are read from <code>stone.yaml</code> on the main branch, which is the
+      <em>volatile</em> stream. Systems follow the <em>unstable</em> stream, which is only
+      moved to a new tag once maintainers have checked a build, so it can lag behind.
+      <a class="link" href="#/about">More on streams</a>.
+    </p>
+  </details>
 
-      <!-- Live Statistics Pills -->
-      <div class="pt-4 flex flex-wrap items-center justify-center gap-3 text-xs text-[#8891a8]">
-        <div class="inline-flex items-center gap-1.5 rounded-lg border border-[#242836] bg-[#13161d] px-3 py-1.5">
-          <Package class="h-3.5 w-3.5 text-orange-400" />
-          <span class="font-mono font-bold text-[#e8eaf0]">{totalCount}</span>
-          <span>Packages</span>
-        </div>
-
-        {#if packageStore.channelStats}
-          <button
-            type="button"
-            onclick={() => { filters = { ...filters, channel: filters.channel === 'unstable' ? undefined : 'unstable' }; }}
-            class="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 transition cursor-pointer {filters.channel === 'unstable' ? 'border-emerald-500 bg-emerald-500/20 text-emerald-200' : 'border-emerald-500/20 bg-emerald-500/5 hover:bg-emerald-500/10'}"
-            title="Click to filter packages ready in the unstable stream"
-          >
-            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
-            <span class="font-mono font-bold text-emerald-400">{packageStore.channelStats.bothCount}</span>
-            <span class="text-emerald-300">in unstable stream</span>
-          </button>
-
-          <button
-            type="button"
-            onclick={() => { filters = { ...filters, channel: filters.channel === 'volatile' ? undefined : 'volatile' }; }}
-            class="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 transition cursor-pointer {filters.channel === 'volatile' ? 'border-amber-500 bg-amber-500/25 text-amber-200' : 'border-amber-500/25 bg-amber-500/10 hover:bg-amber-500/20'}"
-            title="Click to filter packages currently in the volatile stream only"
-          >
-            <span class="h-1.5 w-1.5 rounded-full bg-amber-400"></span>
-            <span class="font-mono font-bold text-amber-400">{packageStore.channelStats.volatileOnlyCount}</span>
-            <span class="text-amber-300">volatile stream only</span>
-          </button>
-        {/if}
-
-        <div class="inline-flex items-center gap-1.5 rounded-lg border border-[#242836] bg-[#13161d] px-3 py-1.5">
-          <Layers class="h-3.5 w-3.5 text-sky-400" />
-          <span class="font-mono font-bold text-[#e8eaf0]">{uniqueCategories.length}</span>
-          <span>Categories</span>
-        </div>
-
-        <div class="inline-flex items-center gap-1.5 rounded-lg border border-[#242836] bg-[#13161d] px-3 py-1.5" title={packageStore.generatedAt ? formatAbsoluteDate(packageStore.generatedAt) : ''}>
-          <Clock class="h-3.5 w-3.5 text-purple-400" />
-          <span>Updated:</span>
-          <span class="font-semibold text-[#e8eaf0]">{packageStore.generatedAt ? formatDate(packageStore.generatedAt) : 'Live'}</span>
-        </div>
-      </div>
-
-      <!-- Version & Stream Disclaimer Banner -->
-      <div class="mt-4 mx-auto max-w-2xl rounded-xl border border-[#242836] bg-[#0d0f14]/90 px-4 py-2.5 text-xs text-[#8891a8] flex flex-col sm:flex-row items-center justify-between gap-3 text-left">
-        <div class="flex items-start gap-2.5">
-          <Info class="h-4 w-4 text-orange-400 shrink-0 mt-0.5" />
-          <p class="leading-relaxed text-[11px]">
-            <strong class="text-[#e8eaf0]">Version notice:</strong> Package versions shown in this explorer are parsed directly from git recipes (<code class="text-orange-300 font-mono">stone.yaml</code>) on the main channel, indexed at the tip of the <span class="text-amber-400 font-medium">volatile stream</span>. The binary package version referenced by the tagged <span class="text-emerald-400 font-medium">unstable stream</span> in your moss configuration may differ until promoted.
-          </p>
-        </div>
-        <a href="#/about" class="text-orange-400 hover:underline shrink-0 text-[11px] font-medium whitespace-nowrap">
-          Learn more →
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- If not actively searching/filtering, show Quick Category Pills -->
-  {#if !isSearchingOrFiltered}
-    <section class="space-y-3">
-      <div class="flex items-center justify-between">
-        <h2 class="text-sm font-semibold uppercase tracking-wider text-[#8891a8]">
-          Browse by Category
-        </h2>
-        <a href="#/categories" class="text-xs text-orange-400 hover:underline">
-          View all categories →
-        </a>
-      </div>
-
-      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
-        {#each [
-          { name: 'Development', icon: Code, color: 'text-amber-400' },
-          { name: 'System', icon: Server, color: 'text-blue-400' },
-          { name: 'Desktop', icon: Monitor, color: 'text-indigo-400' },
-          { name: 'Utilities', icon: Terminal, color: 'text-emerald-400' },
-          { name: 'Security', icon: Shield, color: 'text-red-400' },
-          { name: 'Languages', icon: Cpu, color: 'text-purple-400' }
-        ] as cat}
-          {@const catCount = packageStore.packages.filter(p => p.category === cat.name).length}
-          <button
-            type="button"
-            onclick={() => filters = { ...filters, category: cat.name }}
-            class="flex items-center justify-between rounded-xl border border-[#242836] bg-[#13161d] p-3 text-left transition hover:border-orange-500/50 hover:bg-[#1a1e28] group"
-          >
-            <div class="flex items-center gap-2 min-w-0">
-              <cat.icon class="h-4 w-4 {cat.color} shrink-0" />
-              <span class="text-xs font-semibold text-[#e8eaf0] group-hover:text-orange-400 transition truncate">
-                {cat.name}
-              </span>
-            </div>
-            <span class="rounded bg-[#1a1e28] px-1.5 py-0.5 font-mono text-[10px] text-[#8891a8]">
-              {catCount}
-            </span>
-          </button>
-        {/each}
-      </div>
-    </section>
-  {/if}
-
-  <!-- Main Search & Filtering Controls -->
-  <section class="space-y-6">
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#242836] pb-4">
-      <div>
-        <h2 class="text-lg font-bold text-[#e8eaf0]">
-          {isSearchingOrFiltered ? 'Search Results' : 'All Packages'}
-        </h2>
-        <p class="text-xs text-[#8891a8]">
-          Instant client-side index with fuzzy search across names, summaries, descriptions, and builddeps.
-        </p>
-      </div>
-
-      <!-- View layout toggle (Grid vs List) -->
-      <div class="flex items-center gap-1 self-end sm:self-auto rounded-lg border border-[#242836] bg-[#13161d] p-1">
-        <button
-          type="button"
-          onclick={() => viewMode = 'grid'}
-          class="rounded p-1.5 transition {viewMode === 'grid' ? 'bg-[#1a1e28] text-orange-400 shadow-sm' : 'text-[#8891a8] hover:text-[#e8eaf0]'}"
-          title="Grid view"
-          aria-label="Grid view"
-        >
-          <LayoutGrid class="h-4 w-4" />
-        </button>
-        <button
-          type="button"
-          onclick={() => viewMode = 'list'}
-          class="rounded p-1.5 transition {viewMode === 'list' ? 'bg-[#1a1e28] text-orange-400 shadow-sm' : 'text-[#8891a8] hover:text-[#e8eaf0]'}"
-          title="List view"
-          aria-label="List view"
-        >
-          <List class="h-4 w-4" />
-        </button>
-      </div>
-    </div>
-
-    <!-- Filter Panel -->
+  <div class="mt-8">
     <FilterPanel
       bind:filters
       bind:sort
@@ -249,81 +97,36 @@
       filteredCount={filteredList.length}
       availableLicenses={['All', ...uniqueLicenses]}
       {letterCounts}
+      {categories}
     />
+  </div>
 
-    <!-- Package List or Empty State -->
+  <section class="mt-4 border-t border-line" aria-live="polite">
     {#if packageStore.loading}
-      <div class="rounded-xl border border-[#242836] bg-[#13161d] p-16 text-center">
-        <div class="inline-block h-8 w-8 animate-spin rounded-full border-2 border-orange-500 border-t-transparent"></div>
-        <p class="mt-4 text-sm text-[#8891a8]">Loading package index...</p>
-      </div>
+      <p class="py-12 text-muted">Loading the package index…</p>
     {:else if filteredList.length === 0}
-      <div class="rounded-2xl border border-[#242836] bg-[#13161d] p-12 text-center">
-        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-[#1a1e28] text-orange-400 border border-[#242836]">
-          <Package class="h-6 w-6" />
-        </div>
-        <h3 class="mt-4 text-base font-semibold text-[#e8eaf0]">No matching packages found</h3>
-        <p class="mt-1 text-xs text-[#8891a8] max-w-sm mx-auto">
-          We couldn't find any packages matching your query or active filters. Try searching for another term or reset your filters.
+      <div class="py-12">
+        <p>Nothing matches{searchQuery.trim() ? ` “${searchQuery.trim()}”` : ''}.</p>
+        <p class="mt-1 text-sm text-muted">
+          Try a shorter query, or <button type="button" class="link" onclick={resetAll}>clear the search and filters</button>.
         </p>
-        <button
-          type="button"
-          onclick={resetAll}
-          class="mt-5 inline-flex items-center gap-1.5 rounded-lg bg-orange-500 px-4 py-2 text-xs font-semibold text-black hover:bg-orange-400 transition"
-        >
-          <RotateCcw class="h-3.5 w-3.5" />
-          <span>Reset All Filters</span>
-        </button>
       </div>
     {:else}
-      <!-- Package Display -->
-      {#if viewMode === 'grid'}
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {#each visiblePackages as pkg (pkg.name)}
-            <PackageCard {pkg} {searchQuery} compact={false} />
-          {/each}
-        </div>
-      {:else}
-        <div class="space-y-2">
-          {#each visiblePackages as pkg (pkg.name)}
-            <PackageCard {pkg} {searchQuery} compact={true} />
-          {/each}
-        </div>
-      {/if}
+      {#each visiblePackages as pkg (pkg.name)}
+        <PackageCard {pkg} {searchQuery} compact={true} />
+      {/each}
 
-      <!-- Pagination / Load more -->
       {#if visiblePackages.length < filteredList.length}
-        <div class="pt-6 text-center">
+        <div class="py-6">
           <button
             type="button"
-            onclick={() => displayLimit += 36}
-            class="inline-flex items-center gap-2 rounded-xl border border-[#242836] bg-[#13161d] px-6 py-2.5 text-xs font-semibold text-[#e8eaf0] hover:border-orange-500/50 hover:bg-[#1a1e28] transition"
+            onclick={() => (displayLimit += 50)}
+            class="rounded border border-line px-4 py-1.5 text-sm hover:border-muted"
           >
-            <span>Load More Packages</span>
-            <span class="rounded bg-[#1a1e28] px-1.5 py-0.5 font-mono text-[10px] text-orange-400 border border-[#242836]">
-              {filteredList.length - visiblePackages.length} remaining
-            </span>
+            Show 50 more <span class="text-muted">({filteredList.length - visiblePackages.length} left)</span>
           </button>
         </div>
       {/if}
     {/if}
   </section>
-
-  <!-- Recently Updated Section (when browsing default view) -->
-  {#if !isSearchingOrFiltered && recentlyUpdated.length > 0}
-    <section class="border-t border-[#242836] pt-10">
-      <div class="flex items-center justify-between mb-4">
-        <div>
-          <h2 class="text-base font-bold text-[#e8eaf0]">Recently Updated Recipes</h2>
-          <p class="text-xs text-[#8891a8]">Packages with recent release updates in the recipes tree.</p>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {#each recentlyUpdated as pkg}
-          <PackageCard {pkg} />
-        {/each}
-      </div>
-    </section>
-  {/if}
 </div>
