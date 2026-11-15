@@ -3,6 +3,7 @@
   import { compareStore } from '$lib/stores/compare.svelte';
   import { installCommand, formatDomain } from '$lib/utils/format';
   import { copyToClipboard } from '$lib/utils/clipboard';
+  import ChannelBadge from './ChannelBadge.svelte';
   import { X, Copy, Check, ExternalLink, Trash2, Box, Layers, Terminal } from 'lucide-svelte';
 
   let copiedStates = $state<Record<string, boolean>>({});
@@ -99,6 +100,16 @@
         </thead>
 
         <tbody class="divide-y divide-[#242836]/60">
+          <!-- Repository Stream / Channel -->
+          <tr class="hover:bg-[#1a1e28]/20">
+            <td class="p-4 font-medium text-[#8891a8]">Channel Stream</td>
+            {#each packages as pkg}
+              <td class="p-4">
+                <ChannelBadge channel={pkg.channel} size="sm" />
+              </td>
+            {/each}
+          </tr>
+
           <!-- Install Command -->
           <tr class="hover:bg-[#1a1e28]/20">
             <td class="p-4 font-medium text-[#8891a8]">Installation</td>

@@ -86,6 +86,12 @@
     }
   });
 
+  $effect(() => {
+    if (params?.name) {
+      window.scrollTo(0, 0);
+    }
+  });
+
   let isCompared = $derived(pkg ? compareStore.has(pkg.name) : false);
 
   // Similar packages in same category

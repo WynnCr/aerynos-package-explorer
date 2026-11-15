@@ -44,9 +44,15 @@
       }
     }
 
+    function handleHashChange() {
+      window.scrollTo(0, 0);
+    }
+
     window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('hashchange', handleHashChange);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('hashchange', handleHashChange);
     };
   });
 </script>
@@ -55,7 +61,11 @@
   <Nav />
   
   <main class="flex-1 w-full pb-16">
-    <Router {routes} />
+    <Router
+      {routes}
+      restoreScrollState={true}
+      onRouteLoaded={() => window.scrollTo(0, 0)}
+    />
   </main>
 
   <Footer />
