@@ -6,12 +6,6 @@ on:
   workflow_dispatch:      # Allows manual trigger anytime from the Actions tab
   push:
     branches: [main]
-    paths:
-      - 'src/**'
-      - 'static/**'
-      - 'scripts/**'
-      - 'package.json'
-      - 'vite.config.ts'
 
 concurrency:
   group: pages-deploy
