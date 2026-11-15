@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-15T08:23:11.637308+00:00",
-  "volatileHistory": "1794729250",
+  "generatedAt": "2026-11-15T08:50:17.685338+00:00",
+  "volatileHistory": "1794732050",
   "unstableHistory": "1794076440",
-  "volatileTotal": 6177,
+  "volatileTotal": 6179,
   "unstableTotal": 6163,
-  "volatileOnlyCount": 14,
+  "volatileOnlyCount": 16,
   "unstableOnlyCount": 0,
   "bothCount": 6163,
   "volatilePackages": [
@@ -5972,6 +5972,8 @@
     "wpebackend-fdo",
     "wpebackend-fdo-dbginfo",
     "wpebackend-fdo-devel",
+    "wtype",
+    "wtype-dbginfo",
     "x264",
     "x264-dbginfo",
     "x264-devel",
