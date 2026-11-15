@@ -48,7 +48,7 @@ jobs:
         run: git clone --depth 1 https://github.com/aerynOS/recipes.git /tmp/aerynos-recipes
 
       - name: Generate package index
-        run: npx tsx scripts/generate-index.ts --local /tmp/aerynos-recipes
+        run: pnpm exec tsx scripts/generate-index.ts --local /tmp/aerynos-recipes
 
       - name: Commit updated index if changed
         run: |
