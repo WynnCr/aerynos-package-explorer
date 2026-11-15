@@ -117,22 +117,22 @@
             type="button"
             onclick={() => { filters = { ...filters, channel: filters.channel === 'unstable' ? undefined : 'unstable' }; }}
             class="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 transition cursor-pointer {filters.channel === 'unstable' ? 'border-emerald-500 bg-emerald-500/20 text-emerald-200' : 'border-emerald-500/20 bg-emerald-500/5 hover:bg-emerald-500/10'}"
-            title="Click to filter packages ready in unstable"
+            title="Click to filter packages ready in the unstable stream"
           >
             <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
             <span class="font-mono font-bold text-emerald-400">{packageStore.channelStats.bothCount}</span>
-            <span class="text-emerald-300">in unstable</span>
+            <span class="text-emerald-300">in unstable stream</span>
           </button>
 
           <button
             type="button"
             onclick={() => { filters = { ...filters, channel: filters.channel === 'volatile' ? undefined : 'volatile' }; }}
             class="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 transition cursor-pointer {filters.channel === 'volatile' ? 'border-amber-500 bg-amber-500/25 text-amber-200' : 'border-amber-500/25 bg-amber-500/10 hover:bg-amber-500/20'}"
-            title="Click to filter packages currently in volatile staging only"
+            title="Click to filter packages currently in the volatile stream only"
           >
             <span class="h-1.5 w-1.5 rounded-full bg-amber-400"></span>
             <span class="font-mono font-bold text-amber-400">{packageStore.channelStats.volatileOnlyCount}</span>
-            <span class="text-amber-300">volatile only</span>
+            <span class="text-amber-300">volatile stream only</span>
           </button>
         {/if}
 
@@ -149,12 +149,12 @@
         </div>
       </div>
 
-      <!-- Version & Channel Disclaimer Banner -->
+      <!-- Version & Stream Disclaimer Banner -->
       <div class="mt-4 mx-auto max-w-2xl rounded-xl border border-[#242836] bg-[#0d0f14]/90 px-4 py-2.5 text-xs text-[#8891a8] flex flex-col sm:flex-row items-center justify-between gap-3 text-left">
         <div class="flex items-start gap-2.5">
           <Info class="h-4 w-4 text-orange-400 shrink-0 mt-0.5" />
           <p class="leading-relaxed text-[11px]">
-            <strong class="text-[#e8eaf0]">Version notice:</strong> Package versions shown in this explorer are parsed directly from git recipes (<code class="text-orange-300 font-mono">stone.yaml</code>) that build into the <span class="text-amber-400 font-medium">volatile</span> staging stream first. The binary version currently in the default <span class="text-emerald-400 font-medium">unstable</span> channel may differ until promoted.
+            <strong class="text-[#e8eaf0]">Version notice:</strong> Package versions shown in this explorer are parsed directly from git recipes (<code class="text-orange-300 font-mono">stone.yaml</code>) on the main channel, indexed at the tip of the <span class="text-amber-400 font-medium">volatile stream</span>. The binary package version referenced by the tagged <span class="text-emerald-400 font-medium">unstable stream</span> in your moss configuration may differ until promoted.
           </p>
         </div>
         <a href="#/about" class="text-orange-400 hover:underline shrink-0 text-[11px] font-medium whitespace-nowrap">

@@ -97,9 +97,9 @@
       {/if}
     </div>
 
-    <!-- Dropdowns: Channel, License, Toolchain, Sort -->
+    <!-- Dropdowns: Stream, License, Toolchain, Sort -->
     <div class="flex flex-wrap items-center gap-2">
-      <!-- Channel Dropdown -->
+      <!-- Stream Dropdown -->
       <div class="relative flex items-center">
         <select
           value={filters.channel || 'all'}
@@ -108,11 +108,11 @@
             filters = { ...filters, channel: val === 'all' ? undefined : (val as any) };
           }}
           class="appearance-none rounded-lg border border-[#242836] bg-[#13161d] px-3 py-1.5 pr-7 text-xs text-[#e8eaf0] focus:border-orange-500 focus:outline-none transition cursor-pointer"
-          aria-label="Filter by Channel"
+          aria-label="Filter by Stream"
         >
-          <option value="all">All Channels</option>
-          <option value="unstable">● Unstable (Ready)</option>
-          <option value="volatile">▲ Volatile Only</option>
+          <option value="all">All Streams</option>
+          <option value="unstable">● Unstable Stream</option>
+          <option value="volatile">▲ Volatile Stream Only</option>
         </select>
         <span class="pointer-events-none absolute right-2 text-[#8891a8] text-[10px]">▼</span>
       </div>
@@ -210,6 +210,15 @@
   {#if hasActiveFilters}
     <div class="flex flex-wrap items-center gap-1.5 pt-1 text-xs">
       <span class="text-[11px] text-[#8891a8]">Filters:</span>
+
+      {#if filters.channel && filters.channel !== 'all'}
+        <span class="inline-flex items-center gap-1 rounded bg-[#1a1e28] border border-[#242836] px-2 py-0.5 text-xs text-orange-300">
+          <span>Stream: {filters.channel === 'unstable' ? 'unstable' : (filters.channel === 'volatile' ? 'volatile only' : filters.channel)}</span>
+          <button type="button" onclick={() => filters = { ...filters, channel: undefined }} class="hover:text-white">
+            <X class="h-3 w-3" />
+          </button>
+        </span>
+      {/if}
 
       {#if filters.category && filters.category !== 'All'}
         <span class="inline-flex items-center gap-1 rounded bg-[#1a1e28] border border-[#242836] px-2 py-0.5 text-xs text-orange-300">

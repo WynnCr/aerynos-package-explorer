@@ -1,4 +1,6 @@
-export type ChannelType = 'both' | 'volatile' | 'unstable' | 'recipe';
+export type StreamType = 'both' | 'volatile' | 'unstable' | 'recipe';
+/** Backward compatibility alias for StreamType */
+export type ChannelType = StreamType;
 
 export interface Upstream {
   url: string;
@@ -77,6 +79,7 @@ export interface SearchFilters {
   letter?: string;
   toolchain?: string;
   channel?: ChannelType | 'all';
+  stream?: StreamType | 'all';
 }
 
 export type SortOrder = 'name-asc' | 'name-desc' | 'recently-updated' | 'recently-added';

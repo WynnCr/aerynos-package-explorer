@@ -117,9 +117,9 @@
       {#if pkg.channel === 'volatile'}
         <span
           class="rounded bg-amber-500/15 px-2.5 py-1 font-mono text-xs text-amber-300 border border-amber-500/35"
-          title="In volatile testing repository only"
+          title="In volatile stream only (not yet promoted to unstable stream)"
         >
-          in volatile
+          in volatile stream
         </span>
       {:else}
         <button
@@ -283,10 +283,10 @@
         <!-- Volatile Status Indicator (No install command or copy button) -->
         <span
           class="inline-flex items-center gap-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 font-mono text-[11px] text-amber-300"
-          title="In volatile testing repository only. Awaiting promotion to unstable."
+          title="In volatile stream only. Awaiting tag and promotion to unstable stream."
         >
           <span class="h-1.5 w-1.5 rounded-full bg-amber-400"></span>
-          <span>in volatile</span>
+          <span>in volatile stream</span>
         </span>
       {:else}
         <!-- Quick Moss Install Command Button for Unstable Packages -->

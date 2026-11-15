@@ -275,7 +275,7 @@
 
               <span
                 class="rounded-md bg-[#1a1e28] px-2.5 py-1 font-mono text-xs font-semibold text-orange-400 border border-[#242836]"
-                title="Version fetched from stone.yaml recipes in git (volatile tree). May temporarily differ from binary package in unstable."
+                title="Version fetched from stone.yaml recipes in git (main channel). May temporarily differ from binary package in unstable stream."
               >
                 v{pkg.version}-{pkg.release}
               </span>
@@ -367,7 +367,7 @@
           </div>
         </div>
 
-        <!-- Channel & Installation Section -->
+        <!-- Stream & Installation Section -->
         {#if pkg.channel === 'volatile'}
           <!-- Volatile Notice Box (No install command or copy button) -->
           <div class="mt-6 rounded-xl border border-amber-500/30 bg-amber-500/10 p-5 space-y-3">
@@ -378,19 +378,19 @@
               <div class="space-y-1.5 flex-1 min-w-0">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                   <span class="font-bold text-amber-300 text-sm sm:text-base">
-                    Currently in Volatile Testing Repository Only
+                    Currently in Volatile Stream Only
                   </span>
                   <span class="rounded bg-amber-500/20 px-2.5 py-0.5 text-[11px] font-mono font-semibold text-amber-300 border border-amber-500/40">
-                    Awaiting Promotion to Unstable
+                    Awaiting Tag & Promotion to Unstable
                   </span>
                 </div>
 
                 <p class="text-xs sm:text-sm text-[#e8eaf0] leading-relaxed">
-                  This package is currently available in the <span class="font-mono text-amber-400 font-semibold">volatile</span> testing repository only and has not yet been promoted to the main <span class="font-mono text-emerald-400 font-semibold">unstable</span> branch.
+                  This package is currently indexed at the tip of the <span class="font-mono text-amber-400 font-semibold">stream/volatile</span> pointer in the main channel and has not yet been promoted to <span class="font-mono text-emerald-400 font-semibold">stream/unstable</span>.
                 </p>
 
                 <p class="text-xs text-[#8891a8] leading-relaxed">
-                  The volatile repository is reserved for package maintainers and testers to perform QA validation. It is not available for standard system installation until it graduates to unstable.
+                  Regular systems configured for the default unstable stream cannot install this package yet. Once this milestone is verified and tagged by maintainers, the unstable stream will be repointed to include it.
                 </p>
               </div>
             </div>
@@ -431,7 +431,7 @@
                   </span>
                 </div>
                 <p class="text-xs text-[#8891a8] leading-relaxed">
-                  This recipe is tracked in the git repository but binary packages have not yet been built or published to the moss repository channels.
+                  This recipe is tracked in the git repository but binary packages have not yet been built or published to the moss repository streams.
                 </p>
               </div>
             </div>
@@ -500,7 +500,7 @@
             </div>
           </div>
 
-          <!-- Channel Availability Info for Unstable Packages -->
+          <!-- Stream Availability Info for Unstable Packages -->
           <div class="mt-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-xs">
             <div class="flex items-start gap-3">
               <div class="rounded-lg bg-emerald-500/10 p-2 text-emerald-400 shrink-0">
@@ -509,17 +509,17 @@
               <div class="space-y-1.5 flex-1 min-w-0">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                   <div class="font-semibold text-emerald-300 flex items-center gap-1.5">
-                    <span>Available in Unstable (Default Channel)</span>
+                    <span>Available in Unstable Stream</span>
                   </div>
                   <span class="rounded bg-emerald-500/15 px-2 py-0.5 text-[10px] font-mono text-emerald-400 border border-emerald-500/30">
                     Ready to Install
                   </span>
                 </div>
                 <p class="text-[#8891a8] leading-relaxed">
-                  This package is part of the standard <span class="font-mono text-emerald-400 font-medium">unstable</span> stream configured on all AerynOS systems. You can install it immediately with <code class="rounded bg-[#0d0f14] px-1.5 py-0.5 font-mono text-orange-400 font-semibold">sudo moss package add {selectedBinary || pkg.name}</code>.
+                  This package is part of the standard <span class="font-mono text-emerald-400 font-medium">stream/unstable</span> configured on all AerynOS systems. You can install it immediately with <code class="rounded bg-[#0d0f14] px-1.5 py-0.5 font-mono text-orange-400 font-semibold">sudo moss package add {selectedBinary || pkg.name}</code>.
                 </p>
                 <p class="text-[#8891a8]/80 text-[11px] leading-relaxed pt-1.5 border-t border-emerald-500/15">
-                  <span class="font-medium text-amber-300">Version disclaimer:</span> The displayed package version (<span class="font-mono text-orange-300">v{pkg.version}-{pkg.release}</span>) is fetched directly from git recipes (<code class="font-mono text-orange-300">stone.yaml</code>), which land in the <span class="font-mono text-amber-300">volatile</span> testing stream first. The binary package version currently served in the default <span class="font-mono text-emerald-300">unstable</span> repository may temporarily differ until testing finishes and the build graduates.
+                  <span class="font-medium text-amber-300">Version disclaimer:</span> The displayed package version (<span class="font-mono text-orange-300">v{pkg.version}-{pkg.release}</span>) is fetched directly from git recipes (<code class="font-mono text-orange-300">stone.yaml</code>), which land at the tip of the <span class="font-mono text-amber-300">volatile</span> stream first. The binary package version currently served in the tagged <span class="font-mono text-emerald-300">unstable</span> stream may temporarily differ until the milestone is tagged and promoted.
                 </p>
               </div>
             </div>
@@ -804,7 +804,7 @@
                     <span class="font-mono text-base font-bold text-orange-400">{sub.name}</span>
                     {#if pkg.channel === 'volatile' || sub.channel === 'volatile'}
                       <span class="rounded bg-amber-500/15 px-2 py-0.5 font-mono text-xs text-amber-300 border border-amber-500/30">
-                        in volatile
+                        in volatile stream
                       </span>
                     {:else}
                       <button

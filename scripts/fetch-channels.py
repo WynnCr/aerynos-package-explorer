@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
 fetch-channels.py
-Fetches live repository metadata from cdn.aerynos.dev for both volatile and unstable streams,
-decompresses binary stone.index files using libzstd, and writes static/data/channels.json.
+Fetches live repository stream metadata from cdn.aerynos.dev for the main Channel
+(specifically stream/volatile and stream/unstable), decompresses binary stone.index files
+using libzstd, and writes static/data/channels.json.
 """
 
 import urllib.request

@@ -167,59 +167,94 @@
     </div>
   </section>
 
-  <!-- Repository Channels Architecture: Unstable vs. Volatile -->
+  <!-- Repository Architecture: Channel & Streams -->
   <section class="space-y-6">
     <div class="flex items-center gap-2">
       <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20">
         <Info class="h-4 w-4" />
       </div>
       <div>
-        <h2 class="text-xl font-bold text-[#e8eaf0]">Understanding AerynOS Repository Channels</h2>
-        <p class="text-xs text-[#8891a8]">How software builds, testing streams, and package promotions work in moss and boulder.</p>
+        <h2 class="text-xl font-bold text-[#e8eaf0]">Understanding AerynOS Repository Architecture</h2>
+        <p class="text-xs text-[#8891a8]">Channels, history identifiers, binary pools, and repository streams in moss.</p>
       </div>
     </div>
 
     <div class="rounded-2xl border border-[#242836] bg-[#13161d] p-6 space-y-6">
+      <!-- Explanatory Overview of Channel & Vessel -->
+      <div class="space-y-3 text-xs text-[#8891a8] leading-relaxed">
+        <p>
+          In the AerynOS distribution architecture, a <strong class="text-[#e8eaf0]">Channel</strong> describes the coupling between a recipes monorepository in git and the associated moss-format repository of compiled binary artefacts. The <strong class="text-orange-400 font-medium">main Channel</strong> is configured to track the <code class="font-mono text-orange-300">main</code> branch of <a href="https://github.com/aerynOS/recipes" target="_blank" rel="noopener noreferrer" class="text-orange-400 hover:underline">aerynOS/recipes</a>.
+        </p>
+        <p>
+          A Channel comprises:
+        </p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li><strong class="text-[#e8eaf0]">Artifact Pool (<code class="text-orange-300 font-mono">pool/</code>)</strong>: The collection of moss-format binary archives (currently called <code class="font-mono text-orange-300">.stone</code>).</li>
+          <li><strong class="text-[#e8eaf0]">History Identifiers (<code class="text-orange-300 font-mono">history/&lt;unix-epoch&gt;</code>)</strong>: Snapshot versions containing a <code class="text-orange-300 font-mono">stone.index</code> referencing pool artefacts. Each snapshot represents the state of the HEAD of the main branch at that point in time. Versions can be tagged for retention beyond the default 14-day rolling window.</li>
+          <li><strong class="text-[#e8eaf0]">vessel Repository Manager</strong>: Automagically maintains repository state, indexes new builds into history identifiers, and manages stream pointers.</li>
+        </ul>
+      </div>
+
+      <!-- Streams Grid: Unstable vs. Volatile -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Default Unstable Channel -->
+        <!-- Default Unstable Stream -->
         <div class="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-5 space-y-3">
           <div class="flex items-center justify-between">
             <span class="font-mono text-sm font-bold text-emerald-400">stream/unstable</span>
-            <span class="rounded bg-emerald-500/20 px-2 py-0.5 text-[10px] uppercase font-semibold text-emerald-300 border border-emerald-500/30">Default Channel</span>
+            <span class="rounded bg-emerald-500/20 px-2 py-0.5 text-[10px] uppercase font-semibold text-emerald-300 border border-emerald-500/30">Default User Stream</span>
           </div>
           <p class="text-xs text-[#8891a8] leading-relaxed">
-            The standard repository configured out-of-the-box on AerynOS systems. Packages here have successfully compiled, passed initial validation tests, and are guaranteed to have stable ABI dependencies.
+            The curated, default stream configured in <code class="font-mono text-emerald-300">moss</code> on AerynOS installations. Maintainers manually repoint the <code class="font-mono text-emerald-300">unstable</code> stream to a designated <strong class="text-[#e8eaf0]">tag</strong> once a volatile milestone is verified and ready for end-user systems. Tagging preserves historical unstable streams for upgrade and regression testing.
           </p>
           <div class="rounded-lg bg-[#0d0f14] p-2.5 font-mono text-xs text-[#e8eaf0] border border-[#242836]">
-            <code>sudo moss package add &lt;pkg&gt;</code>
+            <code>version "stream/unstable"</code>
           </div>
         </div>
 
-        <!-- Volatile Staging Channel -->
+        <!-- Volatile Stream -->
         <div class="rounded-xl border border-amber-500/20 bg-amber-500/5 p-5 space-y-3">
           <div class="flex items-center justify-between">
             <span class="font-mono text-sm font-bold text-amber-400">stream/volatile</span>
-            <span class="rounded bg-amber-500/20 px-2 py-0.5 text-[10px] uppercase font-semibold text-amber-300 border border-amber-500/30">Maintainer & QA Testing</span>
+            <span class="rounded bg-amber-500/20 px-2 py-0.5 text-[10px] uppercase font-semibold text-amber-300 border border-amber-500/30">Rolling Tip Pointer</span>
           </div>
           <p class="text-xs text-[#8891a8] leading-relaxed">
-            The active staging repository where newly merged recipes land first. This stream is intended for package maintainers and testers only to verify runtime behavior before graduation. End users do not need to activate this repository.
+            The continually updated "tip or HEAD pointer" of the main Channel's binary repository (defined in <code class="font-mono text-amber-300">moss-root-index.json</code>). As new builds are completed, <code class="font-mono text-amber-300">vessel</code> automagically advances this pointer to the newest history identifier. Intended for maintainers and automated QA.
           </p>
           <div class="rounded-lg bg-[#0d0f14] p-2.5 font-mono text-xs text-amber-400/90 border border-[#242836] flex items-center justify-between">
-            <span>Testing & QA stream</span>
-            <span class="text-[10px] text-[#8891a8]">Awaiting promotion</span>
+            <span>Rolling HEAD pointer</span>
+            <span class="text-[10px] text-[#8891a8]">Auto-updated by vessel</span>
           </div>
         </div>
       </div>
 
-      <!-- Package Promotion Workflow -->
+      <!-- Moss Client Configuration Example -->
+      <div class="rounded-xl border border-[#242836] bg-[#0d0f14] p-5 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-[#8891a8]">
+            moss Client Configuration Example
+          </h3>
+          <span class="text-[11px] text-[#8891a8]">How moss ties channels & streams together</span>
+        </div>
+        <pre class="overflow-x-auto rounded-lg bg-[#13161d] p-3 font-mono text-xs text-[#e8eaf0] border border-[#242836] leading-relaxed"><code>unstable &#123;
+    description "AerynOS unstable repository stream"
+    base-uri "https://cdn.aerynos.dev/"  # Mirror-friendly base URI
+    channel main                         # Git recipe branch coupling
+    version "stream/unstable"            # Stream pointer (repointed to tags)
+    arch x86_64
+    priority 5
+    active #true
+&#125;</code></pre>
+      </div>
+
+      <!-- Stream Lifecycle & Promotion Workflow -->
       <div class="rounded-xl border border-[#242836] bg-[#0d0f14] p-5 space-y-4">
         <div>
           <h3 class="text-sm font-bold text-[#e8eaf0] flex items-center gap-2">
             <GitBranch class="h-4 w-4 text-orange-400" />
-            <span>Package Lifecycle & Promotion Workflow</span>
+            <span>Recipe to Stream Lifecycle</span>
           </h3>
           <p class="text-xs text-[#8891a8] mt-1 leading-relaxed">
-            Software moves through structured stages from git pull request to your system:
+            How software progresses from recipe pull request to your system:
           </p>
         </div>
 
@@ -227,30 +262,30 @@
           <div class="rounded-lg border border-[#242836] bg-[#13161d] p-3.5 space-y-1.5">
             <div class="flex items-center gap-2 font-semibold text-[#e8eaf0]">
               <span class="flex h-5 w-5 items-center justify-center rounded-full bg-orange-500/20 text-orange-400 text-[11px] font-mono">1</span>
-              <span>Recipe Merged</span>
+              <span>Recipe Merged (Channel main)</span>
             </div>
             <p class="text-[#8891a8] text-[11px] leading-relaxed">
-              Pull request merged into upstream <code class="text-orange-300 font-mono">aerynOS/recipes</code>.
+              Pull request merged into <code class="text-orange-300 font-mono">aerynOS/recipes:main</code>. Boulder builds the package in Summit.
             </p>
           </div>
 
           <div class="rounded-lg border border-amber-500/20 bg-[#13161d] p-3.5 space-y-1.5">
             <div class="flex items-center gap-2 font-semibold text-amber-300">
               <span class="flex h-5 w-5 items-center justify-center rounded-full bg-amber-500/20 text-amber-400 text-[11px] font-mono">2</span>
-              <span>Volatile Testing</span>
+              <span>Indexed to volatile stream</span>
             </div>
             <p class="text-[#8891a8] text-[11px] leading-relaxed">
-              Built into <code class="text-amber-400 font-mono">stream/volatile</code> for maintainer and tester verification.
+              <code class="text-amber-400 font-mono">vessel</code> indexes the build into a new history snapshot and points <code class="text-amber-400 font-mono">stream/volatile</code> to it.
             </p>
           </div>
 
           <div class="rounded-lg border border-emerald-500/20 bg-[#13161d] p-3.5 space-y-1.5">
             <div class="flex items-center gap-2 font-semibold text-emerald-300">
               <span class="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 text-[11px] font-mono">3</span>
-              <span>Unstable Promotion</span>
+              <span>Tagged & Promoted to unstable</span>
             </div>
             <p class="text-[#8891a8] text-[11px] leading-relaxed">
-              Promoted to <code class="text-emerald-400 font-mono">stream/unstable</code> and installable by all users via <code class="text-emerald-300 font-mono">moss</code>.
+              Maintainers verify the snapshot, create a version tag, and repoint <code class="text-emerald-400 font-mono">stream/unstable</code> to the tag.
             </p>
           </div>
         </div>
@@ -259,10 +294,10 @@
           <Info class="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
           <div class="space-y-1 text-[11px] leading-relaxed">
             <p>
-              <strong class="text-amber-300">Maintainer Notice:</strong> The <code class="font-mono text-amber-300">volatile</code> repository is intended for maintainers and testers only. Normal users should not enable volatile on production installations. Packages currently indexed in volatile will become available in the default <code class="font-mono text-emerald-300">unstable</code> channel once testing is complete.
+              <strong class="text-amber-300">Nomenclature Note:</strong> In AerynOS terminology, <strong class="text-[#e8eaf0]">main</strong> is the Channel, while <strong class="text-[#e8eaf0]">unstable</strong> and <strong class="text-[#e8eaf0]">volatile</strong> are Streams within that channel. End-user systems follow <code class="font-mono text-emerald-300">stream/unstable</code>.
             </p>
             <p class="pt-1 text-[#8891a8]/90">
-              <strong class="text-[#e8eaf0]">Why might an Explorer version differ from your installed version?</strong> This portal displays the version defined in upstream git recipes (<code class="font-mono text-orange-300">stone.yaml</code>). When a version bump is merged, that build lands in <code class="font-mono text-amber-300">volatile</code> first for QA. Until it graduates to <code class="font-mono text-emerald-300">unstable</code>, the binary version fetched by moss on your machine may temporarily reflect the previous release.
+              <strong class="text-[#e8eaf0]">Why might an Explorer version differ from your installed version?</strong> This portal displays metadata parsed directly from upstream git recipes (<code class="font-mono text-orange-300">stone.yaml</code>). When a version bump is merged, the new build is indexed at the tip of the <code class="font-mono text-amber-300">volatile</code> stream first. Until maintainers tag the milestone and repoint <code class="font-mono text-emerald-300">stream/unstable</code>, the binary version installed by moss on user machines will remain on the tagged unstable release.
             </p>
           </div>
         </div>

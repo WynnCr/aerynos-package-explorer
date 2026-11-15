@@ -41,7 +41,7 @@ jobs:
       - name: Clone latest official recipes
         run: git clone --depth 1 https://github.com/aerynOS/recipes.git /tmp/aerynos-recipes
 
-      - name: Fetch live repository channel metadata
+      - name: Fetch live repository stream metadata
         continue-on-error: true
         run: python3 scripts/fetch-channels.py
 

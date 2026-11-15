@@ -100,9 +100,9 @@
         </thead>
 
         <tbody class="divide-y divide-[#242836]/60">
-          <!-- Repository Stream / Channel -->
+          <!-- Repository Stream -->
           <tr class="hover:bg-[#1a1e28]/20">
-            <td class="p-4 font-medium text-[#8891a8]">Channel Stream</td>
+            <td class="p-4 font-medium text-[#8891a8]">Repository Stream</td>
             {#each packages as pkg}
               <td class="p-4">
                 <ChannelBadge channel={pkg.channel} size="sm" />
@@ -117,7 +117,7 @@
               <td class="p-4">
                 {#if pkg.channel === 'volatile'}
                   <div class="rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 font-mono text-xs text-amber-300 flex items-center justify-between">
-                    <span>In volatile testing only</span>
+                    <span>In volatile stream only</span>
                     <span class="text-[10px] uppercase font-semibold text-amber-400">Not in unstable</span>
                   </div>
                 {:else}
