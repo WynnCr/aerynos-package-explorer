@@ -1,0 +1,34 @@
+{
+  "name": "aerynos-package-explorer",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "generate-index": "tsx scripts/generate-index.ts",
+    "index": "tsx scripts/generate-index.ts",
+    "test-parser": "tsx scripts/test-parser.ts",
+    "check": "svelte-check --tsconfig ./tsconfig.app.json"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@tsconfig/svelte": "^5.0.9",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^26.6.6",
+    "svelte-check": "^4.7.8",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vite": "^8.3.8"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "fuse.js": "^7.5.0",
+    "js-yaml": "^4.1.0",
+    "lucide-svelte": "^1.0.1",
+    "svelte": "^5.57.3",
+    "svelte-spa-router": "^5.1.1",
+    "tailwindcss": "^4.3.5"
+  }
+}
