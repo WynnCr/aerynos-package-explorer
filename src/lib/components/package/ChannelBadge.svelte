@@ -20,9 +20,9 @@
       title: 'Only in the volatile stream (tip of the main channel). Not yet promoted to the unstable stream.'
     },
     unstable: {
-      text: 'unstable',
+      text: 'unstable (default)',
       dot: 'bg-ok',
-      title: 'In the unstable stream, the default for AerynOS installs.'
+      title: 'In the unstable stream, the default for aerynOS installs.'
     },
     recipe: {
       text: 'recipe only',

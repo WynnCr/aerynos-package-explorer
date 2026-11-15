@@ -5,7 +5,7 @@
       This is a search page for the package recipes in
       <a class="link" href="https://github.com/aerynOS/recipes">aerynOS/recipes</a>. It was made by
       <a class="link" href="https://github.com/WynnCr">WynnCr</a> and is
-      <strong>not an official AerynOS project</strong>. The AerynOS team doesn't run, maintain or
+      <strong>not an official aerynOS project</strong>. The aerynOS team doesn't run, maintain or
       endorse it, so if something here looks wrong, check the recipe itself before filing anything upstream.
     </p>
     <p>
@@ -25,7 +25,7 @@
     </p>
     <p>
       Categories are guessed from package names and descriptions by a few keyword rules. They are
-      not AerynOS metadata and some will be wrong, which is why so many packages land in
+      not aerynOS metadata and some will be wrong, which is why so many packages land in
       “Other”.
     </p>
   </section>
@@ -88,7 +88,7 @@
     <p>Two streams point into a channel:</p>
     <ul class="list-disc space-y-1 pl-5">
       <li>
-        <code>stream/unstable</code> is what moss uses by default. Maintainers point it at a tag
+        <code>stream/unstable</code> is what moss uses by default (named unstable while aerynOS is in alpha, but functioning as the default user stream). Maintainers point it at a tag
         once a build has been checked.
       </li>
       <li>
@@ -98,7 +98,7 @@
     </ul>
     <p>A moss repository entry that ties these together looks like this:</p>
 <pre><code>unstable &#123;
-    description "AerynOS unstable repository stream"
+    description "aerynOS unstable repository stream"
     base-uri "https://cdn.aerynos.dev/"
     channel main
     version "stream/unstable"

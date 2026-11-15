@@ -103,7 +103,7 @@
   {:else}
     <h1 class="text-xl font-semibold">Categories</h1>
     <p class="mt-1 text-muted">
-      Sorted into groups by keyword matching on names and descriptions. These are this site's guesses, not AerynOS metadata.
+      Sorted into groups by keyword matching on names and descriptions. These are this site's guesses, not aerynOS metadata.
     </p>
 
     <div class="mt-6 border-t border-line">

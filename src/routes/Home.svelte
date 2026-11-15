@@ -47,10 +47,10 @@
 </script>
 
 <div class="mx-auto max-w-5xl px-4 py-8 sm:px-6">
-  <h1 class="text-xl font-semibold">AerynOS packages</h1>
+  <h1 class="text-xl font-semibold">aerynOS packages</h1>
   <p class="mt-1 text-muted">
     Search the recipes in <a class="link" href="https://github.com/aerynOS/recipes">aerynOS/recipes</a>.
-    This is an unofficial index; the AerynOS project doesn't run it.
+    This is an unofficial index; the aerynOS project doesn't run it.
   </p>
 
   <div class="mt-5">
@@ -69,7 +69,7 @@
         class="act"
         aria-pressed={filters.channel === 'unstable'}
         onclick={() => { filters = { ...filters, channel: filters.channel === 'unstable' ? undefined : 'unstable' }; }}
-      >{packageStore.channelStats.bothCount} in unstable</button>,
+      >{packageStore.channelStats.bothCount} in unstable (default)</button>,
       <button
         type="button"
         class="act"
@@ -83,7 +83,7 @@
     <summary class="cursor-pointer hover:text-fg">Why can a version here differ from what moss installs?</summary>
     <p class="mt-2 max-w-2xl">
       Versions are read from <code>stone.yaml</code> on the main branch, which is the
-      <em>volatile</em> stream. Systems follow the <em>unstable</em> stream, which is only
+      <em>volatile</em> stream. Systems follow the <em>unstable</em> stream (the default for aerynOS installs), which is only
       moved to a new tag once maintainers have checked a build, so it can lag behind.
       <a class="link" href="#/about">More on streams</a>.
     </p>

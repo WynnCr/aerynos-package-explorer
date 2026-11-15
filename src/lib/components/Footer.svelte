@@ -11,7 +11,7 @@
 <footer class="mt-auto border-t border-line text-sm text-muted">
   <div class="mx-auto max-w-5xl space-y-2 px-4 py-6 sm:px-6">
     <p>
-      Not affiliated with the AerynOS project. Official sites:
+      Not affiliated with the aerynOS project. Official sites:
       <a class="link" href="https://aerynos.com">aerynos.com</a>,
       <a class="link" href="https://aerynos.dev">aerynos.dev</a>,
       <a class="link" href="https://dash.aerynos.dev">Summit</a>,

@@ -19,7 +19,7 @@
 <header class="border-b border-line">
   <div class="mx-auto flex max-w-5xl flex-wrap items-baseline justify-between gap-x-6 gap-y-2 px-4 py-3 sm:px-6">
     <a href="#/" class="font-semibold">
-      AerynOS package explorer
+      aerynOS package explorer
       <span class="font-normal text-muted">(unofficial)</span>
     </a>
 

@@ -49,6 +49,22 @@
 <div class="space-y-3">
   <div class="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
     <label class="flex items-center gap-1.5 text-muted">
+      Stream
+      <select
+        class={selectClass}
+        value={filters.channel ?? 'all'}
+        onchange={(e) => {
+          const v = (e.currentTarget as HTMLSelectElement).value;
+          filters = { ...filters, channel: v === 'all' ? undefined : (v as SearchFilters['channel']) };
+        }}
+      >
+        <option value="all">all streams</option>
+        <option value="unstable">unstable (default)</option>
+        <option value="volatile">volatile only</option>
+      </select>
+    </label>
+
+    <label class="flex items-center gap-1.5 text-muted">
       Category
       <select
         class={selectClass}
@@ -62,22 +78,6 @@
         {#each categories as cat}
           <option value={cat}>{cat}</option>
         {/each}
-      </select>
-    </label>
-
-    <label class="flex items-center gap-1.5 text-muted">
-      Stream
-      <select
-        class={selectClass}
-        value={filters.channel ?? 'all'}
-        onchange={(e) => {
-          const v = (e.currentTarget as HTMLSelectElement).value;
-          filters = { ...filters, channel: v === 'all' ? undefined : (v as SearchFilters['channel']) };
-        }}
-      >
-        <option value="all">any</option>
-        <option value="unstable">unstable</option>
-        <option value="volatile">volatile only</option>
       </select>
     </label>
 

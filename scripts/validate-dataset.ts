@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * AerynOS Package Dataset Validator
+ * aerynOS Package Dataset Validator
  * Runs full sanity and schema checks against static/data/packages.json
  */
 

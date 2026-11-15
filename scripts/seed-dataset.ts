@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * AerynOS Package Dataset Seeder
- * Generates an authentic, rich dataset of 80+ real AerynOS packages
+ * aerynOS Package Dataset Seeder
+ * Generates an authentic, rich dataset of 80+ real aerynOS packages
  * conforming to Package and PackageIndex TypeScript interfaces.
  */
 
@@ -302,7 +302,7 @@ const rawPackages: PackageInput[] = [
     release: 1,
     homepage: 'https://kernel.org/',
     summary: 'The Linux kernel for desktop systems',
-    description: 'The Linux kernel configured for desktop and workstation use in AerynOS, with low latency, responsive scheduling, and broad hardware support.',
+    description: 'The Linux kernel configured for desktop and workstation use in aerynOS, with low latency, responsive scheduling, and broad hardware support.',
     license: ['GPL-2.0-only'],
     upstreams: [
       {
@@ -1039,7 +1039,7 @@ const rawPackages: PackageInput[] = [
     release: 9,
     homepage: 'https://llvm.org/',
     summary: 'The LLVM Compiler Infrastructure project',
-    description: 'The LLVM Project is a collection of modular and reusable compiler and toolchain technologies, serving as the foundation of AerynOS compilation infrastructure.',
+    description: 'The LLVM Project is a collection of modular and reusable compiler and toolchain technologies, serving as the foundation of aerynOS compilation infrastructure.',
     license: ['Apache-2.0 WITH LLVM-exception'],
     upstreams: [
       {
@@ -1066,7 +1066,7 @@ const rawPackages: PackageInput[] = [
     release: 9,
     homepage: 'https://clang.llvm.org/',
     summary: 'C, C++, and Objective-C frontend for LLVM',
-    description: 'Clang is a compiler front end for the C, C++, and Objective-C programming languages, acting as the primary system compiler for AerynOS.',
+    description: 'Clang is a compiler front end for the C, C++, and Objective-C programming languages, acting as the primary system compiler for aerynOS.',
     license: ['Apache-2.0 WITH LLVM-exception'],
     upstreams: [
       {
@@ -1091,7 +1091,7 @@ const rawPackages: PackageInput[] = [
     release: 12,
     homepage: 'https://gcc.gnu.org/',
     summary: 'The GNU Compiler Collection',
-    description: 'GCC is a key component of the GNU toolchain, supporting C, C++, Fortran, and Go compilation, used in AerynOS for legacy and kernel builds.',
+    description: 'GCC is a key component of the GNU toolchain, supporting C, C++, Fortran, and Go compilation, used in aerynOS for legacy and kernel builds.',
     license: ['GPL-3.0-or-later WITH GCC-exception-3.1'],
     upstreams: [
       {

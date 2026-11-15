@@ -1,9 +1,9 @@
-# AerynOS package explorer
+# aerynOS package explorer
 
 A small search page for the packages in [aerynOS/recipes](https://github.com/aerynOS/recipes).
 Type a name, get the version, summary, license, dependencies and the `moss` command to install it.
 
-**This is unofficial.** I'm not part of the AerynOS project and it doesn't run or endorse this site.
+**This is unofficial.** I'm not part of the aerynOS project and it doesn't run or endorse this site.
 Official resources are at [aerynos.com](https://aerynos.com) and [aerynos.dev](https://aerynos.dev).
 
 ## How it works
@@ -19,7 +19,7 @@ Two things worth knowing:
   stream, which is only moved to a new tag after maintainers have checked a build. So a version here
   can be newer than what `moss` will install. The About page has the details.
 - Categories are guessed from package names and descriptions (see `inferCategory` in
-  `src/lib/utils/format.ts`). They aren't AerynOS metadata and some are wrong.
+  `src/lib/utils/format.ts`). They aren't aerynOS metadata and some are wrong.
 
 ## Running it locally
 
@@ -71,4 +71,4 @@ touch the parser.
 
 ## License
 
-[WTFPL](LICENSE). AerynOS, moss and boulder belong to the AerynOS project.
+[WTFPL](LICENSE). aerynOS, moss and boulder belong to the aerynOS project.

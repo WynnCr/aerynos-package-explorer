@@ -1,7 +1,7 @@
 import type { Package } from '$lib/data/types';
 
 /**
- * Format utilities for the AerynOS Package Explorer.
+ * Format utilities for the aerynOS Package Explorer.
  * These are pure functions with no side effects.
  */
 
@@ -13,7 +13,7 @@ export interface BinaryPackageOption {
 
 /**
  * Returns all installable binary packages produced by this recipe.
- * In AerynOS, a stone.yaml recipe compiles into one or more binary .stone packages (subpackages).
+ * In aerynOS, a stone.yaml recipe compiles into one or more binary .stone packages (subpackages).
  * For example, recipe 'font-jetbrains-mono' compiles into:
  *   - 'font-jetbrains-mono-ttf'
  *   - 'font-jetbrains-mono-ttf-vf'

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * AerynOS Package Index Generator
+ * aerynOS Package Index Generator
  *
  * Fetches all package recipes from https://github.com/aerynOS/recipes
  * and generates a static JSON index at static/data/packages.json
@@ -566,7 +566,7 @@ async function main(): Promise<void> {
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
     console.log(`✓ Indexed ${packages.length} packages from local recipes in ${elapsed}s.`);
   } else {
-    console.log('🔍 Fetching AerynOS recipes via GitHub API...');
+    console.log('🔍 Fetching aerynOS recipes via GitHub API...');
     if (!GITHUB_TOKEN) {
       console.warn('⚠️  No GITHUB_TOKEN set. Using unauthenticated rate limit (60 req/hr).');
       console.warn('   Set GITHUB_TOKEN env var for 5000 req/hr.');

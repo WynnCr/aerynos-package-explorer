@@ -87,7 +87,7 @@ def parse_stone_index(libzstd, url):
 
 def main():
     start = time.time()
-    print("Starting AerynOS channel indexer...")
+    print("Starting aerynOS channel indexer...")
     try:
         libzstd = load_zstd()
     except Exception as e:

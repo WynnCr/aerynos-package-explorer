@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * AerynOS Package Parser Tests
+ * aerynOS Package Parser Tests
  *
  * Tests the stone.yaml parser with known-good examples from the recipes repository.
  * Run with: npx tsx scripts/test-parser.ts
