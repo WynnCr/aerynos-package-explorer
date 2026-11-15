@@ -10,7 +10,7 @@
  *   npx tsx scripts/generate-index.ts  # (slower, rate-limited to 60 req/hr)
  */
 
-import { writeFileSync, mkdirSync } from 'fs';
+import { writeFileSync, mkdirSync, existsSync, readdirSync, statSync, readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { load as parseYaml } from 'js-yaml';
@@ -490,80 +490,135 @@ export function inferCategory(pkg: Package): string {
 // ============================================================
 
 async function main(): Promise<void> {
-  console.log('🔍 Fetching AerynOS recipes repository structure...');
-  if (!GITHUB_TOKEN) {
-    console.warn('⚠️  No GITHUB_TOKEN set. Using unauthenticated rate limit (60 req/hr).');
-    console.warn('   Set GITHUB_TOKEN env var for 5000 req/hr.');
-  } else {
-    console.log('✓  Using GitHub token for authenticated requests (5000 req/hr).');
+  // Check for local directory option: --local <path> or env RECIPES_DIR or auto-detect
+  const args = process.argv.slice(2);
+  let localDir: string | undefined;
+  const localIdx = args.indexOf('--local');
+  if (localIdx !== -1 && args[localIdx + 1]) {
+    localDir = args[localIdx + 1];
+  } else if (process.env.RECIPES_DIR) {
+    localDir = process.env.RECIPES_DIR;
+  } else if (existsSync('/home/amrit/Projects/aerynos-recipes')) {
+    localDir = '/home/amrit/Projects/aerynos-recipes';
   }
-
-  // 1. Get letter dirs
-  const dirRes = await fetchWithRetry(RECIPES_API);
-  const dirs = (await dirRes.json()) as Array<{ name: string; type: string; url: string }>;
-  const letterDirs = dirs.filter(d => d.type === 'dir');
-  console.log(`Found ${letterDirs.length} letter directories\n`);
 
   const packages: Package[] = [];
-  let errors = 0;
-  let total = 0;
+  const __dirname = dirname(fileURLToPath(import.meta.url));
+  const outPath = join(__dirname, '..', 'static', 'data', 'packages.json');
 
-  // 2. For each letter dir, get package dirs
-  for (const letterDir of letterDirs) {
-    const letter = letterDir.name;
-    console.log(`📁 Processing /${letter}...`);
+  if (localDir && existsSync(localDir)) {
+    console.log(`📁 Indexing from local recipes repository: ${localDir}`);
+    const letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    const startTime = Date.now();
 
-    let pkgDirs: Array<{ name: string; type: string; url: string }>;
-    try {
-      const pkgRes = await fetchWithRetry(letterDir.url);
-      const all = (await pkgRes.json()) as Array<{ name: string; type: string; url: string }>;
-      pkgDirs = all.filter(d => d.type === 'dir');
-    } catch (e) {
-      console.error(`  ✗ Failed to list /${letter}: ${e}`);
-      errors++;
-      continue;
-    }
+    for (const letter of letters) {
+      const letterPath = join(localDir, letter);
+      if (!existsSync(letterPath)) continue;
 
-    // 3. For each package, fetch stone.yaml directly from raw URL
-    for (const pkgDir of pkgDirs) {
-      const pkgName = pkgDir.name;
-      const rawUrl = `${RAW_BASE}/${letter}/${pkgName}/stone.yaml`;
-      total++;
-
+      let entries: string[] = [];
       try {
-        // Gentle rate limiting
-        await sleep(GITHUB_TOKEN ? 50 : 500);
+        entries = readdirSync(letterPath);
+      } catch {
+        continue;
+      }
 
-        const contentRes = await fetchWithRetry(rawUrl);
-        const content = await contentRes.text();
-
-        const pkg = parseStoneYaml(content, pkgName, letter);
-        if (pkg) {
-          pkg.category = inferCategory(pkg);
-          packages.push(pkg);
-          console.log(`  ✓ ${pkgName} ${pkg.version}-${pkg.release}`);
-        } else {
-          console.warn(`  ✗ ${pkgName}: parse returned null`);
-          errors++;
+      for (const entry of entries) {
+        const pkgDir = join(letterPath, entry);
+        try {
+          if (!statSync(pkgDir).isDirectory()) continue;
+        } catch {
+          continue;
         }
-      } catch (e) {
-        console.error(`  ✗ ${pkgName}: ${e}`);
-        errors++;
+
+        const stonePath = join(pkgDir, 'stone.yaml');
+        if (!existsSync(stonePath)) continue;
+
+        try {
+          const content = readFileSync(stonePath, 'utf-8');
+          const pkg = parseStoneYaml(content, entry, letter);
+          if (pkg) {
+            pkg.category = inferCategory(pkg);
+            // Fix recipe and raw URLs to real root pattern (no extra recipes/ prefix)
+            pkg.recipeUrl = `https://github.com/aerynOS/recipes/blob/main/${letter}/${pkg.name}/stone.yaml`;
+            pkg.rawUrl = `https://raw.githubusercontent.com/aerynOS/recipes/main/${letter}/${pkg.name}/stone.yaml`;
+            packages.push(pkg);
+          }
+        } catch (e) {
+          console.warn(`  ✗ ${entry}: parse failed`, e);
+        }
       }
     }
+
+    packages.sort((a, b) => a.name.localeCompare(b.name));
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+    console.log(`✓ Indexed ${packages.length} packages from local recipes in ${elapsed}s.`);
+  } else {
+    console.log('🔍 Fetching AerynOS recipes via GitHub API...');
+    if (!GITHUB_TOKEN) {
+      console.warn('⚠️  No GITHUB_TOKEN set. Using unauthenticated rate limit (60 req/hr).');
+      console.warn('   Set GITHUB_TOKEN env var for 5000 req/hr.');
+    } else {
+      console.log('✓  Using GitHub token for authenticated requests (5000 req/hr).');
+    }
+
+    // 1. Get letter dirs from GitHub API root
+    const rootApi = 'https://api.github.com/repos/aerynOS/recipes/contents';
+    const dirRes = await fetchWithRetry(rootApi);
+    const dirs = (await dirRes.json()) as Array<{ name: string; type: string; url: string }>;
+    const letterDirs = dirs.filter(d => d.type === 'dir' && /^[a-z]$/.test(d.name));
+    console.log(`Found ${letterDirs.length} letter directories\n`);
+
+    let errors = 0;
+
+    // 2. For each letter dir, get package dirs
+    for (const letterDir of letterDirs) {
+      const letter = letterDir.name;
+      console.log(`📁 Processing /${letter}...`);
+
+      let pkgDirs: Array<{ name: string; type: string; url: string }>;
+      try {
+        const pkgRes = await fetchWithRetry(letterDir.url);
+        const all = (await pkgRes.json()) as Array<{ name: string; type: string; url: string }>;
+        pkgDirs = all.filter(d => d.type === 'dir');
+      } catch (e) {
+        console.error(`  ✗ Failed to list /${letter}: ${e}`);
+        errors++;
+        continue;
+      }
+
+      // 3. For each package, fetch stone.yaml directly from raw URL
+      for (const pkgDir of pkgDirs) {
+        const pkgName = pkgDir.name;
+        const rawUrl = `https://raw.githubusercontent.com/aerynOS/recipes/main/${letter}/${pkgName}/stone.yaml`;
+
+        try {
+          await sleep(GITHUB_TOKEN ? 50 : 500);
+
+          const contentRes = await fetchWithRetry(rawUrl);
+          const content = await contentRes.text();
+
+          const pkg = parseStoneYaml(content, pkgName, letter);
+          if (pkg) {
+            pkg.category = inferCategory(pkg);
+            pkg.recipeUrl = `https://github.com/aerynOS/recipes/blob/main/${letter}/${pkg.name}/stone.yaml`;
+            pkg.rawUrl = `https://raw.githubusercontent.com/aerynOS/recipes/main/${letter}/${pkg.name}/stone.yaml`;
+            packages.push(pkg);
+            console.log(`  ✓ ${pkgName} ${pkg.version}-${pkg.release}`);
+          } else {
+            console.warn(`  ✗ ${pkgName}: parse returned null`);
+            errors++;
+          }
+        } catch (e) {
+          console.error(`  ✗ ${pkgName}: ${e}`);
+          errors++;
+        }
+      }
+    }
+
+    packages.sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  // 4. Sort alphabetically by name
-  packages.sort((a, b) => a.name.localeCompare(b.name));
-
-  // 5. Build category stats
-  const categoryCount: Record<string, number> = {};
-  for (const p of packages) {
-    const cat = p.category ?? 'Other';
-    categoryCount[cat] = (categoryCount[cat] ?? 0) + 1;
-  }
-
-  // 6. Write output
+  // Write output
   const output: PackageIndex = {
     packages,
     generatedAt: new Date().toISOString(),
@@ -571,19 +626,12 @@ async function main(): Promise<void> {
     repoUrl: REPO_URL,
   };
 
-  const __dirname = dirname(fileURLToPath(import.meta.url));
-  const outPath = join(__dirname, '..', 'static', 'data', 'packages.json');
   mkdirSync(dirname(outPath), { recursive: true });
   writeFileSync(outPath, JSON.stringify(output, null, 2), 'utf-8');
 
   console.log(`\n✅ Done!`);
   console.log(`   Indexed : ${packages.length} packages`);
-  console.log(`   Errors  : ${errors} (out of ${total} attempted)`);
-  console.log(`   Output  : ${outPath}`);
-  console.log('\nCategory breakdown:');
-  for (const [cat, count] of Object.entries(categoryCount).sort((a, b) => b[1] - a[1])) {
-    console.log(`  ${cat.padEnd(14)}: ${count}`);
-  }
+  console.log(`   Output  : ${outPath}\n`);
 }
 
 if (process.argv[1] && (process.argv[1].endsWith('generate-index.ts') || process.argv[1].endsWith('generate-index.js'))) {

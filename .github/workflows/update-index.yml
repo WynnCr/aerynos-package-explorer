@@ -44,10 +44,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Clone official recipes repository
+        run: git clone --depth 1 https://github.com/aerynOS/recipes.git /tmp/aerynos-recipes
+
       - name: Generate package index
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx tsx scripts/generate-index.ts
+        run: npx tsx scripts/generate-index.ts --local /tmp/aerynos-recipes
 
       - name: Check for changes
         id: check-changes
