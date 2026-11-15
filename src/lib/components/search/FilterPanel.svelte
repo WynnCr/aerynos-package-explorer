@@ -55,6 +55,7 @@
       (filters.license && filters.license !== 'All') ||
       (filters.letter && filters.letter !== 'All') ||
       (filters.toolchain && filters.toolchain !== 'All') ||
+      (filters.channel && filters.channel !== 'all') ||
       sort !== 'relevance'
     )
   );
@@ -96,8 +97,26 @@
       {/if}
     </div>
 
-    <!-- Dropdowns: License, Toolchain, Sort -->
+    <!-- Dropdowns: Channel, License, Toolchain, Sort -->
     <div class="flex flex-wrap items-center gap-2">
+      <!-- Channel Dropdown -->
+      <div class="relative flex items-center">
+        <select
+          value={filters.channel || 'all'}
+          onchange={(e) => {
+            const val = (e.target as HTMLSelectElement).value;
+            filters = { ...filters, channel: val === 'all' ? undefined : (val as any) };
+          }}
+          class="appearance-none rounded-lg border border-[#242836] bg-[#13161d] px-3 py-1.5 pr-7 text-xs text-[#e8eaf0] focus:border-orange-500 focus:outline-none transition cursor-pointer"
+          aria-label="Filter by Channel"
+        >
+          <option value="all">All Channels</option>
+          <option value="unstable">● Unstable (Ready)</option>
+          <option value="volatile">▲ Volatile Only</option>
+        </select>
+        <span class="pointer-events-none absolute right-2 text-[#8891a8] text-[10px]">▼</span>
+      </div>
+
       <!-- License Dropdown -->
       <div class="relative flex items-center">
         <select

@@ -1,6 +1,6 @@
-import type { Package, PackageIndex, SearchFilters, SortOrder } from '$lib/data/types';
+import type { Package, PackageIndex, ChannelStats, SearchFilters, SortOrder } from '$lib/data/types';
 
-export type { SearchFilters, SortOrder };
+export type { SearchFilters, SortOrder, ChannelStats };
 
 /** Global package data store using Svelte 5 runes */
 
@@ -10,6 +10,7 @@ let _error = $state<string | null>(null);
 let _generatedAt = $state<string>('');
 let _totalCount = $state(0);
 let _commitSha = $state<string | undefined>(undefined);
+let _channelStats = $state<ChannelStats | undefined>(undefined);
 
 export const packageStore = {
   get packages() { return _packages; },
@@ -18,6 +19,7 @@ export const packageStore = {
   get generatedAt() { return _generatedAt; },
   get totalCount() { return _totalCount; },
   get commitSha() { return _commitSha; },
+  get channelStats() { return _channelStats; },
 
   async load() {
     _loading = true;
@@ -32,6 +34,7 @@ export const packageStore = {
       _generatedAt = data.generatedAt || '';
       _totalCount = data.totalCount || _packages.length;
       _commitSha = data.commitSha;
+      _channelStats = data.channelStats;
     } catch (e) {
       _error = e instanceof Error ? e.message : 'Unknown error loading packages';
       _packages = [];

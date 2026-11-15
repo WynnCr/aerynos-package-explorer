@@ -4,6 +4,7 @@
   import { installCommand, formatDomain, getBinaryPackages, getDefaultBinaryPackage } from '$lib/utils/format';
   import { copyToClipboard as writeToClipboard } from '$lib/utils/clipboard';
   import PackageCard from '$lib/components/package/PackageCard.svelte';
+  import ChannelBadge from '$lib/components/package/ChannelBadge.svelte';
   import {
     ArrowLeft,
     Copy,
@@ -281,6 +282,8 @@
                 v{pkg.version}-{pkg.release}
               </span>
 
+              <ChannelBadge channel={pkg.channel} size="md" />
+
               {#if pkg.category}
                 <a
                   href="#/categories/{encodeURIComponent(pkg.category)}"
@@ -430,69 +433,78 @@
         </div>
 
         <!-- Repository Channel Availability Callout -->
-        <div class="mt-4 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-xs">
-          <div class="flex items-start gap-3">
-            <div class="rounded-lg bg-amber-500/10 p-2 text-amber-400 shrink-0">
-              <Info class="h-4 w-4" />
-            </div>
-            <div class="space-y-2 flex-1 min-w-0">
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <div class="font-semibold text-amber-300 flex items-center gap-1.5">
-                  <span>Repository Channel Availability</span>
-                  <span class="text-[10px] font-normal text-[#8891a8]">(unstable vs. volatile)</span>
+        {#if pkg.channel === 'volatile'}
+          <div class="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-5 text-xs">
+            <div class="flex items-start gap-3">
+              <div class="rounded-lg bg-amber-500/20 p-2 text-amber-400 shrink-0">
+                <Info class="h-4 w-4" />
+              </div>
+              <div class="space-y-2 flex-1 min-w-0">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <div class="font-semibold text-amber-300 flex items-center gap-1.5 text-sm">
+                    <span>Volatile Staging Repository Only</span>
+                  </div>
+                  <span class="rounded bg-amber-500/20 px-2 py-0.5 text-[10px] font-mono font-semibold text-amber-300 border border-amber-500/40">
+                    Awaiting Unstable Sync
+                  </span>
                 </div>
-                <span class="rounded bg-amber-500/15 px-2 py-0.5 text-[10px] font-mono text-amber-400 border border-amber-500/30">
-                  Upstream Recipes Index
-                </span>
-              </div>
 
-              <p class="text-[#8891a8] leading-relaxed">
-                This website indexes recipes from <span class="font-mono text-[#e8eaf0]">aerynOS/recipes</span>.
-                In AerynOS, all recipes land in the <span class="font-mono text-amber-400 font-semibold">volatile</span> staging stream first before graduating to the default <span class="font-mono text-emerald-400 font-semibold">unstable</span> stream.
-              </p>
+                <p class="text-[#e8eaf0] leading-relaxed">
+                  This package is currently available in the <span class="font-mono text-amber-400 font-semibold">volatile</span> staging stream only and has not yet been synced to the default <span class="font-mono text-emerald-400 font-semibold">unstable</span> channel.
+                </p>
 
-              <div class="text-[#8891a8] leading-relaxed">
-                If <code class="rounded bg-[#0d0f14] px-1.5 py-0.5 font-mono text-orange-400 font-semibold">sudo moss package add {selectedBinary || pkg.name}</code> reports package not found, it is currently staging in <span class="font-mono text-amber-300">volatile</span> and awaiting promotion.
-              </div>
+                <p class="text-[#8891a8] leading-relaxed">
+                  If you run <code class="rounded bg-[#0d0f14] px-1.5 py-0.5 font-mono text-orange-400 font-semibold">sudo moss package add {selectedBinary || pkg.name}</code> on a standard AerynOS installation, moss will report <span class="italic text-rose-300">package not found</span> until you enable the volatile stream.
+                </p>
 
-              <div class="pt-2">
-                <details class="group rounded-lg border border-[#242836] bg-[#0d0f14]/80 p-3">
-                  <summary class="cursor-pointer font-medium text-orange-400 hover:text-orange-300 select-none flex items-center justify-between">
-                    <span>How to enable volatile channel to install this package</span>
-                    <span class="text-[10px] text-[#8891a8] group-open:hidden">Show commands ▾</span>
-                    <span class="text-[10px] text-[#8891a8] hidden group-open:inline">Hide commands ▴</span>
-                  </summary>
-                  <div class="mt-3 space-y-2.5 text-[#8891a8] text-[11px]">
-                    <p>Add the volatile repository stream with high priority using moss:</p>
-                    <div class="relative rounded-lg bg-[#13161d] p-3 font-mono text-xs text-[#e8eaf0] border border-[#242836]">
-                      <div class="space-y-1">
-                        <div><span class="text-orange-400">sudo</span> moss repo add volatile https://cdn.aerynos.dev --root-index channel=main,version=stream/volatile -p 10</div>
-                        <div><span class="text-orange-400">sudo</span> moss repo refresh</div>
-                        <div><span class="text-orange-400">sudo</span> moss package add {selectedBinary || pkg.name}</div>
-                      </div>
+                <div class="pt-2">
+                  <div class="rounded-lg border border-[#242836] bg-[#0d0f14] p-3 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                      <span class="font-semibold text-orange-400 text-xs">How to install from volatile:</span>
                       <button
                         type="button"
                         onclick={() => copyVolatileCommand(selectedBinary || pkg.name)}
-                        class="mt-2.5 inline-flex items-center gap-1.5 rounded bg-orange-500/20 px-2.5 py-1 text-[11px] font-sans font-medium text-orange-300 border border-orange-500/40 hover:bg-orange-500/30 transition"
+                        class="inline-flex items-center gap-1.5 rounded bg-orange-500/20 px-2 py-1 text-[11px] font-medium text-orange-300 border border-orange-500/40 hover:bg-orange-500/30 transition"
                       >
                         {#if copiedVolatileCmd}
                           <Check class="h-3 w-3 text-emerald-400" />
-                          <span class="text-emerald-400">Copied all 3 commands!</span>
+                          <span class="text-emerald-400">Copied!</span>
                         {:else}
                           <Copy class="h-3 w-3" />
                           <span>Copy Commands</span>
                         {/if}
                       </button>
                     </div>
-                    <p class="text-[10px] text-[#8891a8]/80">
-                      Once validated, packages graduate automatically to the standard unstable channel.
-                    </p>
+                    <pre class="overflow-x-auto rounded bg-[#13161d] p-3 font-mono text-xs text-[#e8eaf0] border border-[#242836] leading-relaxed"><code>sudo moss repo add volatile https://cdn.aerynos.dev --root-index channel=main,version=stream/volatile -p 10
+sudo moss repo refresh
+sudo moss package add {selectedBinary || pkg.name}</code></pre>
                   </div>
-                </details>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        {:else}
+          <div class="mt-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-xs">
+            <div class="flex items-start gap-3">
+              <div class="rounded-lg bg-emerald-500/10 p-2 text-emerald-400 shrink-0">
+                <Check class="h-4 w-4" />
+              </div>
+              <div class="space-y-1.5 flex-1 min-w-0">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <div class="font-semibold text-emerald-300 flex items-center gap-1.5">
+                    <span>Available in Unstable (Default Channel)</span>
+                  </div>
+                  <span class="rounded bg-emerald-500/15 px-2 py-0.5 text-[10px] font-mono text-emerald-400 border border-emerald-500/30">
+                    Ready to Install
+                  </span>
+                </div>
+                <p class="text-[#8891a8] leading-relaxed">
+                  This package is part of the standard <span class="font-mono text-emerald-400 font-medium">unstable</span> stream configured on all AerynOS systems. You can install it immediately with <code class="rounded bg-[#0d0f14] px-1.5 py-0.5 font-mono text-orange-400 font-semibold">sudo moss package add {selectedBinary || pkg.name}</code>.
+                </p>
+              </div>
+            </div>
+          </div>
+        {/if}
       </div>
 
       <!-- Navigation Tabs -->

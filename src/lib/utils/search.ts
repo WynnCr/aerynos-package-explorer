@@ -54,6 +54,20 @@ export function filterPackages(packages: Package[], filters: SearchFilters): Pac
       if (tc !== filters.toolchain.toLowerCase()) return false;
     }
 
+    if (filters.channel && filters.channel !== 'all') {
+      if (filters.channel === 'unstable') {
+        // 'unstable' filter matches packages present in the default unstable repository
+        if (pkg.channel !== 'both' && pkg.channel !== 'unstable') return false;
+      } else if (filters.channel === 'volatile') {
+        // 'volatile' filter matches packages exclusively in volatile
+        if (pkg.channel !== 'volatile') return false;
+      } else if (filters.channel === 'both') {
+        if (pkg.channel !== 'both') return false;
+      } else if (filters.channel === 'recipe') {
+        if (pkg.channel !== 'recipe') return false;
+      }
+    }
+
     return true;
   });
 }

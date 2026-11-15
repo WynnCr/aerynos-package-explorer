@@ -4,6 +4,7 @@
   import { highlightMatches } from '$lib/utils/search';
   import { formatDomain, installCommand, getBinaryPackages, getDefaultBinaryPackage } from '$lib/utils/format';
   import { copyToClipboard } from '$lib/utils/clipboard';
+  import ChannelBadge from './ChannelBadge.svelte';
   import {
     Copy,
     Check,
@@ -86,6 +87,8 @@
         v{pkg.version}-{pkg.release}
       </span>
 
+      <ChannelBadge channel={pkg.channel} size="sm" />
+
       {#if pkg.category}
         <span class="hidden sm:inline-block rounded bg-orange-500/10 px-1.5 py-0.5 text-[10px] font-medium text-orange-400 border border-orange-500/20 shrink-0">
           {pkg.category}
@@ -144,6 +147,9 @@
             <span class="rounded bg-[#1a1e28] px-2 py-0.5 font-mono text-[11px] font-medium text-[#8891a8] border border-[#242836]">
               v{pkg.version}-{pkg.release}
             </span>
+
+            <!-- Channel badge -->
+            <ChannelBadge channel={pkg.channel} size="sm" />
 
             <!-- Category badge -->
             {#if pkg.category}

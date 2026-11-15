@@ -19,6 +19,8 @@ import { load as parseYaml } from 'js-yaml';
 // Types (inline — script runs standalone)
 // ============================================================
 
+export type ChannelType = 'both' | 'volatile' | 'unstable' | 'recipe';
+
 export interface Upstream {
   url: string;
   hash: string;
@@ -31,6 +33,7 @@ export interface SubPackage {
   description?: string;
   rundeps?: string[];
   paths?: string[];
+  channel?: ChannelType;
 }
 
 export interface Package {
@@ -59,6 +62,15 @@ export interface Package {
   environment?: string;
   tuning?: string[];
   profiles?: Record<string, unknown>;
+  channel?: ChannelType;
+}
+
+export interface ChannelStats {
+  volatileCount: number;
+  unstableCount: number;
+  volatileOnlyCount: number;
+  bothCount: number;
+  recipeOnlyCount: number;
 }
 
 export interface PackageIndex {
@@ -67,6 +79,7 @@ export interface PackageIndex {
   totalCount: number;
   repoUrl: string;
   commitSha?: string | null;
+  channelStats?: ChannelStats;
 }
 
 // ============================================================
@@ -618,12 +631,76 @@ async function main(): Promise<void> {
     packages.sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  // Load channel availability metadata if static/data/channels.json exists
+  const channelsPath = join(__dirname, '..', 'static', 'data', 'channels.json');
+  let vSet = new Set<string>();
+  let uSet = new Set<string>();
+
+  if (existsSync(channelsPath)) {
+    try {
+      const channelsData = JSON.parse(readFileSync(channelsPath, 'utf-8'));
+      vSet = new Set(channelsData.volatilePackages || []);
+      uSet = new Set(channelsData.unstablePackages || []);
+      console.log(`📡 Loaded channel metadata: ${uSet.size} unstable, ${vSet.size} volatile packages.`);
+    } catch (e) {
+      console.warn('⚠️ Could not parse channels.json:', e);
+    }
+  } else {
+    console.log('ℹ️ static/data/channels.json not found; run scripts/fetch-channels.py to populate.');
+  }
+
+  let bothCount = 0;
+  let volatileOnlyCount = 0;
+  let unstableOnlyCount = 0;
+  let recipeOnlyCount = 0;
+
+  for (const pkg of packages) {
+    const namesToCheck = [pkg.name];
+    if (pkg.packages) {
+      for (const sub of pkg.packages) {
+        namesToCheck.push(sub.name);
+        const inU = uSet.has(sub.name);
+        const inV = vSet.has(sub.name);
+        sub.channel = inU && inV ? 'both' : (inV ? 'volatile' : (inU ? 'unstable' : 'recipe'));
+      }
+    }
+
+    let inUnstable = false;
+    let inVolatile = false;
+
+    for (const n of namesToCheck) {
+      if (uSet.has(n)) inUnstable = true;
+      if (vSet.has(n)) inVolatile = true;
+    }
+
+    if (inUnstable && inVolatile) {
+      pkg.channel = 'both';
+      bothCount++;
+    } else if (inVolatile) {
+      pkg.channel = 'volatile';
+      volatileOnlyCount++;
+    } else if (inUnstable) {
+      pkg.channel = 'unstable';
+      unstableOnlyCount++;
+    } else {
+      pkg.channel = 'recipe';
+      recipeOnlyCount++;
+    }
+  }
+
   // Write output
   const output: PackageIndex = {
     packages,
     generatedAt: new Date().toISOString(),
     totalCount: packages.length,
     repoUrl: REPO_URL,
+    channelStats: {
+      volatileCount: vSet.size,
+      unstableCount: uSet.size,
+      volatileOnlyCount,
+      bothCount,
+      recipeOnlyCount
+    }
   };
 
   mkdirSync(dirname(outPath), { recursive: true });
@@ -631,6 +708,7 @@ async function main(): Promise<void> {
 
   console.log(`\n✅ Done!`);
   console.log(`   Indexed : ${packages.length} packages`);
+  console.log(`   Channels: ${bothCount} both, ${volatileOnlyCount} volatile-only, ${recipeOnlyCount} recipe-only`);
   console.log(`   Output  : ${outPath}\n`);
 }
 

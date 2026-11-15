@@ -41,15 +41,18 @@ jobs:
       - name: Clone latest official recipes
         run: git clone --depth 1 https://github.com/aerynOS/recipes.git /tmp/aerynos-recipes
 
+      - name: Fetch live repository channel metadata
+        run: python3 scripts/fetch-channels.py || echo "Warning: Channel fetch skipped, using existing data"
+
       - name: Generate package index
         run: pnpm exec tsx scripts/generate-index.ts --local /tmp/aerynos-recipes
 
       - name: Commit updated index if changed
         run: |
-          if ! git diff --quiet static/data/packages.json; then
+          if ! git diff --quiet static/data/packages.json static/data/channels.json; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add static/data/packages.json
+            git add static/data/packages.json static/data/channels.json
             PACKAGE_COUNT=$(node -e "const d=require('./static/data/packages.json');console.log(d.totalCount)")
             git commit -m "chore: auto-update package index (${PACKAGE_COUNT} packages) [skip ci]"
             git push

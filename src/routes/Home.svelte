@@ -111,14 +111,32 @@
           <span>Packages</span>
         </div>
 
-        <div class="inline-flex items-center gap-1.5 rounded-lg border border-[#242836] bg-[#13161d] px-3 py-1.5">
-          <Shield class="h-3.5 w-3.5 text-sky-400" />
-          <span class="font-mono font-bold text-[#e8eaf0]">{uniqueLicenses.length}</span>
-          <span>Licenses</span>
-        </div>
+        {#if packageStore.channelStats}
+          <button
+            type="button"
+            onclick={() => { filters = { ...filters, channel: filters.channel === 'unstable' ? undefined : 'unstable' }; }}
+            class="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 transition cursor-pointer {filters.channel === 'unstable' ? 'border-emerald-500 bg-emerald-500/20 text-emerald-200' : 'border-emerald-500/20 bg-emerald-500/5 hover:bg-emerald-500/10'}"
+            title="Click to filter packages ready in unstable"
+          >
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+            <span class="font-mono font-bold text-emerald-400">{packageStore.channelStats.bothCount}</span>
+            <span class="text-emerald-300">in unstable</span>
+          </button>
+
+          <button
+            type="button"
+            onclick={() => { filters = { ...filters, channel: filters.channel === 'volatile' ? undefined : 'volatile' }; }}
+            class="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 transition cursor-pointer {filters.channel === 'volatile' ? 'border-amber-500 bg-amber-500/25 text-amber-200' : 'border-amber-500/25 bg-amber-500/10 hover:bg-amber-500/20'}"
+            title="Click to filter packages currently in volatile staging only"
+          >
+            <span class="h-1.5 w-1.5 rounded-full bg-amber-400"></span>
+            <span class="font-mono font-bold text-amber-400">{packageStore.channelStats.volatileOnlyCount}</span>
+            <span class="text-amber-300">volatile only</span>
+          </button>
+        {/if}
 
         <div class="inline-flex items-center gap-1.5 rounded-lg border border-[#242836] bg-[#13161d] px-3 py-1.5">
-          <Layers class="h-3.5 w-3.5 text-emerald-400" />
+          <Layers class="h-3.5 w-3.5 text-sky-400" />
           <span class="font-mono font-bold text-[#e8eaf0]">{uniqueCategories.length}</span>
           <span>Categories</span>
         </div>
