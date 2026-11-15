@@ -129,6 +129,19 @@
           <span class="font-semibold text-[#e8eaf0]">{packageStore.generatedAt ? formatDate(packageStore.generatedAt) : 'Live'}</span>
         </div>
       </div>
+
+      <!-- Channel Notice Banner -->
+      <div class="mt-3 mx-auto max-w-2xl rounded-xl border border-[#242836] bg-[#0d0f14]/80 px-4 py-2 text-xs text-[#8891a8] flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div class="flex items-center gap-2 text-left">
+          <span class="flex h-2 w-2 rounded-full bg-emerald-400 shrink-0"></span>
+          <span>
+            Indexing official recipes across both <span class="font-mono text-emerald-400">unstable</span> and <span class="font-mono text-amber-400">volatile</span> (staging) streams.
+          </span>
+        </div>
+        <a href="#/about" class="text-orange-400 hover:underline shrink-0 text-[11px] font-medium">
+          Channel guide →
+        </a>
+      </div>
     </div>
   </section>
 

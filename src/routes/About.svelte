@@ -11,8 +11,23 @@
     Server,
     Cpu,
     GitBranch,
-    RefreshCw
+    RefreshCw,
+    Info,
+    Copy,
+    Check
   } from 'lucide-svelte';
+  import { copyToClipboard } from '$lib/utils/clipboard';
+
+  let copied = $state(false);
+
+  async function copyVolatileRepo() {
+    const cmd = `sudo moss repo add volatile https://cdn.aerynos.dev --root-index channel=main,version=stream/volatile -p 10\nsudo moss repo refresh`;
+    const ok = await copyToClipboard(cmd);
+    if (ok) {
+      copied = true;
+      setTimeout(() => copied = false, 2500);
+    }
+  }
 </script>
 
 <div class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8 space-y-12">
@@ -148,6 +163,78 @@
         <p class="leading-relaxed">
           Zero server dependencies. Searches and filters execute locally in milliseconds via Fuse.js with weighted scoring across names, descriptions, and dependencies.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Repository Channels Architecture: Unstable vs. Volatile -->
+  <section class="space-y-6">
+    <div class="flex items-center gap-2">
+      <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
+        <Info class="h-4 w-4" />
+      </div>
+      <div>
+        <h2 class="text-xl font-bold text-[#e8eaf0]">Understanding AerynOS Repository Channels</h2>
+        <p class="text-xs text-[#8891a8]">How software builds, streams, and promotions work in moss and boulder.</p>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border border-[#242836] bg-[#13161d] p-6 space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Default Unstable Channel -->
+        <div class="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-sm font-bold text-emerald-400">stream/unstable</span>
+            <span class="rounded bg-emerald-500/20 px-2 py-0.5 text-[10px] uppercase font-semibold text-emerald-300 border border-emerald-500/30">Default Channel</span>
+          </div>
+          <p class="text-xs text-[#8891a8] leading-relaxed">
+            The standard repository configured out-of-the-box on AerynOS systems. Packages here have successfully compiled, passed initial validation tests, and are guaranteed to have stable ABI dependencies.
+          </p>
+          <div class="rounded-lg bg-[#0d0f14] p-2.5 font-mono text-xs text-[#e8eaf0] border border-[#242836]">
+            <code>sudo moss package add &lt;pkg&gt;</code>
+          </div>
+        </div>
+
+        <!-- Volatile Staging Channel -->
+        <div class="rounded-xl border border-amber-500/20 bg-amber-500/5 p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-sm font-bold text-amber-400">stream/volatile</span>
+            <span class="rounded bg-amber-500/20 px-2 py-0.5 text-[10px] uppercase font-semibold text-amber-300 border border-amber-500/30">Staging Stream</span>
+          </div>
+          <p class="text-xs text-[#8891a8] leading-relaxed">
+            The active staging channel where recipes merged into the upstream git repository land first. If a package (like newly packaged utilities or quick updates) is indexed in this explorer but moss reports not found, it is currently in <code class="text-amber-400 font-mono">volatile</code> awaiting promotion.
+          </p>
+          <div class="rounded-lg bg-[#0d0f14] p-2.5 font-mono text-xs text-[#e8eaf0] border border-[#242836]">
+            <code>moss repo add volatile https://cdn.aerynos.dev ...</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- How to Enable Volatile -->
+      <div class="rounded-xl border border-[#242836] bg-[#0d0f14] p-5 space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h3 class="text-sm font-bold text-[#e8eaf0]">Enabling the Volatile Stream on your AerynOS machine</h3>
+            <p class="text-xs text-[#8891a8] mt-0.5">Run these commands in your terminal to access cutting-edge packages before their unstable graduation:</p>
+          </div>
+          <button
+            type="button"
+            onclick={copyVolatileRepo}
+            class="inline-flex items-center gap-1.5 rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-black hover:bg-orange-400 active:scale-95 transition shrink-0"
+          >
+            {#if copied}
+              <Check class="h-3.5 w-3.5" />
+              <span>Copied!</span>
+            {:else}
+              <Copy class="h-3.5 w-3.5" />
+              <span>Copy Commands</span>
+            {/if}
+          </button>
+        </div>
+
+        <pre class="overflow-x-auto rounded-lg bg-[#13161d] p-3 text-xs font-mono text-[#e8eaf0] border border-[#242836] leading-relaxed"><code>sudo moss repo add volatile https://cdn.aerynos.dev --root-index channel=main,version=stream/volatile -p 10
+sudo moss repo refresh
+sudo moss package add &lt;pkg&gt;</code></pre>
       </div>
     </div>
   </section>

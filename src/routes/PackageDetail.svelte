@@ -20,6 +20,7 @@
     FolderGit2,
     Code2,
     AlertCircle,
+    Info,
     Package as PackageIcon
   } from 'lucide-svelte';
 
@@ -27,49 +28,49 @@
 
   let activeTab = $state<'overview' | 'dependencies' | 'subpackages' | 'build' | 'raw'>('overview');
   let copiedCommand = $state(false);
+  let copiedVolatileCmd = $state(false);
   let copiedHash = $state<string | null>(null);
-  let matchedSubpackage = $state<string | null>(null);
 
-  // Robust package resolution: handles recipe name, subpackage name, or font- prefix alias
-  let pkg = $derived.by(() => {
+  // Pure resolution: handles recipe name, subpackage name, or font- prefix alias without state mutations
+  let resolved = $derived.by(() => {
     const raw = (params?.name || '').toLowerCase().trim();
-    if (!raw) return undefined;
+    if (!raw) return { pkg: undefined, subpackage: null };
 
     // 1. Exact recipe name match
     let found = packageStore.packages.find(p => p.name.toLowerCase() === raw);
     if (found) {
-      matchedSubpackage = null;
-      return found;
+      return { pkg: found, subpackage: null };
     }
 
     // 2. Direct subpackage match (e.g. font-jetbrains-mono-ttf -> font-jetbrains-mono)
     found = packageStore.packages.find(p => p.packages?.some(sub => sub.name.toLowerCase() === raw));
     if (found) {
-      matchedSubpackage = raw;
-      return found;
+      return { pkg: found, subpackage: raw };
     }
 
     // 3. Font prefix aliases: 'jetbrains-mono' -> 'font-jetbrains-mono'
     if (!raw.startsWith('font-')) {
       found = packageStore.packages.find(p => p.name.toLowerCase() === `font-${raw}`);
       if (found) {
-        matchedSubpackage = null;
-        return found;
+        return { pkg: found, subpackage: null };
       }
     } else {
       found = packageStore.packages.find(p => p.name.toLowerCase() === raw.replace(/^font-/, ''));
       if (found) {
-        matchedSubpackage = null;
-        return found;
+        return { pkg: found, subpackage: null };
       }
     }
 
     // 4. Fuzzy search across recipe names and subpackages
-    return packageStore.packages.find(p =>
+    const fuzzy = packageStore.packages.find(p =>
       p.name.toLowerCase().includes(raw) ||
       p.packages?.some(sub => sub.name.toLowerCase().includes(raw))
     );
+    return { pkg: fuzzy, subpackage: null };
   });
+
+  let pkg = $derived(resolved.pkg);
+  let matchedSubpackage = $derived(resolved.subpackage);
 
   let binaryOptions = $derived(pkg ? getBinaryPackages(pkg) : []);
   let selectedBinary = $state<string>('');
@@ -106,6 +107,16 @@
     }
   }
 
+  async function copyVolatileCommand(binaryName?: string) {
+    const target = binaryName || selectedBinary || pkg?.name || 'package';
+    const cmd = `sudo moss repo add volatile https://cdn.aerynos.dev --root-index channel=main,version=stream/volatile -p 10\nsudo moss repo refresh\nsudo moss package add ${target}`;
+    const success = await writeToClipboard(cmd);
+    if (success) {
+      copiedVolatileCmd = true;
+      setTimeout(() => copiedVolatileCmd = false, 2500);
+    }
+  }
+
   async function copyToClipboard(text: string, id: string) {
     const success = await writeToClipboard(text);
     if (success) {
@@ -133,10 +144,13 @@
     lines.push(`name        : ${p.name}`);
     lines.push(`version     : "${p.version}"`);
     lines.push(`release     : ${p.release}`);
-    lines.push(`homepage    : ${p.homepage}`);
-    lines.push(`summary     : ${p.summary}`);
-    lines.push(`description : |`);
-    lines.push(`    ${p.description.replace(/\n/g, '\n    ')}`);
+    lines.push(`homepage    : ${p.homepage || ''}`);
+    lines.push(`summary     : ${p.summary || ''}`);
+    const desc = p.description || p.summary || '';
+    if (desc) {
+      lines.push(`description : |`);
+      lines.push(`    ${desc.replace(/\n/g, '\n    ')}`);
+    }
     
     if (p.license && p.license.length > 0) {
       lines.push(`license     :`);
@@ -148,7 +162,7 @@
     if (p.upstreams && p.upstreams.length > 0) {
       lines.push(`upstreams   :`);
       for (const u of p.upstreams) {
-        lines.push(`    - ${u.url} : ${u.hash}`);
+        lines.push(`    - ${u.url}${u.hash ? ' : ' + u.hash : ''}`);
       }
     }
 
@@ -412,6 +426,71 @@
                 {/each}
               </div>
             {/if}
+          </div>
+        </div>
+
+        <!-- Repository Channel Availability Callout -->
+        <div class="mt-4 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-xs">
+          <div class="flex items-start gap-3">
+            <div class="rounded-lg bg-amber-500/10 p-2 text-amber-400 shrink-0">
+              <Info class="h-4 w-4" />
+            </div>
+            <div class="space-y-2 flex-1 min-w-0">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="font-semibold text-amber-300 flex items-center gap-1.5">
+                  <span>Repository Channel Availability</span>
+                  <span class="text-[10px] font-normal text-[#8891a8]">(unstable vs. volatile)</span>
+                </div>
+                <span class="rounded bg-amber-500/15 px-2 py-0.5 text-[10px] font-mono text-amber-400 border border-amber-500/30">
+                  Upstream Recipes Index
+                </span>
+              </div>
+
+              <p class="text-[#8891a8] leading-relaxed">
+                This website indexes recipes from <span class="font-mono text-[#e8eaf0]">aerynOS/recipes</span>.
+                In AerynOS, all recipes land in the <span class="font-mono text-amber-400 font-semibold">volatile</span> staging stream first before graduating to the default <span class="font-mono text-emerald-400 font-semibold">unstable</span> stream.
+              </p>
+
+              <div class="text-[#8891a8] leading-relaxed">
+                If <code class="rounded bg-[#0d0f14] px-1.5 py-0.5 font-mono text-orange-400 font-semibold">sudo moss package add {selectedBinary || pkg.name}</code> reports package not found, it is currently staging in <span class="font-mono text-amber-300">volatile</span> and awaiting promotion.
+              </div>
+
+              <div class="pt-2">
+                <details class="group rounded-lg border border-[#242836] bg-[#0d0f14]/80 p-3">
+                  <summary class="cursor-pointer font-medium text-orange-400 hover:text-orange-300 select-none flex items-center justify-between">
+                    <span>How to enable volatile channel to install this package</span>
+                    <span class="text-[10px] text-[#8891a8] group-open:hidden">Show commands ▾</span>
+                    <span class="text-[10px] text-[#8891a8] hidden group-open:inline">Hide commands ▴</span>
+                  </summary>
+                  <div class="mt-3 space-y-2.5 text-[#8891a8] text-[11px]">
+                    <p>Add the volatile repository stream with high priority using moss:</p>
+                    <div class="relative rounded-lg bg-[#13161d] p-3 font-mono text-xs text-[#e8eaf0] border border-[#242836]">
+                      <div class="space-y-1">
+                        <div><span class="text-orange-400">sudo</span> moss repo add volatile https://cdn.aerynos.dev --root-index channel=main,version=stream/volatile -p 10</div>
+                        <div><span class="text-orange-400">sudo</span> moss repo refresh</div>
+                        <div><span class="text-orange-400">sudo</span> moss package add {selectedBinary || pkg.name}</div>
+                      </div>
+                      <button
+                        type="button"
+                        onclick={() => copyVolatileCommand(selectedBinary || pkg.name)}
+                        class="mt-2.5 inline-flex items-center gap-1.5 rounded bg-orange-500/20 px-2.5 py-1 text-[11px] font-sans font-medium text-orange-300 border border-orange-500/40 hover:bg-orange-500/30 transition"
+                      >
+                        {#if copiedVolatileCmd}
+                          <Check class="h-3 w-3 text-emerald-400" />
+                          <span class="text-emerald-400">Copied all 3 commands!</span>
+                        {:else}
+                          <Copy class="h-3 w-3" />
+                          <span>Copy Commands</span>
+                        {/if}
+                      </button>
+                    </div>
+                    <p class="text-[10px] text-[#8891a8]/80">
+                      Once validated, packages graduate automatically to the standard unstable channel.
+                    </p>
+                  </div>
+                </details>
+              </div>
+            </div>
           </div>
         </div>
       </div>
