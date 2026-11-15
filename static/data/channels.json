@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-15T12:29:11.735146+00:00",
-  "volatileHistory": "1794732050",
+  "generatedAt": "2026-11-15T13:50:18.929618+00:00",
+  "volatileHistory": "1794750090",
   "unstableHistory": "1794076440",
-  "volatileTotal": 6179,
+  "volatileTotal": 6181,
   "unstableTotal": 6163,
-  "volatileOnlyCount": 16,
+  "volatileOnlyCount": 18,
   "unstableOnlyCount": 0,
   "bothCount": 6163,
   "volatilePackages": [
@@ -937,6 +937,8 @@
     "fcitx5-qt-devel",
     "fcitx5-rime",
     "fcitx5-rime-dbginfo",
+    "fcitx5-unikey",
+    "fcitx5-unikey-dbginfo",
     "fd",
     "fd-dbginfo",
     "fdk-aac",
