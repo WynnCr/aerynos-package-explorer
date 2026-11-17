@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-17T11:59:12.093Z",
+  "generatedAt": "2026-11-17T23:33:24.585Z",
   "totalCount": 1970,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "17b0f6a83b2f31e9e8fc42a308de3bcfab2293c7",
+  "commitSha": "56694fbd47254312ea78a8502ed814e329c98cc5",
   "channelStats": {
     "volatileCount": 6198,
     "unstableCount": 6181,
@@ -7249,8 +7249,8 @@
     },
     {
       "name": "docker-compose",
-      "version": "5.7.1",
-      "release": 30,
+      "version": "5.7.2",
+      "release": 31,
       "homepage": "https://github.com/docker/compose",
       "summary": "Define and run multi-container applications with Docker",
       "description": "Define and run multi-container applications with Docker",
@@ -17426,7 +17426,7 @@
     {
       "name": "helix",
       "version": "25.07.1",
-      "release": 9,
+      "release": 10,
       "homepage": "https://helix-editor.com/",
       "summary": "A post-modern modal text editor.",
       "description": "Helix is a Neovim / Kakoune (object-verb) inspired modal, console-based text editor written in Rust, with built-in support for multiple selections, Language Server Protocol (LSP), tree-sitter, and experimental support for Debug Adapter Protocol (DAP).\n\nNote: If you want to fetch and build grammars yourself, use `CC=clang CXX=clang hx -g build` to build grammars after fetching them with `hx -g fetch`.",
