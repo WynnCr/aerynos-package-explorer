@@ -1,0 +1,7 @@
+# Actions in the workflow are pinned by commit SHA; this opens a PR when a new release is out.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

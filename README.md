@@ -9,8 +9,9 @@ Official resources are at [aerynos.com](https://aerynos.com) and [aerynos.dev](h
 ## How it works
 
 There's no backend. A GitHub Action runs every 4 hours, clones the recipes repo, parses every `stone.yaml`,
-and writes `static/data/packages.json` (plus `channels.json`, which records what's in the unstable
-and volatile streams). The site is a static Svelte app that loads those files and searches them in
+and writes `static/data/packages.json` (the search index), `static/data/details/<letter>.json` (build
+scripts, upstreams and sub-package paths, loaded when you open a package) and `channels.json`, which
+records what's in the unstable and volatile streams). The site is a static Svelte app that loads those files and searches them in
 the browser with Fuse.js.
 
 Two things worth knowing:
@@ -69,6 +70,7 @@ on static hosting).
 
 ## Limits
 
+- Channel labels (unstable / volatile) are read from the x86_64 stream indexes only.
 - The index reflects recipes in git. Whether a package has actually been built for your
   architecture depends on the build farm.
 - Search is fuzzy and loose by design; for exact matches use the letter filter or the recipe repo.

@@ -2,7 +2,7 @@
 /**
  * AerynOS package index generator.
  *
- * Reads every <letter>/<name>/stone.yaml in aerynOS/recipes and writes
+ * Reads every <letter>/<name>/stone.yaml (and typos/<name>/stone.yaml) in aerynOS/recipes and writes
  * static/data/packages.json.
  *
  * Usage:
@@ -21,7 +21,7 @@ import { tmpdir } from 'os';
 import { fileURLToPath } from 'url';
 import { execFileSync } from 'child_process';
 import { load as parseYaml } from 'js-yaml';
-import type { Package, PackageIndex } from '../src/lib/data/types';
+import type { Package, PackageIndex, PackageDetails, DetailsShard } from '../src/lib/data/types';
 
 // ============================================================
 // Config
@@ -38,6 +38,7 @@ const MIN_SIZE_VS_PREVIOUS = 0.95;
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PACKAGES_PATH = join(ROOT, 'static', 'data', 'packages.json');
+const DETAILS_DIR = join(ROOT, 'static', 'data', 'details');
 const CHANNELS_PATH = join(ROOT, 'static', 'data', 'channels.json');
 
 // ============================================================
@@ -52,6 +53,7 @@ export function parseStoneYaml(
   content: string,
   packageName: string,
   letter: string,
+  dir: string = letter, // recipes live in <letter>/ except the misspelled-name ones in typos/
 ): Package | null {
   try {
     const raw = parseYaml(content) as Record<string, unknown>;
@@ -132,13 +134,16 @@ export function parseStoneYaml(
       license,
       upstreams,
       letter,
-      recipeUrl: `${GITHUB_BLOB_BASE}/${letter}/${name}/stone.yaml`,
-      rawUrl: `${RAW_BASE}/${letter}/${name}/stone.yaml`,
+      recipeUrl: `${GITHUB_BLOB_BASE}/${dir}/${name}/stone.yaml`,
+      rawUrl: `${RAW_BASE}/${dir}/${name}/stone.yaml`,
     };
 
     // Optional fields (only add if present / truthy)
     if (Array.isArray(raw.builddeps) && (raw.builddeps as unknown[]).length > 0) {
       pkg.builddeps = (raw.builddeps as unknown[]).map(String);
+    }
+    if (Array.isArray(raw.checkdeps) && (raw.checkdeps as unknown[]).length > 0) {
+      pkg.checkdeps = (raw.checkdeps as unknown[]).map(String);
     }
     if (Array.isArray(raw.rundeps) && (raw.rundeps as unknown[]).length > 0) {
       pkg.rundeps = (raw.rundeps as unknown[]).map(String);
@@ -168,225 +173,51 @@ export function parseStoneYaml(
 // ============================================================
 
 /**
- * Infer a human-readable category from package name, summary, and description.
- * Categories match the UI filter list.
+ * Guess a category for a recipe. This is NOT AerynOS metadata; recipes have no category field.
+ *
+ * Rules run in order and the first match wins. Package names are trusted more than free text,
+ * and free text is only the one-line summary, matched on whole words (the long description is
+ * full of incidental words like "font", "game" or "network" that used to misfile packages).
  */
+type Rule = { category: string; name?: RegExp; summary?: RegExp };
+
+const CATEGORY_RULES: Rule[] = [
+  // --- decided by name ---
+  { category: 'Fonts', name: /^(font-|noto-)|-fonts?$|nerd-font/ },
+  {
+    category: 'Languages',
+    name: /^(python3?|perl|ruby|lua|luajit|nodejs|node|go|golang|rust|java|openjdk(-\d+)?|erlang|elixir|ghc|php|ocaml|zig(-[\d.]+)?|dotnet.*|swift|kotlin|nim|crystal|dmd|ldc|julia|tcl)$|^(python3?|perl|ruby)-/,
+  },
+  { category: 'Libraries', name: /^lib(?!reoffice|virt$|tool$)|^kf[56]-|^qt6?-|-bindings$|^(gtk|gtk4|gtkmm.*|glibmm.*|pangomm.*|cairomm.*|atkmm.*)$|-glib$|-lib$|-sys$/ },
+  { category: 'Games', name: /^(steam|wine|gamemode|lutris|retroarch|supertux|0ad)/ },
+  { category: 'Editors', name: /^(nano|vim|neovim|emacs|helix|cosmic-edit|kate|kwrite|gedit|vscodium|micro|kakoune|neovide|focuswriter|libreoffice)/ },
+  { category: 'Desktop', name: /^(plasma|kwin|kde|gnome|budgie|cosmic|xfce|hypr|sway|wlroots|niri|waybar|mutter|cinnamon|lxqt|xdg-|xorg|wayland|mangowc|dank|quickshell|caffyne|rofi|wofi|foot|alacritty|kitty|ghostty)/ },
+  { category: 'Development', name: /^(gcc|clang|llvm)(-\d+)?$|^(cmake|meson|ninja|make|gdb|lldb|valgrind|autoconf|automake|libtool|bison|flex|gperf|pkgconf|binutils|ccache|bazel.*|just|strace|ltrace|perf|cargo-.*|rust-.*|npm|yarn|pnpm|pahole|debugedit|upx)$/ },
+  { category: 'Security', name: /^(kwallet|gnupg|openssl|openssh|libressl|pam|polkit)/ },
+  { category: 'System', name: /^(systemd|linux-.*|dracut|grub|udev|polkit|dbus)$/ },
+
+  // --- decided by the one-line summary (whole words) ---
+  { category: 'Fonts', summary: /\b(typeface|font|fonts)\b/ },
+  { category: 'Languages', summary: /\b(programming language|interpreter|scripting language|runtime environment|javascript|typescript)\b/ },
+  { category: 'Games', summary: /\b(games?|emulator|arcade|puzzle)\b/ },
+  { category: 'Editors', summary: /\b(text editor|code editor|editor|word processor|ide)\b/ },
+  { category: 'Security', summary: /\b(encryption|cryptograph\w*|passwords?|ssl|tls|gpg|pgp|keyring|firewall|authentication|vulnerabilit\w*|sandbox\w*|polkit|policykit)\b/ },
+  { category: 'Multimedia', summary: /\b(audio|video|music|sound|media|codecs?|encoder|decoder|ffmpeg|gstreamer|pipewire|mp3|opus|hevc|h\.?26[45]|dsp|stereo|subtitles?|speech|pictures|openal)\b/ },
+  { category: 'Graphics', summary: /\b(images?|graphics?|png|jpeg|svg|vector|raster|photos?|paint|icons?|3d|opengl|vulkan|render\w*|ocr|color|colour)\b/ },
+  { category: 'Networking', summary: /\b(network\w*|https?|dns|ssh|ftp|tcp|udp|vpn|wi-?fi|wireless|bluetooth|proxy|web ?server|browser|e-?mail|mail|download\w*|torrent|sync\w*|chat|mastodon|fediverse|rdp|urls?)\b/ },
+  { category: 'Desktop', summary: /\b(desktop|window manager|wayland|compositor|x11|gtk\d?|qt\d?|kde|gnome|plasma|panel|launcher|theme|cursor|workspace|screen|keyboard|tray|calendar|scheduling|contacts|pim|window decorations?)\b/ },
+  { category: 'System', summary: /\b(kernel|systemd|file ?systems?|boot\w*|firmware|hardware|device|printing|cups|accounts?|drivers?|daemon|containers?|oci|virtual\w*|disk|partition\w*|init|udev|d-bus|dbus|pci|usb|scheduler|power|zram|efi|uefi|ebpf|microcode|regulatory|cpus?|fan|laptop|mouse|time ?zone)\b/ },
+  { category: 'Development', summary: /\b(compiler|debugger|build|toolchain|linker|assembler|debug|profil\w*|lint\w*|formatter|generator|bindings|api|sdk|parser|serializ\w*|json|yaml|xml|language server|package manager|macros?|git|protocols?|preprocessor|databases?|sql|markup|hash|algorithm|converter)\b/ },
+  { category: 'Libraries', summary: /\b(library|libraries|framework|toolkit|routines|primitives?)\b/ },
+  { category: 'Utilities', summary: /\b(command-line|command line|cli|terminal|tui|tools?|utility|utilities|viewer|monitor|archiv\w*|compress\w*|search|man pages?|shell|backup|spelling|dotfiles|files|manager|symlink|diff)\b/ },
+];
+
 export function inferCategory(pkg: Package): string {
   const name = pkg.name.toLowerCase();
-  const combined = `${pkg.summary} ${pkg.description}`.toLowerCase();
-
-  // Fonts
-  if (
-    name.startsWith('font-') ||
-    name.includes('noto-') ||
-    name.includes('nerd-font') ||
-    combined.includes('font') ||
-    combined.includes('typeface') ||
-    combined.includes('glyph')
-  )
-    return 'Fonts';
-
-  // Audio / Video / Media
-  if (
-    name.includes('ffmpeg') ||
-    name.includes('gstreamer') ||
-    name.includes('pipewire') ||
-    name.includes('pulseaudio') ||
-    name.includes('alsa') ||
-    name.includes('mpv') ||
-    name.includes('vlc') ||
-    combined.includes('audio') ||
-    combined.includes('video') ||
-    combined.includes('media player') ||
-    combined.includes('codec') ||
-    combined.includes('multimedia') ||
-    combined.includes('sound')
-  )
-    return 'Multimedia';
-
-  // Graphics / Images
-  if (
-    name.includes('mesa') ||
-    name.includes('vulkan') ||
-    name.includes('opengl') ||
-    name.includes('gimp') ||
-    name.includes('inkscape') ||
-    name.includes('blender') ||
-    combined.includes('graphics') ||
-    combined.includes('rendering') ||
-    combined.includes('opengl') ||
-    combined.includes('vulkan') ||
-    combined.includes('image processing') ||
-    combined.includes('gpu')
-  )
-    return 'Graphics';
-
-  // Networking / Internet
-  if (
-    name.includes('curl') ||
-    name.includes('wget') ||
-    name.includes('firefox') ||
-    name.includes('chromium') ||
-    name.includes('nginx') ||
-    name.includes('openssh') ||
-    name.includes('nmap') ||
-    combined.includes('network') ||
-    combined.includes('http') ||
-    combined.includes('ftp') ||
-    combined.includes('web browser') ||
-    combined.includes('internet') ||
-    combined.includes('vpn') ||
-    combined.includes('proxy') ||
-    combined.includes('dns') ||
-    combined.includes('protocol')
-  )
-    return 'Networking';
-
-  // Security / Cryptography
-  if (
-    name.includes('gnupg') ||
-    name.includes('openssl') ||
-    name.includes('ca-certificates') ||
-    name.includes('nss') ||
-    name.includes('gpg') ||
-    name.includes('libsecret') ||
-    combined.includes('security') ||
-    combined.includes('cryptograph') ||
-    combined.includes('ssl') ||
-    combined.includes('tls') ||
-    combined.includes('certificate') ||
-    combined.includes('encryption') ||
-    combined.includes('authentication') ||
-    combined.includes('password')
-  )
-    return 'Security';
-
-  // Desktop / GUI / Wayland / X11
-  if (
-    name.includes('gtk') ||
-    name.includes('qt') ||
-    name.includes('kde') ||
-    name.includes('gnome') ||
-    name.includes('wayland') ||
-    name.includes('xorg') ||
-    name.includes('hypr') ||
-    name.includes('sway') ||
-    name.includes('wlroots') ||
-    combined.includes('wayland') ||
-    combined.includes('desktop') ||
-    combined.includes('window manager') ||
-    combined.includes('compositor') ||
-    combined.includes('display server') ||
-    combined.includes('x11') ||
-    combined.includes('gtk') ||
-    combined.includes('qt')
-  )
-    return 'Desktop';
-
-  // System / Kernel / Low-level
-  if (
-    name.includes('linux') ||
-    name.includes('kernel') ||
-    name.includes('systemd') ||
-    name.includes('glibc') ||
-    name.includes('musl') ||
-    name.includes('udev') ||
-    name.includes('dbus') ||
-    name.includes('busybox') ||
-    combined.includes('kernel') ||
-    combined.includes('system call') ||
-    combined.includes('kernel module') ||
-    combined.includes('init system') ||
-    combined.includes('bootloader') ||
-    combined.includes('firmware')
-  )
-    return 'System';
-
-  // Programming Languages / Runtimes
-  if (
-    name === 'go' ||
-    name === 'rust' ||
-    name === 'python' ||
-    name === 'python3' ||
-    name === 'ruby' ||
-    name === 'nodejs' ||
-    name === 'node' ||
-    name === 'java' ||
-    name === 'perl' ||
-    name === 'lua' ||
-    name === 'erlang' ||
-    name === 'haskell' ||
-    name === 'ghc' ||
-    name.startsWith('python-') ||
-    name.startsWith('python3-') ||
-    name.startsWith('perl-') ||
-    name.startsWith('ruby-') ||
-    combined.includes('programming language') ||
-    combined.includes('runtime environment') ||
-    combined.includes('interpreter')
-  )
-    return 'Languages';
-
-  // Development / Build tools / Libraries
-  if (
-    combined.includes('compiler') ||
-    combined.includes('debugger') ||
-    combined.includes('build system') ||
-    combined.includes('development librar') ||
-    combined.includes('development tool') ||
-    name.includes('cmake') ||
-    name.includes('meson') ||
-    name.includes('ninja') ||
-    name.includes('gcc') ||
-    name.includes('clang') ||
-    name.includes('llvm') ||
-    name.includes('gdb') ||
-    name.includes('valgrind') ||
-    name.includes('make') ||
-    name.includes('-dev') ||
-    name.includes('-devel') ||
-    name.endsWith('-libs') ||
-    combined.includes('library for') ||
-    combined.includes('provides lib') ||
-    combined.includes('development files')
-  )
-    return 'Development';
-
-  // Games
-  if (
-    name.includes('steam') ||
-    name.includes('wine') ||
-    name.includes('gamemode') ||
-    combined.includes('game') ||
-    combined.includes('gaming') ||
-    combined.includes('emulator') ||
-    combined.includes('arcade')
-  )
-    return 'Games';
-
-  // Text editors / IDEs
-  if (
-    name.includes('nano') ||
-    name.includes('vim') ||
-    name.includes('neovim') ||
-    name.includes('emacs') ||
-    name.includes('helix') ||
-    combined.includes('text editor') ||
-    combined.includes('code editor') ||
-    combined.includes('integrated development environment')
-  )
-    return 'Editors';
-
-  // CLI / Utilities
-  if (
-    combined.includes('command-line') ||
-    combined.includes('command line') ||
-    combined.includes('cli tool') ||
-    combined.includes('utility') ||
-    combined.includes('utilities')
-  )
-    return 'Utilities';
-
+  const summary = pkg.summary.toLowerCase();
+  for (const rule of CATEGORY_RULES) {
+    if (rule.name?.test(name) || rule.summary?.test(summary)) return rule.category;
+  }
   return 'Other';
 }
 // ============================================================
@@ -403,6 +234,45 @@ function readJson<T>(path: string): T | null {
   } catch {
     return null;
   }
+}
+
+/**
+ * Split a parsed recipe into what the search page needs (kept in packages.json) and the heavy rest
+ * (build scripts, upstreams, sub-package paths), which goes to details/<letter>.json.
+ */
+export function splitPackage(pkg: Package): { light: Package; details: PackageDetails } {
+  const { upstreams, setup, build, install, check, environment, tuning, profiles, ...light } = pkg;
+  const details: PackageDetails = { upstreams: upstreams ?? [] };
+  if (setup !== undefined) details.setup = setup;
+  if (build !== undefined) details.build = build;
+  if (install !== undefined) details.install = install;
+  if (check !== undefined) details.check = check;
+  if (environment !== undefined) details.environment = environment;
+  if (tuning !== undefined) details.tuning = tuning;
+  if (profiles !== undefined) details.profiles = profiles;
+  if (pkg.packages) {
+    const subs: NonNullable<PackageDetails['subpackages']> = [];
+    light.packages = pkg.packages.map(({ description, paths, ...sub }) => {
+      subs.push(description !== undefined || paths !== undefined
+        ? { ...(description !== undefined && { description }), ...(paths !== undefined && { paths }) }
+        : null);
+      return sub;
+    });
+    if (subs.some(Boolean)) details.subpackages = subs;
+  }
+  return { light, details };
+}
+
+/** Write a file atomically, and only if the content differs. Returns whether it wrote. */
+function writeIfChanged(path: string, text: string): boolean {
+  try {
+    if (readFileSync(path, 'utf-8') === text) return false;
+  } catch { /* missing: write it */ }
+  mkdirSync(dirname(path), { recursive: true });
+  const tmp = `${path}.tmp`;
+  writeFileSync(tmp, text, 'utf-8');
+  renameSync(tmp, path);
+  return true;
 }
 
 function git(cwd: string, ...args: string[]): string | null {
@@ -441,20 +311,23 @@ function run(recipesDir: string, force: boolean): void {
   const packages: Package[] = [];
   const failures: string[] = [];
 
-  for (const letter of 'abcdefghijklmnopqrstuvwxyz') {
-    const letterPath = join(recipesDir, letter);
+  // typos/ holds real, shipped packages whose names are misspelled (oniguurma, uuutils-coreutils, ...)
+  // and can't be renamed; they sit outside the <letter>/ sharding but are installable like any other.
+  for (const dir of [...'abcdefghijklmnopqrstuvwxyz', 'typos']) {
+    const letterPath = join(recipesDir, dir);
     if (!existsSync(letterPath)) continue;
 
     for (const entry of readdirSync(letterPath)) {
       const stonePath = join(letterPath, entry, 'stone.yaml');
       if (!existsSync(stonePath) || !statSync(join(letterPath, entry)).isDirectory()) continue;
       try {
-        const pkg = parseStoneYaml(readFileSync(stonePath, 'utf-8'), entry, letter);
+        const letter = dir === 'typos' ? entry[0].toLowerCase() : dir;
+        const pkg = parseStoneYaml(readFileSync(stonePath, 'utf-8'), entry, letter, dir);
         if (!pkg) throw new Error('parser returned null');
         pkg.category = inferCategory(pkg);
         packages.push(pkg);
       } catch (e) {
-        failures.push(`${letter}/${entry}: ${e instanceof Error ? e.message : e}`);
+        failures.push(`${dir}/${entry}: ${e instanceof Error ? e.message : e}`);
       }
     }
   }
@@ -495,6 +368,13 @@ function run(recipesDir: string, force: boolean): void {
     counts[pkg.channel as keyof typeof counts]++;
   }
 
+  const shards: Record<string, DetailsShard> = {};
+  const lightPackages = packages.map(pkg => {
+    const { light, details } = splitPackage(pkg);
+    (shards[pkg.letter] ??= {})[pkg.name] = details;
+    return light;
+  });
+
   const commitSha = git(recipesDir, 'rev-parse', 'HEAD');
   const body: Omit<PackageIndex, 'generatedAt'> = {
     totalCount: packages.length,
@@ -507,7 +387,7 @@ function run(recipesDir: string, force: boolean): void {
       bothCount: counts.both,
       recipeOnlyCount: counts.recipe,
     },
-    packages,
+    packages: lightPackages,
   };
 
   // generatedAt only moves when the content does, so unchanged data gives an unchanged file.
@@ -515,14 +395,23 @@ function run(recipesDir: string, force: boolean): void {
   const unchanged = previous && JSON.stringify(prevBody) === JSON.stringify(body);
   const output = { generatedAt: unchanged && prevAt ? prevAt : new Date().toISOString(), ...body };
 
-  mkdirSync(dirname(PACKAGES_PATH), { recursive: true });
-  const tmp = `${PACKAGES_PATH}.tmp`;
-  writeFileSync(tmp, JSON.stringify(output, null, 2) + '\n', 'utf-8');
-  renameSync(tmp, PACKAGES_PATH);
+  writeIfChanged(PACKAGES_PATH, JSON.stringify(output, null, 2) + '\n');
+
+  // One compact line per package keeps the files small and the git diffs readable.
+  let shardsWritten = 0;
+  for (const [letter, shard] of Object.entries(shards).sort(([a], [b]) => cmpCodepoint(a, b))) {
+    const lines = Object.keys(shard).sort(cmpCodepoint).map(n => `${JSON.stringify(n)}:${JSON.stringify(shard[n])}`);
+    if (writeIfChanged(join(DETAILS_DIR, `${letter}.json`), `{\n${lines.join(',\n')}\n}\n`)) shardsWritten++;
+  }
+  if (existsSync(DETAILS_DIR)) {
+    for (const f of readdirSync(DETAILS_DIR)) {
+      if (f.endsWith('.json') && !(f.slice(0, -5) in shards)) rmSync(join(DETAILS_DIR, f));
+    }
+  }
 
   console.log(`Indexed ${packages.length} packages (${failures.length} failed) from ${commitSha?.slice(0, 7) ?? 'unknown commit'}.`);
   console.log(`Channels: ${counts.both} both, ${counts.volatile} volatile-only, ${counts.unstable} unstable-only, ${counts.recipe} recipe-only.`);
-  console.log(unchanged ? 'No change from previous index.' : `Wrote ${PACKAGES_PATH}`);
+  console.log(unchanged && shardsWritten === 0 ? 'No change from previous index.' : `Wrote ${PACKAGES_PATH} and ${shardsWritten} detail file(s)`);
 }
 
 if (process.argv[1] && /generate-index\.(ts|js)$/.test(process.argv[1])) {

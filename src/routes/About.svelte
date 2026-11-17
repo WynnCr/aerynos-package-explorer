@@ -107,6 +107,11 @@
     active #true
 &#125;</code></pre>
 
+    <p class="text-sm text-muted">
+      The "both" and "volatile only" labels on this site come from the x86_64 index of each stream.
+      A package that is only built for another architecture would show as not in either stream.
+    </p>
+
     <h3 class="pt-2 font-semibold">From recipe to your machine</h3>
     <ol class="list-decimal space-y-1 pl-5">
       <li>A pull request is merged into <code>aerynOS/recipes</code> and Summit builds it.</li>

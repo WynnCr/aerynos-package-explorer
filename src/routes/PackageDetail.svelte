@@ -1,6 +1,7 @@
 <script lang="ts">
   import { packageStore } from '$lib/stores/packages.svelte';
   import { compareStore } from '$lib/stores/compare.svelte';
+  import type { Package, PackageDetails } from '$lib/data/types';
   import { installCommand, formatDomain, getBinaryPackages, getDefaultBinaryPackage } from '$lib/utils/format';
   import { copyToClipboard as writeToClipboard } from '$lib/utils/clipboard';
   import PackageCard from '$lib/components/package/PackageCard.svelte';
@@ -50,7 +51,38 @@
     return { pkg: fuzzy, subpackage: null };
   });
 
-  let pkg = $derived(resolved.pkg);
+  let light = $derived(resolved.pkg);
+
+  // The index only has what search needs; build scripts, upstreams and sub-package paths come
+  // from a per-letter file, fetched when a package page opens.
+  let details = $state<{ name: string; data: PackageDetails | undefined } | null>(null);
+  let detailsError = $state(false);
+
+  $effect(() => {
+    const target = light;
+    detailsError = false;
+    if (!target) return;
+    let stale = false;
+    packageStore.loadDetails(target).then(
+      data => { if (!stale) details = { name: target.name, data }; },
+      () => { if (!stale) detailsError = true; }
+    );
+    return () => { stale = true; };
+  });
+
+  let detailsReady = $derived(!!light && details?.name === light.name);
+
+  let pkg = $derived.by((): Package | undefined => {
+    if (!light) return undefined;
+    const d = detailsReady ? details!.data : undefined;
+    if (!d) return light;
+    const { subpackages, ...rest } = d;
+    return {
+      ...light,
+      ...rest,
+      packages: light.packages?.map((sub, i) => ({ ...sub, ...subpackages?.[i] })),
+    };
+  });
   let matchedSubpackage = $derived(resolved.subpackage);
 
   let binaryOptions = $derived(pkg ? getBinaryPackages(pkg) : []);
@@ -155,6 +187,13 @@
       lines.push(`builddeps   :`);
       for (const b of p.builddeps) {
         lines.push(`    - ${b}`);
+      }
+    }
+
+    if (p.checkdeps && p.checkdeps.length > 0) {
+      lines.push(`checkdeps   :`);
+      for (const c of p.checkdeps) {
+        lines.push(`    - ${c}`);
       }
     }
 
@@ -333,7 +372,7 @@
 
     <div class="mt-10 flex gap-5 overflow-x-auto border-b border-line no-scrollbar" role="tablist">
       {@render tab('overview', 'Overview')}
-      {@render tab('dependencies', 'Dependencies', (pkg.builddeps?.length || 0) + (pkg.rundeps?.length || 0))}
+      {@render tab('dependencies', 'Dependencies', (pkg.builddeps?.length || 0) + (pkg.checkdeps?.length || 0) + (pkg.rundeps?.length || 0))}
       {#if pkg.packages && pkg.packages.length > 0}
         {@render tab('subpackages', 'Subpackages', pkg.packages.length)}
       {/if}
@@ -354,7 +393,9 @@
 
             <section>
               <h2 class="mb-2 font-semibold">Upstream sources</h2>
-              {#if pkg.upstreams && pkg.upstreams.length > 0}
+              {#if !detailsReady}
+                <p class="text-sm text-muted">{detailsError ? 'Could not load the recipe details.' : 'Loading…'}</p>
+              {:else if pkg.upstreams && pkg.upstreams.length > 0}
                 <ul class="space-y-3">
                   {#each pkg.upstreams as u, i}
                     <li class="text-sm">
@@ -406,6 +447,14 @@
             {/if}
           </section>
 
+          {#if pkg.checkdeps && pkg.checkdeps.length > 0}
+            <section>
+              <h2 class="mb-2 font-semibold">Test only <span class="font-normal text-muted">({pkg.checkdeps.length})</span></h2>
+              <p class="mb-2 text-sm text-muted">Needed to run the test suite during the build.</p>
+              {@render depList(pkg.checkdeps, true)}
+            </section>
+          {/if}
+
           <section>
             <h2 class="mb-2 font-semibold">Runtime <span class="font-normal text-muted">({pkg.rundeps?.length || 0})</span></h2>
             {#if pkg.rundeps && pkg.rundeps.length > 0}
@@ -444,6 +493,9 @@
 
       {#if activeTab === 'build'}
         <div class="space-y-6">
+          {#if !detailsReady}
+            <p class="text-sm text-muted">{detailsError ? 'Could not load the recipe details.' : 'Loading…'}</p>
+          {/if}
           {#each [['environment', pkg.environment], ['setup', pkg.setup], ['build', pkg.build], ['install', pkg.install], ['check', pkg.check]] as [label, body]}
             {#if body}
               <section>
@@ -455,7 +507,11 @@
         </div>
       {/if}
 
-      {#if activeTab === 'raw'}
+      {#if activeTab === 'raw' && !detailsReady}
+        <p class="text-sm text-muted">{detailsError ? 'Could not load the recipe details.' : 'Loading…'}</p>
+      {/if}
+
+      {#if activeTab === 'raw' && detailsReady}
         <div class="space-y-3">
           <p class="flex flex-wrap items-baseline gap-x-5 gap-y-1 text-sm text-muted">
             Rebuilt from the index, so formatting and comments differ from the file in git.

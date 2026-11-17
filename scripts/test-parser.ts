@@ -7,7 +7,7 @@
  */
 
 import { load as parseYaml } from 'js-yaml';
-import { parseStoneYaml, inferCategory } from './generate-index.js';
+import { parseStoneYaml, inferCategory, splitPackage } from './generate-index.js';
 
 // ============================================================
 // Minimal test harness
@@ -312,6 +312,43 @@ section('inferCategory');
 
   const python3 = parseStoneYaml(VERSION_NUMBER_YAML, 'python3', 'p')!;
   check('python3 → Languages', inferCategory(python3), 'Languages');
+
+  // Whole-word matching: "fontconfig" is a library, not a font; "Gamedev" tools aren't games
+  const mk = (name: string, summary: string) => ({ ...nano, name, summary, description: summary });
+  check('libfoo → Libraries', inferCategory(mk('libfoo', 'Does things')), 'Libraries');
+  check('font-x → Fonts', inferCategory(mk('font-x', 'Sans')), 'Fonts');
+  check('summary word, not substring', inferCategory(mk('zzz', 'A fontaine of nonsense')), 'Other');
+  check('description is ignored', inferCategory({ ...mk('zzz', 'Frobnicates'), description: 'a video game about fonts' }), 'Other');
+}
+
+section('splitPackage');
+{
+  const yaml = NANO_YAML + `
+packages:
+  - libx:
+      summary: first
+      paths:
+        - /usr/lib/a.so
+  - libx:
+      summary: second
+      description: dup name on purpose
+`;
+  const full = parseStoneYaml(yaml, 'nano', 'n')!;
+  const { light, details } = splitPackage(JSON.parse(JSON.stringify(full)));
+  checkFalsy('index has no upstreams', (light as any).upstreams);
+  checkTruthy('details has upstreams', Array.isArray(details.upstreams));
+  check('sub-package paths move to details by index', details.subpackages?.[0]?.paths, ['/usr/lib/a.so']);
+  check('duplicate sub-package names stay separate', details.subpackages?.[1]?.description, 'dup name on purpose');
+  check('index keeps sub-package summaries', light.packages?.map(x => x.summary), ['first', 'second']);
+}
+
+section('typos/ and checkdeps');
+{
+  const onig = parseStoneYaml(NANO_YAML, 'oniguurma', 'o', 'typos')!;
+  check('typos recipeUrl', onig.recipeUrl.endsWith('/main/typos/nano/stone.yaml'), true);
+  check('typos keeps letter', onig.letter, 'o');
+  const withCheck = parseStoneYaml(NANO_YAML + '\ncheckdeps:\n  - binary(bash)\n', 'nano', 'n')!;
+  check('checkdeps parsed', withCheck.checkdeps, ['binary(bash)']);
 }
 
 // ============================================================

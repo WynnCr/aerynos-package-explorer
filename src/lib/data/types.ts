@@ -26,18 +26,20 @@ export interface Package {
   summary: string;
   description: string;
   license: string[];  // normalized to array even if single string in YAML
-  upstreams: Upstream[];
   
   // Often present
   builddeps?: string[];
   rundeps?: string[];
+  checkdeps?: string[];   // only needed to run the test suite
   
   // Occasionally present
   toolchain?: string;
   emul32?: boolean;
   packages?: SubPackage[];
   
-  // Build phases (raw text, for display)
+  // Heavy fields. Not in packages.json: they live in data/details/<letter>.json
+  // (see PackageDetails) and are merged in on the package page.
+  upstreams?: Upstream[];
   setup?: string;
   build?: string;
   install?: string;
@@ -53,6 +55,22 @@ export interface Package {
   category?: string;        // inferred category (not official metadata)
   channel?: ChannelType;    // 'both' (in unstable & volatile), 'volatile' (volatile only), 'recipe'
 }
+
+/** What data/details/<letter>.json holds per package name: everything the search page doesn't need. */
+export interface PackageDetails {
+  upstreams: Upstream[];
+  setup?: string;
+  build?: string;
+  install?: string;
+  check?: string;
+  environment?: string;
+  tuning?: string[];
+  profiles?: Record<string, unknown>;
+  /** Parallel to Package.packages (by index: a recipe can list the same sub-package name twice) */
+  subpackages?: ({ description?: string; paths?: string[] } | null)[];
+}
+
+export type DetailsShard = Record<string, PackageDetails>;
 
 export interface ChannelStats {
   volatileCount: number;
