@@ -12,18 +12,17 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
 
 jobs:
   build-and-index:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write   # to commit the refreshed index
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -38,15 +37,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Clone latest official recipes
-        run: git clone --depth 1 https://github.com/aerynOS/recipes.git /tmp/aerynos-recipes
-
       - name: Fetch live repository stream metadata
-        continue-on-error: true
-        run: python3 scripts/fetch-channels.py
+        # Non-fatal: on failure the committed channels.json is kept as is.
+        run: python3 scripts/fetch-channels.py || echo "::warning::channels.json not refreshed"
 
       - name: Generate package index
-        run: pnpm exec tsx scripts/generate-index.ts --local /tmp/aerynos-recipes
+        # Shallow-clones aerynOS/recipes itself and fails if the result looks wrong.
+        run: pnpm generate-index
+
+      - name: Validate dataset
+        run: pnpm validate-dataset
 
       - name: Commit updated index if changed
         run: |
@@ -56,6 +56,7 @@ jobs:
             git add static/data/packages.json static/data/channels.json
             PACKAGE_COUNT=$(node -e "const d=require('./static/data/packages.json');console.log(d.totalCount)")
             git commit -m "chore: auto-update package index (${PACKAGE_COUNT} packages) [skip ci]"
+            git pull --rebase origin "$GITHUB_REF_NAME"
             git push
             echo "Pushed updated package index."
           else
@@ -75,6 +76,9 @@ jobs:
   deploy:
     needs: build-and-index
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

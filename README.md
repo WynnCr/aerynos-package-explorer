@@ -20,6 +20,8 @@ Two things worth knowing:
   can be newer than what `moss` will install. The About page has the details.
 - Categories are guessed from package names and descriptions (see `inferCategory` in
   `src/lib/utils/format.ts`). They aren't aerynOS metadata and some are wrong.
+  `scripts/generate-index.ts`). They aren't AerynOS metadata and some are wrong.
+  Rework the indexer: deterministic output, sanity guards, fewer fake fields
 
 ## Running it locally
 
@@ -40,12 +42,19 @@ Other commands:
 pnpm build            # production build into dist/
 pnpm check            # svelte-check / type check
 pnpm test-parser      # run the stone.yaml parser against fixtures
-pnpm generate-index   # rebuild static/data/packages.json from GitHub
+pnpm generate-index   # rebuild static/data/packages.json
+pnpm validate-dataset # sanity-check the generated files
 ```
 
-`generate-index` uses the GitHub API, which allows 60 requests an hour without a token. Set
-`GITHUB_TOKEN` to get further, or run it against a local clone with
-`pnpm exec tsx scripts/generate-index.ts --local path/to/recipes`, which is what the Action does.
+`generate-index` shallow-clones aerynOS/recipes into a temp directory (needs `git`). To use a
+clone you already have: `pnpm generate-index --local path/to/recipes` or `RECIPES_DIR=...`.
+The output is deterministic, so running it twice on the same commit changes nothing. It refuses
+to write if more than 1% of recipes fail to parse or the index shrinks by more than 5%
+(`--force` overrides the second check).
+
+`python3 scripts/fetch-channels.py` refreshes `static/data/channels.json` (which packages are in
+the unstable and volatile streams, x86_64 only). It needs `libzstd` and network access to
+cdn.aerynos.dev.
 
 ## Deployment
 

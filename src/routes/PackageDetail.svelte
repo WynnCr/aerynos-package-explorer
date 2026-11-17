@@ -384,8 +384,7 @@
               ['Release', String(pkg.release)],
               ['Directory', `recipes/${pkg.letter}/${pkg.name}/`],
               ['Toolchain', pkg.toolchain || 'llvm'],
-              ['emul32', pkg.emul32 ? 'yes' : 'no'],
-              ['Indexed', pkg.indexedAt ? new Date(pkg.indexedAt).toISOString().slice(0, 10) : 'unknown']
+              ['emul32', pkg.emul32 ? 'yes' : 'no']
             ] as [k, v]}
               <div class="flex justify-between gap-3 py-1.5">
                 <dt class="text-muted">{k}</dt>

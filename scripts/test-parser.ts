@@ -205,7 +205,6 @@ section('nano — basic package, license as array');
     checkTruthy('builddeps includes pkgconfig(libmagic)', pkg.builddeps?.includes('pkgconfig(libmagic)'));
     check('recipeUrl contains letter+name', pkg.recipeUrl.includes('/n/nano/stone.yaml'), true);
     check('rawUrl contains letter+name', pkg.rawUrl.includes('/n/nano/stone.yaml'), true);
-    checkTruthy('indexedAt is ISO string', pkg.indexedAt.includes('T'));
     // No sub-packages
     checkFalsy('no sub-packages', pkg.packages?.length);
   }

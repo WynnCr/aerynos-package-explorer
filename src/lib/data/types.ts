@@ -36,7 +36,6 @@ export interface Package {
   toolchain?: string;
   emul32?: boolean;
   packages?: SubPackage[];
-  defaultPackageName?: string;
   
   // Build phases (raw text, for display)
   setup?: string;
@@ -44,17 +43,15 @@ export interface Package {
   install?: string;
   check?: string;
   environment?: string;
-  
+  tuning?: string[];
+  profiles?: Record<string, unknown>;
+
   // Computed by indexer
   letter: string;           // first letter of name (directory shard)
-  recipeUrl: string;        // https://github.com/aerynOS/recipes/blob/main/recipes/<l>/<name>/stone.yaml
-  rawUrl: string;           // https://raw.githubusercontent.com/aerynOS/recipes/main/recipes/<l>/<name>/stone.yaml
+  recipeUrl: string;        // https://github.com/aerynOS/recipes/blob/main/<l>/<name>/stone.yaml
+  rawUrl: string;           // https://raw.githubusercontent.com/aerynOS/recipes/main/<l>/<name>/stone.yaml
   category?: string;        // inferred category (not official metadata)
   channel?: ChannelType;    // 'both' (in unstable & volatile), 'volatile' (volatile only), 'recipe'
-  
-  // Index metadata
-  indexedAt: string;        // ISO timestamp
-  lastModified?: string;    // ISO timestamp from GitHub API if available
 }
 
 export interface ChannelStats {
@@ -62,14 +59,15 @@ export interface ChannelStats {
   unstableCount: number;
   volatileOnlyCount: number;
   bothCount: number;
+  recipeOnlyCount: number;
 }
 
 export interface PackageIndex {
   packages: Package[];
-  generatedAt: string;    // ISO timestamp
+  generatedAt: string;    // ISO timestamp; only moves when the content changes
   totalCount: number;
   repoUrl: string;        // https://github.com/aerynOS/recipes
-  commitSha?: string;     // git commit SHA at time of indexing
+  commitSha?: string;     // aerynOS/recipes commit the index was built from
   channelStats?: ChannelStats;
 }
 
@@ -82,4 +80,4 @@ export interface SearchFilters {
   stream?: StreamType | 'all';
 }
 
-export type SortOrder = 'name-asc' | 'name-desc' | 'recently-updated' | 'recently-added';
+export type SortOrder = 'name-asc' | 'name-desc';

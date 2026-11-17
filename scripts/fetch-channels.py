@@ -16,6 +16,8 @@ from datetime import datetime, timezone
 
 ROOT_INDEX_URL = "https://cdn.aerynos.dev/main/moss-root-index.json"
 OUTPUT_FILE = os.path.join(os.path.dirname(__file__), "..", "static", "data", "channels.json")
+MIN_PACKAGES = 500  # the real streams hold ~2000 names each
+
 
 def load_zstd():
     candidates = [
@@ -38,11 +40,23 @@ class ZSTD_inBuffer(ctypes.Structure):
 class ZSTD_outBuffer(ctypes.Structure):
     _fields_ = [("dst", ctypes.c_void_p), ("size", ctypes.c_size_t), ("pos", ctypes.c_size_t)]
 
+def http_get(req, timeout, attempts=3):
+    """GET with a few retries; the CDN occasionally resets connections."""
+    last = None
+    for i in range(attempts):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return resp.read()
+        except Exception as e:  # noqa: BLE001 - report the last one
+            last = e
+            time.sleep(2 * (i + 1))
+    raise RuntimeError(f"GET {req.full_url} failed after {attempts} attempts: {last}")
+
+
 def parse_stone_index(libzstd, url):
     print(f"Fetching index from {url}...")
     req = urllib.request.Request(url, headers={"User-Agent": "curl/8.0.0"})
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        data = resp.read()
+    data = http_get(req, timeout=30)
 
     ZSTD_createDStream = libzstd.ZSTD_createDStream
     ZSTD_createDStream.restype = ctypes.c_void_p
@@ -96,8 +110,7 @@ def main():
 
     print(f"Reading root index from {ROOT_INDEX_URL}...")
     req = urllib.request.Request(ROOT_INDEX_URL, headers={"User-Agent": "curl/8.0.0"})
-    with urllib.request.urlopen(req, timeout=15) as resp:
-        root_data = json.loads(resp.read().decode())
+    root_data = json.loads(http_get(req, timeout=15).decode())
 
     volatile_history = root_data.get("streams", {}).get("volatile", {}).get("history")
     unstable_history = root_data.get("streams", {}).get("unstable", {}).get("history")
@@ -117,8 +130,14 @@ def main():
     v_set = set(volatile_packages)
     u_set = set(unstable_packages)
 
+    # A truncated download or format change would decode to a handful of names.
+    # Better to fail (and keep the committed file) than to mark everything recipe-only.
+    for label, names in (("volatile", volatile_packages), ("unstable", unstable_packages)):
+        if len(names) < MIN_PACKAGES:
+            print(f"Only {len(names)} {label} packages parsed (expected >= {MIN_PACKAGES}); keeping existing channels.json.", file=sys.stderr)
+            sys.exit(1)
+
     output = {
-        "generatedAt": datetime.now(timezone.utc).isoformat(),
         "volatileHistory": volatile_history,
         "unstableHistory": unstable_history,
         "volatileTotal": len(volatile_packages),
@@ -131,14 +150,32 @@ def main():
     }
 
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+
+    # Only touch the file when the content changed, so the daily job doesn't commit noise.
+    # generatedAt is kept from the old file when nothing else differs.
+    now = datetime.now(timezone.utc).isoformat()
+    try:
+        with open(OUTPUT_FILE, encoding="utf-8") as f:
+            old = json.load(f)
+    except (OSError, ValueError):
+        old = None
+    if old and {k: v for k, v in old.items() if k != "generatedAt"} == output:
+        print("channels.json unchanged.")
+        return
+    output = {"generatedAt": now, **output}
+
+    tmp = OUTPUT_FILE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2)
+        f.write("\n")
+    os.replace(tmp, OUTPUT_FILE)
 
     elapsed = time.time() - start
     print(f"Successfully generated {OUTPUT_FILE} in {elapsed:.2f}s:")
     print(f"  Volatile packages : {len(volatile_packages)}")
     print(f"  Unstable packages : {len(unstable_packages)}")
     print(f"  Volatile-only     : {len(v_set - u_set)}")
+    print(f"  Unstable-only     : {len(u_set - v_set)}")
 
 if __name__ == "__main__":
     main()

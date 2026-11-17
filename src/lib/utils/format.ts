@@ -61,7 +61,6 @@ export function getBinaryPackages(pkg: Package): BinaryPackageOption[] {
  * Get the default binary package name to install for this recipe.
  */
 export function getDefaultBinaryPackage(pkg: Package): string {
-  if (pkg.defaultPackageName) return pkg.defaultPackageName;
   const list = getBinaryPackages(pkg);
   const def = list.find(l => l.isDefault) || list[0];
   return def ? def.name : pkg.name;

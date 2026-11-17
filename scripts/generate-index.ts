@@ -1,151 +1,44 @@
 #!/usr/bin/env node
 /**
- * aerynOS Package Index Generator
+ * AerynOS package index generator.
  *
- * Fetches all package recipes from https://github.com/aerynOS/recipes
- * and generates a static JSON index at static/data/packages.json
+ * Reads every <letter>/<name>/stone.yaml in aerynOS/recipes and writes
+ * static/data/packages.json.
  *
  * Usage:
- *   GITHUB_TOKEN=<token> npx tsx scripts/generate-index.ts
- *   npx tsx scripts/generate-index.ts  # (slower, rate-limited to 60 req/hr)
+ *   pnpm generate-index                      # shallow-clones aerynOS/recipes into a temp dir
+ *   pnpm generate-index --local path/to/recipes
+ *   RECIPES_DIR=path/to/recipes pnpm generate-index
+ *   pnpm generate-index --force              # skip the "index shrank" sanity check
+ *
+ * The output is deterministic: same recipes commit + same channels.json gives
+ * byte-identical files, so CI only commits when something real changed.
  */
 
-import { writeFileSync, mkdirSync, existsSync, readdirSync, statSync, readFileSync } from 'fs';
+import { writeFileSync, renameSync, mkdirSync, mkdtempSync, existsSync, readdirSync, statSync, readFileSync, rmSync } from 'fs';
 import { join, dirname } from 'path';
+import { tmpdir } from 'os';
 import { fileURLToPath } from 'url';
+import { execFileSync } from 'child_process';
 import { load as parseYaml } from 'js-yaml';
-
-// ============================================================
-// Types (inline — script runs standalone)
-// ============================================================
-
-export type ChannelType = 'both' | 'volatile' | 'unstable' | 'recipe';
-
-export interface Upstream {
-  url: string;
-  hash: string;
-  type: 'tarball' | 'git';
-}
-
-export interface SubPackage {
-  name: string;
-  summary?: string;
-  description?: string;
-  rundeps?: string[];
-  paths?: string[];
-  channel?: ChannelType;
-}
-
-export interface Package {
-  name: string;
-  version: string;
-  release: number;
-  homepage: string;
-  summary: string;
-  description: string;
-  license: string[];
-  upstreams: Upstream[];
-  letter: string;
-  recipeUrl: string;
-  rawUrl: string;
-  indexedAt: string;
-  category?: string;
-  builddeps?: string[];
-  rundeps?: string[];
-  toolchain?: string;
-  emul32?: boolean;
-  packages?: SubPackage[];
-  setup?: string;
-  build?: string;
-  install?: string;
-  check?: string;
-  environment?: string;
-  tuning?: string[];
-  profiles?: Record<string, unknown>;
-  channel?: ChannelType;
-}
-
-export interface ChannelStats {
-  volatileCount: number;
-  unstableCount: number;
-  volatileOnlyCount: number;
-  bothCount: number;
-  recipeOnlyCount: number;
-}
-
-export interface PackageIndex {
-  packages: Package[];
-  generatedAt: string;
-  totalCount: number;
-  repoUrl: string;
-  commitSha?: string | null;
-  channelStats?: ChannelStats;
-}
+import type { Package, PackageIndex } from '../src/lib/data/types';
 
 // ============================================================
 // Config
 // ============================================================
 
-const RECIPES_API = 'https://api.github.com/repos/aerynOS/recipes/contents/recipes';
-const RAW_BASE = 'https://raw.githubusercontent.com/aerynOS/recipes/main/recipes';
-const GITHUB_BLOB_BASE = 'https://github.com/aerynOS/recipes/blob/main/recipes';
 const REPO_URL = 'https://github.com/aerynOS/recipes';
+const RAW_BASE = 'https://raw.githubusercontent.com/aerynOS/recipes/main';
+const GITHUB_BLOB_BASE = 'https://github.com/aerynOS/recipes/blob/main';
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const HEADERS: Record<string, string> = {
-  'Accept': 'application/vnd.github.v3+json',
-  'User-Agent': 'aerynos-package-explorer/1.0',
-};
-if (GITHUB_TOKEN) {
-  HEADERS['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
-}
+/** Refuse to write if more than this share of recipes fail to parse. */
+const MAX_FAILURE_RATE = 0.01;
+/** Refuse to write if the new index is smaller than this share of the old one. */
+const MIN_SIZE_VS_PREVIOUS = 0.95;
 
-// ============================================================
-// Helpers
-// ============================================================
-
-const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
-
-/**
- * Fetch a URL with retry logic and GitHub rate-limit handling.
- */
-async function fetchWithRetry(url: string, retries = 3): Promise<Response> {
-  for (let i = 0; i < retries; i++) {
-    const res = await fetch(url, { headers: HEADERS });
-
-    if (res.status === 429 || res.status === 403) {
-      const retryAfterRaw =
-        res.headers.get('Retry-After') ?? res.headers.get('X-RateLimit-Reset');
-      let waitMs: number;
-      if (retryAfterRaw) {
-        const parsed = parseInt(retryAfterRaw, 10);
-        // X-RateLimit-Reset is a Unix timestamp; Retry-After is seconds
-        if (parsed > 1_000_000_000) {
-          // Unix timestamp
-          waitMs = Math.max(0, parsed * 1000 - Date.now()) + 2000;
-        } else {
-          waitMs = parsed * 1000;
-        }
-      } else {
-        waitMs = 60_000 * (i + 1);
-      }
-      console.warn(`Rate limited (${res.status}). Waiting ${Math.round(waitMs / 1000)}s...`);
-      await sleep(waitMs);
-      continue;
-    }
-
-    if (!res.ok) {
-      if (i < retries - 1) {
-        await sleep(2000 * (i + 1));
-        continue;
-      }
-      throw new Error(`HTTP ${res.status} for ${url}`);
-    }
-
-    return res;
-  }
-  throw new Error(`Failed after ${retries} retries: ${url}`);
-}
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const PACKAGES_PATH = join(ROOT, 'static', 'data', 'packages.json');
+const CHANNELS_PATH = join(ROOT, 'static', 'data', 'channels.json');
 
 // ============================================================
 // YAML Parser
@@ -241,7 +134,6 @@ export function parseStoneYaml(
       letter,
       recipeUrl: `${GITHUB_BLOB_BASE}/${letter}/${name}/stone.yaml`,
       rawUrl: `${RAW_BASE}/${letter}/${name}/stone.yaml`,
-      indexedAt: new Date().toISOString(),
     };
 
     // Optional fields (only add if present / truthy)
@@ -497,224 +389,147 @@ export function inferCategory(pkg: Package): string {
 
   return 'Other';
 }
-
 // ============================================================
 // Main Indexer
 // ============================================================
 
-async function main(): Promise<void> {
-  // Check for local directory option: --local <path> or env RECIPES_DIR or auto-detect
+function cmpCodepoint(a: string, b: string): number {
+  return a < b ? -1 : a > b ? 1 : 0;
+}
+
+function readJson<T>(path: string): T | null {
+  try {
+    return JSON.parse(readFileSync(path, 'utf-8')) as T;
+  } catch {
+    return null;
+  }
+}
+
+function git(cwd: string, ...args: string[]): string | null {
+  try {
+    return execFileSync('git', args, { cwd, encoding: 'utf-8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  } catch {
+    return null;
+  }
+}
+
+function main(): void {
   const args = process.argv.slice(2);
-  let localDir: string | undefined;
+  const force = args.includes('--force');
   const localIdx = args.indexOf('--local');
-  if (localIdx !== -1 && args[localIdx + 1]) {
-    localDir = args[localIdx + 1];
-  } else if (process.env.RECIPES_DIR) {
-    localDir = process.env.RECIPES_DIR;
-  } else if (existsSync('/home/amrit/Projects/aerynos-recipes')) {
-    localDir = '/home/amrit/Projects/aerynos-recipes';
+  let recipesDir = localIdx !== -1 ? args[localIdx + 1] : process.env.RECIPES_DIR;
+  let tempClone: string | undefined;
+
+  if (!recipesDir) {
+    tempClone = mkdtempSync(join(tmpdir(), 'aerynos-recipes-'));
+    console.log(`Cloning ${REPO_URL} into ${tempClone}`);
+    execFileSync('git', ['clone', '--depth', '1', '--quiet', REPO_URL, tempClone], { stdio: 'inherit' });
+    recipesDir = tempClone;
+  }
+  if (!existsSync(recipesDir)) {
+    throw new Error(`Recipes directory not found: ${recipesDir}`);
   }
 
+  try {
+    run(recipesDir, force);
+  } finally {
+    if (tempClone) rmSync(tempClone, { recursive: true, force: true });
+  }
+}
+
+function run(recipesDir: string, force: boolean): void {
   const packages: Package[] = [];
-  const __dirname = dirname(fileURLToPath(import.meta.url));
-  const outPath = join(__dirname, '..', 'static', 'data', 'packages.json');
+  const failures: string[] = [];
 
-  if (localDir && existsSync(localDir)) {
-    console.log(`📁 Indexing from local recipes repository: ${localDir}`);
-    const letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
-    const startTime = Date.now();
+  for (const letter of 'abcdefghijklmnopqrstuvwxyz') {
+    const letterPath = join(recipesDir, letter);
+    if (!existsSync(letterPath)) continue;
 
-    for (const letter of letters) {
-      const letterPath = join(localDir, letter);
-      if (!existsSync(letterPath)) continue;
-
-      let entries: string[] = [];
+    for (const entry of readdirSync(letterPath)) {
+      const stonePath = join(letterPath, entry, 'stone.yaml');
+      if (!existsSync(stonePath) || !statSync(join(letterPath, entry)).isDirectory()) continue;
       try {
-        entries = readdirSync(letterPath);
-      } catch {
-        continue;
-      }
-
-      for (const entry of entries) {
-        const pkgDir = join(letterPath, entry);
-        try {
-          if (!statSync(pkgDir).isDirectory()) continue;
-        } catch {
-          continue;
-        }
-
-        const stonePath = join(pkgDir, 'stone.yaml');
-        if (!existsSync(stonePath)) continue;
-
-        try {
-          const content = readFileSync(stonePath, 'utf-8');
-          const pkg = parseStoneYaml(content, entry, letter);
-          if (pkg) {
-            pkg.category = inferCategory(pkg);
-            // Fix recipe and raw URLs to real root pattern (no extra recipes/ prefix)
-            pkg.recipeUrl = `https://github.com/aerynOS/recipes/blob/main/${letter}/${pkg.name}/stone.yaml`;
-            pkg.rawUrl = `https://raw.githubusercontent.com/aerynOS/recipes/main/${letter}/${pkg.name}/stone.yaml`;
-            packages.push(pkg);
-          }
-        } catch (e) {
-          console.warn(`  ✗ ${entry}: parse failed`, e);
-        }
-      }
-    }
-
-    packages.sort((a, b) => a.name.localeCompare(b.name));
-    const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-    console.log(`✓ Indexed ${packages.length} packages from local recipes in ${elapsed}s.`);
-  } else {
-    console.log('🔍 Fetching aerynOS recipes via GitHub API...');
-    if (!GITHUB_TOKEN) {
-      console.warn('⚠️  No GITHUB_TOKEN set. Using unauthenticated rate limit (60 req/hr).');
-      console.warn('   Set GITHUB_TOKEN env var for 5000 req/hr.');
-    } else {
-      console.log('✓  Using GitHub token for authenticated requests (5000 req/hr).');
-    }
-
-    // 1. Get letter dirs from GitHub API root
-    const rootApi = 'https://api.github.com/repos/aerynOS/recipes/contents';
-    const dirRes = await fetchWithRetry(rootApi);
-    const dirs = (await dirRes.json()) as Array<{ name: string; type: string; url: string }>;
-    const letterDirs = dirs.filter(d => d.type === 'dir' && /^[a-z]$/.test(d.name));
-    console.log(`Found ${letterDirs.length} letter directories\n`);
-
-    let errors = 0;
-
-    // 2. For each letter dir, get package dirs
-    for (const letterDir of letterDirs) {
-      const letter = letterDir.name;
-      console.log(`📁 Processing /${letter}...`);
-
-      let pkgDirs: Array<{ name: string; type: string; url: string }>;
-      try {
-        const pkgRes = await fetchWithRetry(letterDir.url);
-        const all = (await pkgRes.json()) as Array<{ name: string; type: string; url: string }>;
-        pkgDirs = all.filter(d => d.type === 'dir');
+        const pkg = parseStoneYaml(readFileSync(stonePath, 'utf-8'), entry, letter);
+        if (!pkg) throw new Error('parser returned null');
+        pkg.category = inferCategory(pkg);
+        packages.push(pkg);
       } catch (e) {
-        console.error(`  ✗ Failed to list /${letter}: ${e}`);
-        errors++;
-        continue;
-      }
-
-      // 3. For each package, fetch stone.yaml directly from raw URL
-      for (const pkgDir of pkgDirs) {
-        const pkgName = pkgDir.name;
-        const rawUrl = `https://raw.githubusercontent.com/aerynOS/recipes/main/${letter}/${pkgName}/stone.yaml`;
-
-        try {
-          await sleep(GITHUB_TOKEN ? 50 : 500);
-
-          const contentRes = await fetchWithRetry(rawUrl);
-          const content = await contentRes.text();
-
-          const pkg = parseStoneYaml(content, pkgName, letter);
-          if (pkg) {
-            pkg.category = inferCategory(pkg);
-            pkg.recipeUrl = `https://github.com/aerynOS/recipes/blob/main/${letter}/${pkg.name}/stone.yaml`;
-            pkg.rawUrl = `https://raw.githubusercontent.com/aerynOS/recipes/main/${letter}/${pkg.name}/stone.yaml`;
-            packages.push(pkg);
-            console.log(`  ✓ ${pkgName} ${pkg.version}-${pkg.release}`);
-          } else {
-            console.warn(`  ✗ ${pkgName}: parse returned null`);
-            errors++;
-          }
-        } catch (e) {
-          console.error(`  ✗ ${pkgName}: ${e}`);
-          errors++;
-        }
+        failures.push(`${letter}/${entry}: ${e instanceof Error ? e.message : e}`);
       }
     }
-
-    packages.sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  // Load channel availability metadata if static/data/channels.json exists
-  const channelsPath = join(__dirname, '..', 'static', 'data', 'channels.json');
-  let vSet = new Set<string>();
-  let uSet = new Set<string>();
+  // Codepoint order, not localeCompare: the result must not depend on the runner's locale.
+  packages.sort((a, b) => cmpCodepoint(a.name, b.name));
 
-  if (existsSync(channelsPath)) {
-    try {
-      const channelsData = JSON.parse(readFileSync(channelsPath, 'utf-8'));
-      vSet = new Set(channelsData.volatilePackages || []);
-      uSet = new Set(channelsData.unstablePackages || []);
-      console.log(`📡 Loaded channel metadata: ${uSet.size} unstable, ${vSet.size} volatile packages.`);
-    } catch (e) {
-      console.warn('⚠️ Could not parse channels.json:', e);
-    }
-  } else {
-    console.log('ℹ️ static/data/channels.json not found; run scripts/fetch-channels.py to populate.');
+  for (const f of failures) console.warn(`  failed ${f}`);
+  const attempted = packages.length + failures.length;
+  if (failures.length > 0 && failures.length / attempted > MAX_FAILURE_RATE) {
+    throw new Error(`${failures.length} of ${attempted} recipes failed to parse; refusing to write the index.`);
   }
 
-  let bothCount = 0;
-  let volatileOnlyCount = 0;
-  let unstableOnlyCount = 0;
-  let recipeOnlyCount = 0;
+  const previous = readJson<PackageIndex>(PACKAGES_PATH);
+  if (!force && previous && packages.length < previous.totalCount * MIN_SIZE_VS_PREVIOUS) {
+    throw new Error(
+      `Index shrank from ${previous.totalCount} to ${packages.length} packages. ` +
+      `Looks like a bad checkout; rerun with --force if this is intended.`
+    );
+  }
 
+  // Which channels each package is in (written by scripts/fetch-channels.py)
+  const channels = readJson<{ volatilePackages?: string[]; unstablePackages?: string[] }>(CHANNELS_PATH);
+  const vSet = new Set(channels?.volatilePackages ?? []);
+  const uSet = new Set(channels?.unstablePackages ?? []);
+  if (!channels) console.warn('static/data/channels.json missing or unreadable; every package will be marked recipe-only.');
+
+  const classify = (names: string[]): Package['channel'] => {
+    const inU = names.some(n => uSet.has(n));
+    const inV = names.some(n => vSet.has(n));
+    return inU && inV ? 'both' : inV ? 'volatile' : inU ? 'unstable' : 'recipe';
+  };
+
+  const counts = { both: 0, volatile: 0, unstable: 0, recipe: 0 };
   for (const pkg of packages) {
-    const namesToCheck = [pkg.name];
-    if (pkg.packages) {
-      for (const sub of pkg.packages) {
-        namesToCheck.push(sub.name);
-        const inU = uSet.has(sub.name);
-        const inV = vSet.has(sub.name);
-        sub.channel = inU && inV ? 'both' : (inV ? 'volatile' : (inU ? 'unstable' : 'recipe'));
-      }
-    }
-
-    let inUnstable = false;
-    let inVolatile = false;
-
-    for (const n of namesToCheck) {
-      if (uSet.has(n)) inUnstable = true;
-      if (vSet.has(n)) inVolatile = true;
-    }
-
-    if (inUnstable && inVolatile) {
-      pkg.channel = 'both';
-      bothCount++;
-    } else if (inVolatile) {
-      pkg.channel = 'volatile';
-      volatileOnlyCount++;
-    } else if (inUnstable) {
-      pkg.channel = 'unstable';
-      unstableOnlyCount++;
-    } else {
-      pkg.channel = 'recipe';
-      recipeOnlyCount++;
-    }
+    for (const sub of pkg.packages ?? []) sub.channel = classify([sub.name]);
+    pkg.channel = classify([pkg.name, ...(pkg.packages ?? []).map(s => s.name)]);
+    counts[pkg.channel as keyof typeof counts]++;
   }
 
-  // Write output
-  const output: PackageIndex = {
-    packages,
-    generatedAt: new Date().toISOString(),
+  const commitSha = git(recipesDir, 'rev-parse', 'HEAD');
+  const body: Omit<PackageIndex, 'generatedAt'> = {
     totalCount: packages.length,
     repoUrl: REPO_URL,
+    commitSha,
     channelStats: {
       volatileCount: vSet.size,
       unstableCount: uSet.size,
-      volatileOnlyCount,
-      bothCount,
-      recipeOnlyCount
-    }
+      volatileOnlyCount: counts.volatile,
+      bothCount: counts.both,
+      recipeOnlyCount: counts.recipe,
+    },
+    packages,
   };
 
-  mkdirSync(dirname(outPath), { recursive: true });
-  writeFileSync(outPath, JSON.stringify(output, null, 2), 'utf-8');
+  // generatedAt only moves when the content does, so unchanged data gives an unchanged file.
+  const { generatedAt: prevAt, ...prevBody } = previous ?? ({} as PackageIndex);
+  const unchanged = previous && JSON.stringify(prevBody) === JSON.stringify(body);
+  const output = { generatedAt: unchanged && prevAt ? prevAt : new Date().toISOString(), ...body };
 
-  console.log(`\n✅ Done!`);
-  console.log(`   Indexed : ${packages.length} packages`);
-  console.log(`   Channels: ${bothCount} both, ${volatileOnlyCount} volatile-only, ${recipeOnlyCount} recipe-only`);
-  console.log(`   Output  : ${outPath}\n`);
+  mkdirSync(dirname(PACKAGES_PATH), { recursive: true });
+  const tmp = `${PACKAGES_PATH}.tmp`;
+  writeFileSync(tmp, JSON.stringify(output, null, 2) + '\n', 'utf-8');
+  renameSync(tmp, PACKAGES_PATH);
+
+  console.log(`Indexed ${packages.length} packages (${failures.length} failed) from ${commitSha?.slice(0, 7) ?? 'unknown commit'}.`);
+  console.log(`Channels: ${counts.both} both, ${counts.volatile} volatile-only, ${counts.unstable} unstable-only, ${counts.recipe} recipe-only.`);
+  console.log(unchanged ? 'No change from previous index.' : `Wrote ${PACKAGES_PATH}`);
 }
 
-if (process.argv[1] && (process.argv[1].endsWith('generate-index.ts') || process.argv[1].endsWith('generate-index.js'))) {
-  main().catch(e => {
-    console.error(e);
+if (process.argv[1] && /generate-index\.(ts|js)$/.test(process.argv[1])) {
+  try {
+    main();
+  } catch (e) {
+    console.error(e instanceof Error ? e.message : e);
     process.exit(1);
-  });
+  }
 }

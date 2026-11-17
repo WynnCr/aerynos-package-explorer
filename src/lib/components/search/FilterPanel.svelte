@@ -154,8 +154,6 @@
           <option value="relevance">relevance</option>
           <option value="name-asc">name, A to Z</option>
           <option value="name-desc">name, Z to A</option>
-          <option value="recently-updated">recently updated</option>
-          <option value="recently-added">recently added</option>
         </select>
       </label>
   </div>

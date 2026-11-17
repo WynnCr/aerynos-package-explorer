@@ -82,20 +82,6 @@ export function sortPackages(packages: Package[], sort: ExtendedSortOrder): Pack
       return result.sort((a, b) => a.name.localeCompare(b.name));
     case 'name-desc':
       return result.sort((a, b) => b.name.localeCompare(a.name));
-    case 'recently-updated':
-      return result.sort((a, b) => {
-        // Compare release number first, then lastModified date if available
-        if (a.lastModified && b.lastModified) {
-          return new Date(b.lastModified).getTime() - new Date(a.lastModified).getTime();
-        }
-        return b.release - a.release;
-      });
-    case 'recently-added':
-      return result.sort((a, b) => {
-        const timeA = a.indexedAt ? new Date(a.indexedAt).getTime() : 0;
-        const timeB = b.indexedAt ? new Date(b.indexedAt).getTime() : 0;
-        return timeB - timeA;
-      });
     case 'relevance':
     default:
       return result;

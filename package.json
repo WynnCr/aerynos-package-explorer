@@ -9,9 +9,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "generate-index": "tsx scripts/generate-index.ts",
-    "index": "tsx scripts/generate-index.ts",
     "test-parser": "tsx scripts/test-parser.ts",
-    "check": "svelte-check --tsconfig ./tsconfig.app.json"
+    "check": "svelte-check --tsconfig ./tsconfig.app.json",
+    "validate-dataset": "tsx scripts/validate-dataset.ts"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
