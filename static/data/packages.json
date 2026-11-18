@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-17T23:33:24.585Z",
+  "generatedAt": "2026-11-18T07:38:57.065Z",
   "totalCount": 1970,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "56694fbd47254312ea78a8502ed814e329c98cc5",
+  "commitSha": "51243da7c95d124427d4de6ef4f5138ed89f90e6",
   "channelStats": {
     "volatileCount": 6198,
     "unstableCount": 6181,
@@ -414,7 +414,7 @@
     {
       "name": "ajantv2-module",
       "version": "18.0.0",
-      "release": 10,
+      "release": 11,
       "homepage": "https://github.com/aja-video/libajantv2",
       "summary": "Kernel module for NTV2 professional video I/O devices",
       "description": "Linux kernel module for discovering, interrogating and controlling NTV2 professional video I/O devices from AJA Video Systems, Inc",
@@ -2111,7 +2111,7 @@
     {
       "name": "bcachefs-module",
       "version": "1.39.7",
-      "release": 71,
+      "release": 72,
       "homepage": "https://bcachefs.org",
       "summary": "bcachefs kernel module",
       "description": "bcachefs kernel module",
@@ -3205,7 +3205,7 @@
     {
       "name": "broadcom-sta-module",
       "version": "6.30.223.271",
-      "release": 32,
+      "release": 33,
       "homepage": "https://www.broadcom.com/support/download-search?pf=Wireless+LAN+Infrastructure",
       "summary": "Broadcoms IEEE 802.11a/b/g/n hybrid Linux device driver",
       "description": "Broadcoms IEEE 802.11a/b/g/n hybrid Linux device driver",
@@ -7249,8 +7249,8 @@
     },
     {
       "name": "docker-compose",
-      "version": "5.7.2",
-      "release": 31,
+      "version": "5.8.0",
+      "release": 32,
       "homepage": "https://github.com/docker/compose",
       "summary": "Define and run multi-container applications with Docker",
       "description": "Define and run multi-container applications with Docker",
@@ -17593,8 +17593,8 @@
     },
     {
       "name": "hugo",
-      "version": "0.170.0",
-      "release": 16,
+      "version": "0.170.1",
+      "release": 17,
       "homepage": "https://gohugo.io/",
       "summary": "Fast and flexible static site generator written in Go",
       "description": "Hugo is a fast and flexible static site generator written in Go\nwith support for Markdown, content management, and site theming.",
@@ -30903,8 +30903,8 @@
     },
     {
       "name": "libnfs",
-      "version": "8.0.0",
-      "release": 5,
+      "version": "8.0.1",
+      "release": 6,
       "homepage": "https://github.com/sahlberg/libnfs",
       "summary": "A client library for accessing NFS shares over a network",
       "description": "LIBNFS offers three different APIs: RAW, NFS ASYNC and NFS SYNC.",
@@ -35473,8 +35473,8 @@
     },
     {
       "name": "linux-gaming",
-      "version": "7.3.4",
-      "release": 53,
+      "version": "7.3.5",
+      "release": 54,
       "homepage": "https://kernel.org/",
       "summary": "The Linux Kernel for handheld systems",
       "description": "The Linux Kernel for gaming systems\n\nThis package provides the Linux Kernel for gaming systems. It is built with\nthe LLVM compiler and the LLD linker, and is configured for gaming systems.",
@@ -35613,8 +35613,8 @@
     },
     {
       "name": "linux-lts",
-      "version": "6.18.63",
-      "release": 50,
+      "version": "6.18.64",
+      "release": 51,
       "homepage": "https://kernel.org/",
       "summary": "The Linux Kernel - LTS",
       "description": "The Linux Kernel - LTS\n\nThis package provides the Linux Kernel. It is built with\nthe LLVM compiler and the LLD linker.",
@@ -35745,8 +35745,8 @@
     },
     {
       "name": "linux-stable",
-      "version": "7.3.4",
-      "release": 76,
+      "version": "7.3.5",
+      "release": 77,
       "homepage": "https://kernel.org/",
       "summary": "The Linux Kernel - Stable",
       "description": "The Linux Kernel - Stable\n\nThis package provides the Linux Kernel. It is built with the LLVM compiler and the LLD linker.",
@@ -35827,8 +35827,8 @@
     },
     {
       "name": "linux-tools",
-      "version": "7.3.4",
-      "release": 57,
+      "version": "7.3.5",
+      "release": 58,
       "homepage": "https://perf.wiki.kernel.org/",
       "summary": "Tools included with the Linux source code",
       "description": "Tools included with the Linux source code",
@@ -35913,8 +35913,8 @@
     },
     {
       "name": "llvm",
-      "version": "23.1.5",
-      "release": 69,
+      "version": "23.1.6",
+      "release": 70,
       "homepage": "https://www.llvm.org",
       "summary": "Low Level Virtual Machine",
       "description": "Low Level Virtual Machine",
@@ -41954,7 +41954,7 @@
     {
       "name": "nvidia-open-gpu-kernel-modules",
       "version": "620.70.06",
-      "release": 145,
+      "release": 146,
       "homepage": "https://github.com/NVIDIA/open-gpu-kernel-modules",
       "summary": "NVIDIA open GPU kernel modules",
       "description": "NVIDIA open GPU kernel modules",
@@ -60984,7 +60984,7 @@
     {
       "name": "v4l2loopback-module",
       "version": "0.15.4",
-      "release": 57,
+      "release": 58,
       "homepage": "https://github.com/umlaeute/v4l2loopback",
       "summary": "V4L2 loopback device (virtual camera)",
       "description": "This module allows you to create virtual video devices. Normal (v4l2) applications\nwill read these devices as if they were ordinary video devices, but the video\nis generated by another application. Perfect for OBS Virtual Camera.",
@@ -65096,7 +65096,7 @@
     {
       "name": "zfs-module",
       "version": "2.4.4",
-      "release": 47,
+      "release": 48,
       "homepage": "https://openzfs.github.io/openzfs-docs/",
       "summary": "An advanced file system and volume manager",
       "description": "An advanced file system and volume manager",
