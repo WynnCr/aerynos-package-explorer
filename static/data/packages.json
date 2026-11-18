@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-18T07:38:57.065Z",
+  "generatedAt": "2026-11-18T17:20:02.980Z",
   "totalCount": 1970,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "51243da7c95d124427d4de6ef4f5138ed89f90e6",
+  "commitSha": "574eea476d958eba0e95fdb63362983c8ea2db2b",
   "channelStats": {
     "volatileCount": 6198,
     "unstableCount": 6181,
@@ -6500,8 +6500,8 @@
     },
     {
       "name": "dav1d",
-      "version": "1.5.4",
-      "release": 6,
+      "version": "1.5.5",
+      "release": 7,
       "homepage": "https://code.videolan.org/videolan/dav1d",
       "summary": "AV1 decoder targeted to be small and fast",
       "description": "dav1d is a new AV1 cross-platform Decoder, open-source, and focused on speed and correctness.",
@@ -10742,8 +10742,8 @@
     },
     {
       "name": "flex",
-      "version": "2.6.15",
-      "release": 13,
+      "version": "2.7.0",
+      "release": 14,
       "homepage": "https://westes.github.io/flex/",
       "summary": "The Fast Lexical Analyzer",
       "description": "The Fast Lexical Analyzer",
@@ -13188,8 +13188,8 @@
     },
     {
       "name": "github-cli",
-      "version": "2.104.0",
-      "release": 25,
+      "version": "2.105.0",
+      "release": 26,
       "homepage": "https://github.com/cli/cli",
       "summary": "GitHub CLI brings GitHub to your terminal",
       "description": "GitHub CLI brings GitHub to your terminal. It reduces context switching,\nhelps you focus, and enables you to more easily script and create your own workflows.",
@@ -17297,8 +17297,8 @@
     },
     {
       "name": "haruna",
-      "version": "1.9.0",
-      "release": 21,
+      "version": "1.9.1",
+      "release": 22,
       "homepage": "https://invent.kde.org/multimedia/haruna/",
       "summary": "Video player built with Qt/QML on top of libmpv",
       "description": "Video player built with Qt/QML on top of libmpv",
@@ -61793,8 +61793,8 @@
     },
     {
       "name": "vscode-bin",
-      "version": "1.146.0",
-      "release": 54,
+      "version": "1.147.0",
+      "release": 55,
       "homepage": "https://code.visualstudio.com/",
       "summary": "Visual Studio Code (vscode) - Editor for building and debugging modern web and cloud applications (official binary version)",
       "description": "Visual Studio Code (vscode) - Editor for building and debugging modern web and cloud applications (official binary version)",
