@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-18T17:20:02.980Z",
+  "generatedAt": "2026-11-19T01:54:27.795Z",
   "totalCount": 1970,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "574eea476d958eba0e95fdb63362983c8ea2db2b",
+  "commitSha": "9513bb209c7b7b630819d3a2f8412fc48d886673",
   "channelStats": {
     "volatileCount": 6198,
     "unstableCount": 6181,
@@ -2342,8 +2342,8 @@
     },
     {
       "name": "bind-utils",
-      "version": "9.20.30",
-      "release": 27,
+      "version": "9.20.31",
+      "release": 28,
       "homepage": "https://www.isc.org/bind/",
       "summary": "Tools to interact with DNS services",
       "description": "BIND (Berkeley Internet Name Domain) is a complete, highly portable\nimplementation of the Domain Name System (DNS) protocol. This package\nincludes client tools like dig & nslookup.",
@@ -9444,7 +9444,7 @@
     {
       "name": "f3",
       "version": "10.0",
-      "release": 5,
+      "release": 6,
       "homepage": "https://github.com/AltraMayor/f3",
       "summary": "Simple tool that tests flash cards capacity and performance to see if they live up to claimed specifications",
       "description": "f3 is a simple tool that tests flash cards capacity and performance to see if they live up to claimed specifications. It fills the device with pseudorandom data and then checks if it returns the same on reading.",
@@ -11179,8 +11179,8 @@
     },
     {
       "name": "fontconfig",
-      "version": "2.18.3",
-      "release": 22,
+      "version": "2.18.4",
+      "release": 23,
       "homepage": "https://www.freedesktop.org/wiki/Software/fontconfig",
       "summary": "Library for configuring and customizing font access",
       "description": "Fontconfig can:\n    - discover new fonts when installed automatically, removing a common source of configuration problems.\n    - perform font name substitution, so that appropriate alternative fonts can be selected if fonts are missing.\n    - identify the set of fonts required to completely cover a set of languages.\n    - have GUI configuration tools built as it uses an XML-based configuration file (though with autodiscovery, we believe this need is minimized).\n    - efficiently and quickly find the fonts you need among the set of fonts you have installed, even if you have installed thousands of fonts, while minimzing memory usage.\n    - be used in concert with the X Render Extension and FreeType to implement high quality, anti-aliased and subpixel rendered text on a display.",
@@ -18124,8 +18124,8 @@
     },
     {
       "name": "hyprutils",
-      "version": "0.14.3",
-      "release": 7,
+      "version": "0.14.4",
+      "release": 8,
       "homepage": "https://github.com/hyprwm/hyprutils",
       "summary": "Small C++ library for the Hypr* ecosystem.",
       "description": "Hyprutils is a small C++ library for utilities used across the Hypr* ecosystem.",
@@ -24862,8 +24862,8 @@
     },
     {
       "name": "kmscon",
-      "version": "10.1.1",
-      "release": 18,
+      "version": "10.1.2",
+      "release": 19,
       "homepage": "https://www.freedesktop.org/wiki/Software/kmscon",
       "summary": "KMS/DRM based virtual Console Emulator",
       "description": "kmscon is a system console for linux. It does not depend on any graphics-server on your system (like X.org), but instead provides a raw console layer that can be used independently. It can replace the linux kernel console entirely but was designed to work well side-by-side, too. Even though initially targeted at providing internationalization to the system-console, it has grown into a fully modularized console layer including features like multi-head support, internationalized font rendering, XKB-compatible keyboard handling, hardware-accelerated graphics access and more.",
@@ -28742,8 +28742,8 @@
     },
     {
       "name": "libfontenc",
-      "version": "1.1.9",
-      "release": 5,
+      "version": "1.1.10",
+      "release": 6,
       "homepage": "https://gitlab.freedesktop.org/xorg/lib/libfontenc",
       "summary": "X font encoding library",
       "description": "X font encoding library",
@@ -29396,8 +29396,8 @@
     },
     {
       "name": "libgtop",
-      "version": "2.41.3",
-      "release": 5,
+      "version": "2.41.4",
+      "release": 6,
       "homepage": "https://gitlab.gnome.org/GNOME/libgtop",
       "summary": "A library for collecting system monitoring data",
       "description": "A library for collecting system monitoring data",
@@ -30282,8 +30282,8 @@
     },
     {
       "name": "libksba",
-      "version": "1.8.1",
-      "release": 6,
+      "version": "1.9.0",
+      "release": 7,
       "homepage": "https://gnupg.org/software/libksba",
       "summary": "Makes working with X.509 certificates, CMS data and related objects more easy",
       "description": "%(name) is a library to make the tasks of working with X.509 certificates, CMS data and related objects more easy. It provides a highlevel interface to the implemented protocols and presents the data in a consistent way. There is no more need to worry about all the nasty details of the protocols.",
@@ -32959,8 +32959,8 @@
     },
     {
       "name": "libsrtp",
-      "version": "2.8.1",
-      "release": 5,
+      "version": "2.8.2",
+      "release": 6,
       "homepage": "https://github.com/cisco/libsrtp",
       "summary": "Secure Real-Time Transport Protocol",
       "description": "This package provides an implementation of the Secure Real-time Transport Protocol (SRTP), the Universal Security Transform (UST), and a supporting cryptographic kernel.",
@@ -32974,6 +32974,9 @@
         "binary(doxygen)",
         "pkgconfig(libcrypto)",
         "pkgconfig(libpcap)"
+      ],
+      "checkdeps": [
+        "binary(ps)"
       ],
       "category": "Libraries",
       "channel": "both"
@@ -34416,8 +34419,8 @@
     },
     {
       "name": "libxfont2",
-      "version": "2.0.9",
-      "release": 5,
+      "version": "2.0.10",
+      "release": 6,
       "homepage": "https://gitlab.freedesktop.org/xorg/lib/libxfont",
       "summary": "X font handling library for server & utilities",
       "description": "X font handling library for server & utilities",
@@ -37564,8 +37567,8 @@
     },
     {
       "name": "lz4",
-      "version": "1.11.0",
-      "release": 6,
+      "version": "1.11.1",
+      "release": 7,
       "homepage": "https://lz4.github.io/lz4",
       "summary": "Extremely fast lossless compression algorithm",
       "description": "LZ4 is lossless compression algorithm, providing compression speed > 500 MB/s per core, scalable with multi-cores CPU. It features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems.",
@@ -38119,8 +38122,8 @@
     },
     {
       "name": "mangowm",
-      "version": "0.18.5",
-      "release": 15,
+      "version": "0.18.6",
+      "release": 16,
       "homepage": "https://github.com/mangowm/mango",
       "summary": "A Wayland compositor with smooth animation",
       "description": "A wayland compositor utilizing wlroots as a base and SceneFX for aesthetics",
@@ -38143,8 +38146,8 @@
     },
     {
       "name": "mariadb",
-      "version": "11.8.9",
-      "release": 9,
+      "version": "11.8.10",
+      "release": 10,
       "homepage": "https://mariadb.org/",
       "summary": "Message Digest functions from BSD systems",
       "description": "MariaDB server is a community developed fork of MySQL server. Started by core members of the original MySQL team, MariaDB actively works with outside developers to deliver the most featureful, stable, and sanely licensed open SQL server in the industry.",
@@ -38169,6 +38172,7 @@
         "pkgconfig(liblzma)",
         "pkgconfig(libpcre2-8)",
         "pkgconfig(libsystemd)",
+        "pkgconfig(liburing)",
         "pkgconfig(libxml-2.0)",
         "pkgconfig(libzstd)",
         "pkgconfig(lzo2)",
@@ -38230,7 +38234,7 @@
           "name": "mariadb-embedded-staticlib",
           "summary": "Development files for %(name)-embedded - Static libraries",
           "rundeps": [
-            "%(name)-devel"
+            "%(name)-embedded-devel"
           ],
           "channel": "both"
         },
@@ -38651,8 +38655,8 @@
     },
     {
       "name": "mesa",
-      "version": "26.3.0",
-      "release": 96,
+      "version": "26.3.1",
+      "release": 97,
       "homepage": "https://mesa3d.org/",
       "summary": "Mesa 3D graphics library",
       "description": "The Mesa project began as an open-source implementation of the OpenGL specification - a system for rendering interactive 3D graphics. Over the years the project has grown to implement more graphics APIs, including OpenGL ES, OpenCL, OpenMAX, VDPAU, VA-API, Vulkan and EGL. A variety of device drivers allows the Mesa libraries to be used in many different environments ranging from software emulation to complete hardware acceleration for modern GPUs. Mesa ties into several other open-source projects: the Direct Rendering Infrastructure, X.org, and Wayland to provide OpenGL support on Linux, FreeBSD, and other operating systems.",
@@ -38818,8 +38822,8 @@
     },
     {
       "name": "mesa-clc",
-      "version": "26.3.0",
-      "release": 51,
+      "version": "26.3.1",
+      "release": 52,
       "homepage": "https://mesa3d.org/",
       "summary": "Tool used for building OpenCL C to SPIR-V",
       "description": "%(name) tool used for building OpenCL C to SPIR-V",
@@ -39108,8 +39112,8 @@
     },
     {
       "name": "mimalloc",
-      "version": "3.6.1",
-      "release": 22,
+      "version": "3.7.0",
+      "release": 23,
       "homepage": "https://github.com/microsoft/mimalloc",
       "summary": "Compact general purpose allocator",
       "description": "mimalloc is a compact general purpose allocator with excellent performance.",
@@ -41898,8 +41902,8 @@
     },
     {
       "name": "nvidia-graphics-driver",
-      "version": "620.70.06",
-      "release": 53,
+      "version": "620.73.04",
+      "release": 54,
       "homepage": "https://www.nvidia.com/",
       "summary": "The proprietary NVIDIA graphics driver",
       "description": "This package provides the NVIDIA graphics driver for desktop systems.",
@@ -41953,8 +41957,8 @@
     },
     {
       "name": "nvidia-open-gpu-kernel-modules",
-      "version": "620.70.06",
-      "release": 146,
+      "version": "620.73.04",
+      "release": 147,
       "homepage": "https://github.com/NVIDIA/open-gpu-kernel-modules",
       "summary": "NVIDIA open GPU kernel modules",
       "description": "NVIDIA open GPU kernel modules",
@@ -44114,8 +44118,8 @@
     },
     {
       "name": "pcsclite",
-      "version": "2.5.3",
-      "release": 11,
+      "version": "2.5.4",
+      "release": 12,
       "homepage": "https://pcsclite.apdu.fr",
       "summary": "PC/SC implementation",
       "description": "PC/SC implementation",
