@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-19T23:05:59.922Z",
+  "generatedAt": "2026-11-20T07:26:04.728Z",
   "totalCount": 1970,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "efd54188af1c96dde9d36cfd581eb6d08c9e19e1",
+  "commitSha": "be99567e775f32d1e782dda41c30fe7dc995dfde",
   "channelStats": {
     "volatileCount": 6198,
     "unstableCount": 6181,
@@ -19468,7 +19468,7 @@
     {
       "name": "jpegxl",
       "version": "0.13.0",
-      "release": 13,
+      "release": 14,
       "homepage": "https://github.com/libjxl/libjxl",
       "summary": "JPEG XL image format reference implementation",
       "description": "JPEG XL image format reference implementation",
@@ -19481,7 +19481,6 @@
       "builddeps": [
         "binary(asciidoc)",
         "binary(doxygen)",
-        "binary(patchelf)",
         "binary(sphinx-build)",
         "pkgconfig(OpenEXR)",
         "pkgconfig(gl)",
