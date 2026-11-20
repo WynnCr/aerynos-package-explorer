@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-20T07:26:04.728Z",
+  "generatedAt": "2026-11-20T17:00:22.001Z",
   "totalCount": 1970,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "be99567e775f32d1e782dda41c30fe7dc995dfde",
+  "commitSha": "8bee4bae43e7f9c4c8f52fb92d0df4062c016464",
   "channelStats": {
     "volatileCount": 6198,
     "unstableCount": 6181,
@@ -2454,8 +2454,8 @@
     },
     {
       "name": "bitwarden",
-      "version": "2026.10.4",
-      "release": 16,
+      "version": "2026.11.0",
+      "release": 17,
       "homepage": "https://bitwarden.com/",
       "summary": "A secure and free password manager for all of your devices",
       "description": "A secure and free password manager for all of your devices",
@@ -6838,8 +6838,8 @@
     },
     {
       "name": "delta",
-      "version": "0.21.1",
-      "release": 6,
+      "version": "0.21.2",
+      "release": 7,
       "homepage": "https://dandavison.github.io/delta/",
       "summary": "A syntax-highlighting pager for git, diff, grep, and blame output",
       "description": "A syntax-highlighting pager for git, diff, grep, and blame output.",
@@ -7230,8 +7230,8 @@
     },
     {
       "name": "docker-buildx",
-      "version": "0.39.0",
-      "release": 25,
+      "version": "0.39.1",
+      "release": 26,
       "homepage": "https://github.com/docker/buildx",
       "summary": "Docker CLI plugin for extended build capabilities with BuildKit",
       "description": "Docker CLI plugin for extended build capabilities with BuildKit",
@@ -10035,8 +10035,8 @@
     },
     {
       "name": "ffmpeg",
-      "version": "9.0.2",
-      "release": 46,
+      "version": "9.1",
+      "release": 47,
       "homepage": "https://ffmpeg.org/releases",
       "summary": "FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video.",
       "description": "FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video.\nIt includes libavcodec - the leading audio/video codec library.",
@@ -38655,7 +38655,7 @@
     {
       "name": "mesa",
       "version": "26.3.1",
-      "release": 97,
+      "release": 98,
       "homepage": "https://mesa3d.org/",
       "summary": "Mesa 3D graphics library",
       "description": "The Mesa project began as an open-source implementation of the OpenGL specification - a system for rendering interactive 3D graphics. Over the years the project has grown to implement more graphics APIs, including OpenGL ES, OpenCL, OpenMAX, VDPAU, VA-API, Vulkan and EGL. A variety of device drivers allows the Mesa libraries to be used in many different environments ranging from software emulation to complete hardware acceleration for modern GPUs. Mesa ties into several other open-source projects: the Direct Rendering Infrastructure, X.org, and Wayland to provide OpenGL support on Linux, FreeBSD, and other operating systems.",
@@ -40643,8 +40643,8 @@
     },
     {
       "name": "neovide",
-      "version": "0.17.2",
-      "release": 6,
+      "version": "0.17.3",
+      "release": 7,
       "homepage": "https://neovide.dev/",
       "summary": "A simple and no-nonsense graphical user interface for Neovim",
       "description": "Neovide is a simple graphical user interface for Neovim (an aggressively refactored and updated Vim editor).\nWhere possible there are some graphical improvements, but functionally it should act like the terminal UI.\nTo checkout all the cool features, installation instructions, configuration settings and much more, head on over to neovide.dev.",
@@ -44530,8 +44530,8 @@
     },
     {
       "name": "php",
-      "version": "8.5.13",
-      "release": 25,
+      "version": "8.6.0",
+      "release": 26,
       "homepage": "https://www.php.net/",
       "summary": "PHP is a popular general-purpose scripting language",
       "description": "PHP is a popular general-purpose scripting language that is especially suited to web development.",
@@ -46680,8 +46680,8 @@
     },
     {
       "name": "pnpm",
-      "version": "12.12.1",
-      "release": 10,
+      "version": "12.22.0",
+      "release": 11,
       "homepage": "https://pnpm.io",
       "summary": "Fast, disk space efficient package manager",
       "description": "Fast, disk space efficient package manager",
@@ -53954,8 +53954,8 @@
     },
     {
       "name": "restic",
-      "version": "0.19.1",
-      "release": 13,
+      "version": "0.20.0",
+      "release": 14,
       "homepage": "https://restic.net",
       "summary": "Fast, secure, efficient backup program",
       "description": "Restic is a program that does backups right and was designed with the following principles in mind: easy, fast, verifiable, secure and efficient.",
@@ -53965,8 +53965,9 @@
       "letter": "r",
       "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/r/restic/stone.yaml",
       "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/r/restic/stone.yaml",
-      "builddeps": [
-        "binary(go)"
+      "checkdeps": [
+        "binary(python)",
+        "binary(tar)"
       ],
       "rundeps": [
         "ca-certificates"
@@ -65047,7 +65048,7 @@
     {
       "name": "zfs",
       "version": "2.4.4",
-      "release": 4,
+      "release": 5,
       "homepage": "https://openzfs.github.io/openzfs-docs/",
       "summary": "An advanced file system and volume manager",
       "description": "An advanced file system and volume manager",
