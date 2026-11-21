@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-21T12:45:51.293Z",
-  "totalCount": 1974,
+  "generatedAt": "2026-11-21T21:41:49.683Z",
+  "totalCount": 1975,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "c3a31306e1794fd8826601892c523877b6908655",
+  "commitSha": "403020bfe3e24ed16c963ae6953b4e4af0e3c271",
   "channelStats": {
-    "volatileCount": 6205,
+    "volatileCount": 6207,
     "unstableCount": 6181,
-    "volatileOnlyCount": 15,
+    "volatileOnlyCount": 16,
     "bothCount": 1959,
     "recipeOnlyCount": 0
   },
@@ -1022,6 +1022,48 @@
       ],
       "category": "Utilities",
       "channel": "both"
+    },
+    {
+      "name": "amberol",
+      "version": "2026.1",
+      "release": 1,
+      "homepage": "https://apps.gnome.org/Amberol/",
+      "summary": "Plays music, and nothing else",
+      "description": "Small and simple sound and music player that is well integrated with GNOME",
+      "license": [
+        "CC-BY-SA-3.0",
+        "CC0-1.0",
+        "GPL-3.0-or-later"
+      ],
+      "letter": "a",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/a/amberol/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/a/amberol/stone.yaml",
+      "builddeps": [
+        "binary(appstreamcli)",
+        "binary(blueprint-compiler)",
+        "binary(cargo)",
+        "binary(m4)",
+        "binary(msgfmt)",
+        "binary(update-desktop-database)",
+        "pkgconfig(dbus-1)",
+        "pkgconfig(glib-2.0)",
+        "pkgconfig(gstreamer-1.0)",
+        "pkgconfig(gstreamer-audio-1.0)",
+        "pkgconfig(gstreamer-bad-audio-1.0)",
+        "pkgconfig(gstreamer-play-1.0)",
+        "pkgconfig(gstreamer-plugins-bad-1.0)",
+        "pkgconfig(gstreamer-plugins-base-1.0)",
+        "pkgconfig(gtk4)",
+        "pkgconfig(libadwaita-1)"
+      ],
+      "rundeps": [
+        "gstreamer-plugin-libav",
+        "gstreamer-plugins-bad",
+        "gstreamer-plugins-good",
+        "gstreamer-plugins-ugly"
+      ],
+      "category": "Multimedia",
+      "channel": "volatile"
     },
     {
       "name": "amdgpu_top",
@@ -9596,8 +9638,8 @@
     },
     {
       "name": "faugus-launcher",
-      "version": "2.5.7",
-      "release": 27,
+      "version": "2.5.9",
+      "release": 28,
       "homepage": "https://github.com/Faugus/faugus-launcher",
       "summary": "A simple and lightweight app for running Windows games using UMU-Launcher",
       "description": "A simple and lightweight app for running Windows games using UMU-Launcher",
@@ -39573,8 +39615,8 @@
     },
     {
       "name": "monado",
-      "version": "25.1.0~git.983a8a51",
-      "release": 5,
+      "version": "25.1.0~git.2b7f5cb",
+      "release": 6,
       "homepage": "https://monado.dev/",
       "summary": "The open source XR runtime",
       "description": "Monado is an open source XR runtime delivering immersive experiences such as VR and AR on mobile, PC/desktop,\nand any other device (because gosh darn people come up with a lot of weird hardware).\nMonado aims to be a complete and conforming implementation of the OpenXR API made by Khronos.\nThe project is primarily developed on GNU/Linux, but also runs on Android and Windows.\n\"Monado\" has no specific meaning and is just a name.",
@@ -41541,8 +41583,8 @@
     },
     {
       "name": "noctalia",
-      "version": "5.5.0",
-      "release": 14,
+      "version": "5.6.0",
+      "release": 15,
       "homepage": "https://github.com/noctalia-dev/noctalia",
       "summary": "A sleek and minimal desktop shell thoughtfully crafted for Wayland",
       "description": "Noctalia is a native Wayland desktop shell providing the shell layer around\nyour compositor: bars, widgets, dock, launcher, control center, notifications,\nwallpaper, lock screen, clipboard history, OSDs and tray integration. Built\ndirectly on Wayland and OpenGL ES with no Qt or GTK dependency.",
@@ -55527,8 +55569,8 @@
     },
     {
       "name": "showtime",
-      "version": "50.0",
-      "release": 5,
+      "version": "50.1",
+      "release": 6,
       "homepage": "https://apps.gnome.org/Showtime/",
       "summary": "Watch without distraction",
       "description": "Play your favorite movies and video files without hassle. Showtime features simple playback controls that fade out of your way when you're watching, fullscreen, adjustable playback speed, multiple language and subtitle tracks, and screenshots — everything you need for a straightforward viewing experience.",
@@ -57104,9 +57146,9 @@
     },
     {
       "name": "superfile",
-      "version": "1.6.0",
-      "release": 2,
-      "homepage": "https://github.com/yorukot/superfile",
+      "version": "1.6.1",
+      "release": 3,
+      "homepage": "https://superfile.dev/",
       "summary": "Pretty fancy and modern terminal file manager",
       "description": "Pretty fancy and modern terminal file manager",
       "license": [
@@ -57115,9 +57157,6 @@
       "letter": "s",
       "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/s/superfile/stone.yaml",
       "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/s/superfile/stone.yaml",
-      "builddeps": [
-        "binary(go)"
-      ],
       "category": "Utilities",
       "channel": "both"
     },
@@ -57656,7 +57695,7 @@
     {
       "name": "system76-scheduler",
       "version": "2.0.2",
-      "release": 7,
+      "release": 8,
       "homepage": "https://github.com/pop-os/system76-scheduler",
       "summary": "Auto-configure process priorities for desktop responsiveness",
       "description": "Auto-configure CFS and process priorities for improved desktop responsiveness",
@@ -57681,7 +57720,7 @@
     {
       "name": "systemd",
       "version": "262.2",
-      "release": 109,
+      "release": 110,
       "homepage": "http://www.freedesktop.org/wiki/Software/systemd",
       "summary": "A System and Service Manager",
       "description": "A System and Service Manager",
@@ -64421,8 +64460,8 @@
     },
     {
       "name": "xrizer",
-      "version": "0.5",
-      "release": 2,
+      "version": "0.6",
+      "release": 3,
       "homepage": "https://github.com/Supreeeme/xrizer",
       "summary": "XR-ize your favorite OpenVR games",
       "description": "xrizer is a reimplementation of OpenVR on top of OpenXR. This enables you to run OpenVR games through any OpenXR runtime without running SteamVR.",
@@ -64433,11 +64472,12 @@
       "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/x/xrizer/stone.yaml",
       "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/x/xrizer/stone.yaml",
       "builddeps": [
-        "binary(cmake)",
         "binary(glslc)",
-        "binary(ninja)",
         "pkgconfig(wayland-client)",
         "pkgconfig(x11)"
+      ],
+      "rundeps": [
+        "soname(libopenxr_loader.so.1(x86_64))"
       ],
       "category": "Games",
       "channel": "both"
@@ -65060,8 +65100,8 @@
     },
     {
       "name": "zed",
-      "version": "1.29.2",
-      "release": 74,
+      "version": "1.29.3",
+      "release": 75,
       "homepage": "https://zed.dev/",
       "summary": "High performance, graphical code editor",
       "description": "Code at the speed of thought – Zed is a high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.",

@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-21T12:45:46.323925+00:00",
-  "volatileHistory": "1795264173",
+  "generatedAt": "2026-11-21T21:41:43.991627+00:00",
+  "volatileHistory": "1795296826",
   "unstableHistory": "1794765090",
-  "volatileTotal": 6205,
+  "volatileTotal": 6207,
   "unstableTotal": 6181,
-  "volatileOnlyCount": 24,
+  "volatileOnlyCount": 26,
   "unstableOnlyCount": 0,
   "bothCount": 6181,
   "volatilePackages": [
@@ -85,6 +85,8 @@
     "alsa-ucm-conf",
     "alsa-utils",
     "alsa-utils-dbginfo",
+    "amberol",
+    "amberol-dbginfo",
     "amdgpu_top",
     "amdgpu_top-dbginfo",
     "aml",
