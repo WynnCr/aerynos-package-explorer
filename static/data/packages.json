@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-21T01:35:14.390Z",
-  "totalCount": 1970,
+  "generatedAt": "2026-11-21T12:45:51.293Z",
+  "totalCount": 1974,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "2b7d4a90e6df876fc1a207c3b2dd56e1d1c64551",
+  "commitSha": "c3a31306e1794fd8826601892c523877b6908655",
   "channelStats": {
-    "volatileCount": 6198,
+    "volatileCount": 6205,
     "unstableCount": 6181,
-    "volatileOnlyCount": 11,
+    "volatileOnlyCount": 15,
     "bothCount": 1959,
     "recipeOnlyCount": 0
   },
@@ -42046,9 +42046,34 @@
       "channel": "both"
     },
     {
+      "name": "nwg-look",
+      "version": "1.2.1",
+      "release": 1,
+      "homepage": "https://nwg-piotr.github.io/nwg-shell/nwg-look",
+      "summary": "GTK settings editor for wlroots-based Wayland environments",
+      "description": "nwg-look is a GTK3 settings editor designed to work natively on\nwlroots-based Wayland compositors. It applies gsettings directly, without\nrequiring Xwayland or compositor-specific workarounds.",
+      "license": [
+        "MIT"
+      ],
+      "letter": "n",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/n/nwg-look/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/n/nwg-look/stone.yaml",
+      "builddeps": [
+        "pkgconfig(gtk+-3.0)"
+      ],
+      "rundeps": [
+        "binary(gsettings)",
+        "binary(xcur2png)",
+        "gsettings-desktop-schemas",
+        "libcanberra-gtk3"
+      ],
+      "category": "Editors",
+      "channel": "volatile"
+    },
+    {
       "name": "obs-studio",
-      "version": "33.0.1",
-      "release": 7,
+      "version": "33.0.2",
+      "release": 8,
       "homepage": "https://github.com/obsproject/obs-studio",
       "summary": "Free and open source software for live streaming and screen recording",
       "description": "OBS Studio is software designed for capturing, compositing, encoding, recording, and streaming video content, efficiently.",
@@ -42060,7 +42085,6 @@
       "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/o/obs-studio/stone.yaml",
       "builddeps": [
         "binary(gio)",
-        "binary(objdump)",
         "binary(swig)",
         "cmake(ECM)",
         "cmake(LibDataChannel)",
@@ -43173,7 +43197,7 @@
     {
       "name": "openssl",
       "version": "4.1.0",
-      "release": 43,
+      "release": 44,
       "homepage": "https://www.openssl.org",
       "summary": "OpenSSL cryptography library",
       "description": "OpenSSL cryptography library.",
@@ -43217,6 +43241,40 @@
       ],
       "category": "Security",
       "channel": "both"
+    },
+    {
+      "name": "openssl3",
+      "version": "3.5.9",
+      "release": 1,
+      "homepage": "https://www.openssl.org",
+      "summary": "OpenSSL cryptography library",
+      "description": "OpenSSL cryptography library.",
+      "license": [
+        "OpenSSL",
+        "SSLeay"
+      ],
+      "letter": "o",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/o/openssl3/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/o/openssl3/stone.yaml",
+      "builddeps": [
+        "binary(perl)",
+        "pkgconfig(libbrotlidec)",
+        "pkgconfig(libzstd)",
+        "pkgconfig(zlib)"
+      ],
+      "packages": [
+        {
+          "name": "openssl3-libs",
+          "summary": "Library files for %(name)",
+          "rundeps": [
+            "soname(libz.so.1(x86_64))",
+            "soname(libzstd.so.1(x86_64))"
+          ],
+          "channel": "volatile"
+        }
+      ],
+      "category": "Security",
+      "channel": "volatile"
     },
     {
       "name": "openvpn",
@@ -46751,6 +46809,31 @@
       ],
       "category": "System",
       "channel": "both"
+    },
+    {
+      "name": "podman-compose",
+      "version": "1.6.0",
+      "release": 1,
+      "homepage": "https://github.com/containers/podman-compose",
+      "summary": "run docker-compose.yml using podman",
+      "description": "An implementation of docker-compose with podman backend. The main objective of this project is to be able to run docker-compose.yml unmodified and rootless.",
+      "license": [
+        "GPL-2.0-only"
+      ],
+      "letter": "p",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/p/podman-compose/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/p/podman-compose/stone.yaml",
+      "builddeps": [
+        "python(pyyaml)",
+        "python(setuptools)"
+      ],
+      "rundeps": [
+        "binary(python)",
+        "python(pyyaml)",
+        "podman"
+      ],
+      "category": "Other",
+      "channel": "volatile"
     },
     {
       "name": "polkit",
@@ -63707,6 +63790,26 @@
       ],
       "category": "Utilities",
       "channel": "both"
+    },
+    {
+      "name": "xcur2png",
+      "version": "0.7.1",
+      "release": 1,
+      "homepage": "https://github.com/eworm-de/xcur2png",
+      "summary": "Convert X cursor files to PNG images",
+      "description": "xcur2png extracts images from Xcursor files and writes them as PNG files.",
+      "license": [
+        "GPL-3.0-or-later"
+      ],
+      "letter": "x",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/x/xcur2png/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/x/xcur2png/stone.yaml",
+      "builddeps": [
+        "pkgconfig(libpng)",
+        "pkgconfig(xcursor)"
+      ],
+      "category": "Graphics",
+      "channel": "volatile"
     },
     {
       "name": "xdg-dbus-proxy",
