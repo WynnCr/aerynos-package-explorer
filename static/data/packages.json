@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-20T17:00:22.001Z",
+  "generatedAt": "2026-11-21T01:35:14.390Z",
   "totalCount": 1970,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "8bee4bae43e7f9c4c8f52fb92d0df4062c016464",
+  "commitSha": "2b7d4a90e6df876fc1a207c3b2dd56e1d1c64551",
   "channelStats": {
     "volatileCount": 6198,
     "unstableCount": 6181,
@@ -10742,8 +10742,8 @@
     },
     {
       "name": "flex",
-      "version": "2.7.0",
-      "release": 14,
+      "version": "2.7.2",
+      "release": 15,
       "homepage": "https://westes.github.io/flex/",
       "summary": "The Fast Lexical Analyzer",
       "description": "The Fast Lexical Analyzer",
@@ -15423,8 +15423,8 @@
     },
     {
       "name": "gpgme",
-      "version": "2.2.0",
-      "release": 10,
+      "version": "2.3.1",
+      "release": 11,
       "homepage": "https://gnupg.org/software/gpgme/index.html",
       "summary": "Library to provide easy access to GnuPG",
       "description": "GnuPG Made Easy (GPGME) is a library designed to make access to GnuPG easier\nfor applications. It provides a High-Level Crypto API for encryption,\ndecryption, signing, signature verification and key management.",
@@ -17228,8 +17228,8 @@
     },
     {
       "name": "harfbuzz",
-      "version": "15.1.0",
-      "release": 45,
+      "version": "15.2.0",
+      "release": 46,
       "homepage": "https://harfbuzz.github.io/",
       "summary": "HarfBuzz text shaping engine",
       "description": "HarfBuzz is a text shaping library. Using the HarfBuzz library allows programs to convert a sequence of Unicode input into properly formatted and positioned glyph output—for any writing system and language.",
@@ -17661,8 +17661,8 @@
     },
     {
       "name": "hwloc",
-      "version": "2.15.0",
-      "release": 9,
+      "version": "2.16.0",
+      "release": 10,
       "homepage": "https://www.open-mpi.org/projects/hwloc/",
       "summary": "Portable Hardware Locality",
       "description": "Portable Hardware Locality - portable abstraction of hierarchical architectures",
@@ -18802,8 +18802,8 @@
     },
     {
       "name": "inputplumber",
-      "version": "0.84.0",
-      "release": 72,
+      "version": "0.85.0",
+      "release": 73,
       "homepage": "https://github.com/ShadowBlip/InputPlumber",
       "summary": "Open source input router and remapper daemon for Linux",
       "description": "InputPlumber is an open source input routing and control daemon for Linux.\nIt can be used to combine any number of input devices (like gamepads, mice, and keyboards)\nand translate their input to a variety of virtual device formats.",
@@ -22234,7 +22234,7 @@
     {
       "name": "kf6-kholidays",
       "version": "6.32.0",
-      "release": 27,
+      "release": 28,
       "homepage": "https://invent.kde.org/frameworks/kholidays",
       "summary": "KDE library for regional holiday information",
       "description": "KDE library for regional holiday information",
@@ -22252,7 +22252,8 @@
         "binary(flex)",
         "cmake(ECM)",
         "cmake(Qt6CorePrivate)",
-        "cmake(Qt6Qml)"
+        "cmake(Qt6Qml)",
+        "pkgconfig(libfl)"
       ],
       "category": "Libraries",
       "channel": "both"
@@ -28474,8 +28475,8 @@
     },
     {
       "name": "libeconf",
-      "version": "0.8.7",
-      "release": 11,
+      "version": "0.8.8",
+      "release": 12,
       "homepage": "https://github.com/openSUSE/libeconf",
       "summary": "Configuration file parser for hermetic systems",
       "description": "Enhanced config file parser, which merges config files placed in several locations into one.",
@@ -28485,9 +28486,6 @@
       "letter": "l",
       "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/l/libeconf/stone.yaml",
       "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/l/libeconf/stone.yaml",
-      "builddeps": [
-        "binary(doxygen)"
-      ],
       "emul32": true,
       "packages": [
         {
@@ -30281,8 +30279,8 @@
     },
     {
       "name": "libksba",
-      "version": "1.9.0",
-      "release": 7,
+      "version": "1.9.1",
+      "release": 8,
       "homepage": "https://gnupg.org/software/libksba",
       "summary": "Makes working with X.509 certificates, CMS data and related objects more easy",
       "description": "%(name) is a library to make the tasks of working with X.509 certificates, CMS data and related objects more easy. It provides a highlevel interface to the implemented protocols and presents the data in a consistent way. There is no more need to worry about all the nasty details of the protocols.",
@@ -30712,8 +30710,8 @@
     },
     {
       "name": "libmicrohttpd",
-      "version": "1.0.10",
-      "release": 13,
+      "version": "1.0.11",
+      "release": 14,
       "homepage": "https://www.gnu.org/software/libmicrohttpd",
       "summary": "C library supposed to make it easy to run an embedded HTTP server",
       "description": "GNU libmicrohttpd is a small C library that is supposed to make it easy to run an HTTP server as part of another application. GNU Libmicrohttpd is free software and part of the GNU project.",
@@ -61443,8 +61441,8 @@
     },
     {
       "name": "virtiofsd",
-      "version": "1.14.0",
-      "release": 4,
+      "version": "1.15.0",
+      "release": 5,
       "homepage": "https://gitlab.com/virtio-fs/virtiofsd",
       "summary": "Vhost-user virtio-fs device backend",
       "description": "Vhost-user virtio-fs device backend written in Rust",
