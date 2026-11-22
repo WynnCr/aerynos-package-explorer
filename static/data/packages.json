@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-21T21:41:49.683Z",
+  "generatedAt": "2026-11-22T16:21:24.619Z",
   "totalCount": 1975,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "403020bfe3e24ed16c963ae6953b4e4af0e3c271",
+  "commitSha": "36acb8ba6b537929d00ed2547616737119bd488b",
   "channelStats": {
     "volatileCount": 6207,
     "unstableCount": 6181,
@@ -8060,8 +8060,8 @@
     },
     {
       "name": "easyeffects",
-      "version": "8.3.2",
-      "release": 36,
+      "version": "8.3.3",
+      "release": 37,
       "homepage": "https://wwmm.github.io/easyeffects/",
       "summary": "Audio effects for PipeWire applications",
       "description": "Limiter, compressor, convolver, equalizer and auto volume and many other plugins for PipeWire applications",
@@ -55569,8 +55569,8 @@
     },
     {
       "name": "showtime",
-      "version": "50.1",
-      "release": 6,
+      "version": "50.1.1",
+      "release": 7,
       "homepage": "https://apps.gnome.org/Showtime/",
       "summary": "Watch without distraction",
       "description": "Play your favorite movies and video files without hassle. Showtime features simple playback controls that fade out of your way when you're watching, fullscreen, adjustable playback speed, multiple language and subtitle tracks, and screenshots — everything you need for a straightforward viewing experience.",
