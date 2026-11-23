@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-11-22T16:21:24.619Z",
+  "generatedAt": "2026-11-23T00:56:55.023Z",
   "totalCount": 1975,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "36acb8ba6b537929d00ed2547616737119bd488b",
+  "commitSha": "57d8c57ff36470bd764952a2a6d7e923699c6fbf",
   "channelStats": {
     "volatileCount": 6207,
-    "unstableCount": 6181,
-    "volatileOnlyCount": 16,
-    "bothCount": 1959,
+    "unstableCount": 6207,
+    "volatileOnlyCount": 0,
+    "bothCount": 1975,
     "recipeOnlyCount": 0
   },
   "packages": [
@@ -1063,7 +1063,7 @@
         "gstreamer-plugins-ugly"
       ],
       "category": "Multimedia",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "amdgpu_top",
@@ -13211,8 +13211,8 @@
     },
     {
       "name": "gitea-cli",
-      "version": "1.2.0",
-      "release": 3,
+      "version": "2.0.0",
+      "release": 4,
       "homepage": "https://gitea.com/gitea/cli",
       "summary": "The official command line tool for Gitea",
       "description": "The official command line tool for Gitea, replaces tea. The binary is called gt",
@@ -30744,11 +30744,11 @@
           "rundeps": [
             "pkgconfig(zlib)"
           ],
-          "channel": "volatile"
+          "channel": "both"
         }
       ],
       "category": "Libraries",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "libmicrohttpd",
@@ -32612,8 +32612,8 @@
     },
     {
       "name": "libseccomp",
-      "version": "2.6.1",
-      "release": 7,
+      "version": "2.6.2",
+      "release": 8,
       "homepage": "https://github.com/seccomp/libseccomp",
       "summary": "High level interface to the Linux Kernel's seccomp filter",
       "description": "The libseccomp library provides an easy to use, platform independent, interface to the Linux Kernel's syscall filtering mechanism: seccomp. The libseccomp API is designed to abstract away the underlying BPF based syscall filter language and present a more conventional function-call based filtering interface that should be familiar to, and easily adopted by application developers.",
@@ -35049,8 +35049,8 @@
     },
     {
       "name": "libyaml",
-      "version": "0.2.5",
-      "release": 3,
+      "version": "0.2.6",
+      "release": 4,
       "homepage": "https://pyyaml.org/wiki/LibYAML",
       "summary": "YAML 1.1 library",
       "description": "YAML 1.1 library",
@@ -35100,7 +35100,7 @@
         "binary(pkg-config)"
       ],
       "category": "Libraries",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "libzip",
@@ -38564,7 +38564,7 @@
         "pkgconfig(zlib)"
       ],
       "category": "Multimedia",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "meld",
@@ -42110,12 +42110,12 @@
         "libcanberra-gtk3"
       ],
       "category": "Editors",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "obs-studio",
-      "version": "33.0.2",
-      "release": 8,
+      "version": "33.0.3",
+      "release": 9,
       "homepage": "https://github.com/obsproject/obs-studio",
       "summary": "Free and open source software for live streaming and screen recording",
       "description": "OBS Studio is software designed for capturing, compositing, encoding, recording, and streaming video content, efficiently.",
@@ -43312,11 +43312,11 @@
             "soname(libz.so.1(x86_64))",
             "soname(libzstd.so.1(x86_64))"
           ],
-          "channel": "volatile"
+          "channel": "both"
         }
       ],
       "category": "Security",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "openvpn",
@@ -43435,8 +43435,8 @@
     },
     {
       "name": "orca",
-      "version": "51.1",
-      "release": 4,
+      "version": "51.2",
+      "release": 5,
       "homepage": "https://orca.gnome.org/",
       "summary": "Screen reader for individuals who are blind or visually impaired",
       "description": "Screen reader for individuals who are blind or visually impaired",
@@ -46875,7 +46875,7 @@
         "podman"
       ],
       "category": "Other",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "polkit",
@@ -47974,8 +47974,8 @@
     },
     {
       "name": "python-annotated-doc",
-      "version": "0.0.6",
-      "release": 5,
+      "version": "0.0.7",
+      "release": 6,
       "homepage": "https://github.com/fastapi/annotated-doc",
       "summary": "Document parameters, class attributes, return types, and variables inline",
       "description": "Document parameters, class attributes, return types, and variables inline",
@@ -48021,7 +48021,7 @@
         "python-libs"
       ],
       "category": "Languages",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "python-appdirs",
@@ -48503,8 +48503,8 @@
     },
     {
       "name": "python-discovery",
-      "version": "1.9.5",
-      "release": 13,
+      "version": "1.9.6",
+      "release": 14,
       "homepage": "https://github.com/tox-dev/python-discovery",
       "summary": "Python interpreter discovery",
       "description": "A library for discovering Python interpreters installed on your machine",
@@ -48517,7 +48517,8 @@
       "builddeps": [
         "python(hatch-fancy-pypi-readme)",
         "python(hatch-vcs)",
-        "python(hatchling)"
+        "python(hatchling)",
+        "python(python-sbom)"
       ],
       "category": "Languages",
       "channel": "both"
@@ -48683,8 +48684,8 @@
     },
     {
       "name": "python-filelock",
-      "version": "4.2.10",
-      "release": 12,
+      "version": "4.2.12",
+      "release": 13,
       "homepage": "https://github.com/tox-dev/filelock",
       "summary": "A platform independent file lock",
       "description": "A platform independent file lock",
@@ -49219,7 +49220,7 @@
         "python-libs"
       ],
       "category": "Languages",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "python-libarchive-c",
@@ -49250,8 +49251,8 @@
     },
     {
       "name": "python-librt",
-      "version": "0.16.0",
-      "release": 6,
+      "version": "0.17.0",
+      "release": 7,
       "homepage": "https://github.com/mypyc/librt",
       "summary": "Mypyc runtime library",
       "description": "Mypyc runtime library",
@@ -49649,7 +49650,7 @@
         "python-libs"
       ],
       "category": "Languages",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "python-packaging",
@@ -49881,8 +49882,8 @@
     },
     {
       "name": "python-platformdirs",
-      "version": "4.14.5",
-      "release": 14,
+      "version": "4.14.8",
+      "release": 15,
       "homepage": "https://platformdirs.readthedocs.io/en/latest/",
       "summary": "A library to determine platform-specific system directories",
       "description": "A library to determine platform-specific system directories",
@@ -49895,7 +49896,8 @@
       "builddeps": [
         "python(hatch-fancy-pypi-readme)",
         "python(hatch-vcs)",
-        "python(hatchling)"
+        "python(hatchling)",
+        "python(python-sbom)"
       ],
       "checkdeps": [
         "python(appdirs)",
@@ -50062,8 +50064,8 @@
     },
     {
       "name": "python-pydantic",
-      "version": "2.14.3",
-      "release": 1,
+      "version": "2.14.4",
+      "release": 2,
       "homepage": "https://github.com/pydantic/pydantic",
       "summary": "Data validation using Python type hints",
       "description": "Data validation using Python type hints",
@@ -50081,12 +50083,12 @@
         "python-libs"
       ],
       "category": "Languages",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "python-pydantic-core",
-      "version": "2.50.4",
-      "release": 1,
+      "version": "2.50.5",
+      "release": 2,
       "homepage": "https://github.com/pydantic/pydantic-core",
       "summary": "Core functionality for Pydantic validation and serialization",
       "description": "Core functionality for Pydantic validation and serialization",
@@ -50104,7 +50106,7 @@
         "python-libs"
       ],
       "category": "Languages",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "python-pyelftools",
@@ -50602,8 +50604,8 @@
     },
     {
       "name": "python-pyyaml",
-      "version": "6.0.3",
-      "release": 7,
+      "version": "6.0.4",
+      "release": 8,
       "homepage": "https://pyyaml.org/",
       "summary": "Python YAML framework",
       "description": "PyYAML is a full-featured YAML framework for the Python programming language.",
@@ -50758,7 +50760,7 @@
         "binary(python)"
       ],
       "category": "Languages",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "python-scikit-build-core",
@@ -51090,8 +51092,8 @@
     },
     {
       "name": "python-soupsieve",
-      "version": "4.1.1",
-      "release": 11,
+      "version": "4.1.3",
+      "release": 12,
       "homepage": "https://facelessuser.github.io/soupsieve/",
       "summary": "A modern CSS selector implementation for BeautifulSoup",
       "description": "Soup Sieve is a CSS selector library designed to be used with Beautiful Soup 4. It aims to provide selecting, matching, and filtering using modern CSS selectors. Soup Sieve currently provides selectors from the CSS level 1 specifications up through the latest CSS level 4 drafts and beyond (though some are not yet implemented).",
@@ -51357,8 +51359,8 @@
     },
     {
       "name": "python-typer",
-      "version": "0.29.1",
-      "release": 9,
+      "version": "0.29.2",
+      "release": 10,
       "homepage": "https://github.com/fastapi/typer",
       "summary": "Typer is a library for building CLI applications",
       "description": "Typer is a library for building CLI applications",
@@ -51401,7 +51403,7 @@
         "python-libs"
       ],
       "category": "Languages",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "python-typing_extensions",
@@ -51642,7 +51644,7 @@
         "python-libs"
       ],
       "category": "Languages",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "qbittorrent",
@@ -63848,7 +63850,7 @@
         "pkgconfig(xcursor)"
       ],
       "category": "Graphics",
-      "channel": "volatile"
+      "channel": "both"
     },
     {
       "name": "xdg-dbus-proxy",
