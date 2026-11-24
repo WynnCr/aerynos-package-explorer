@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-24T02:56:17.698Z",
+  "generatedAt": "2026-11-24T14:57:01.259Z",
   "totalCount": 1975,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "c7852f4268d04164f0eb219f5c78d9515f44e6b4",
+  "commitSha": "01f8a30efa20ad6b07aa783c764bb0e7a2e1445b",
   "channelStats": {
     "volatileCount": 6207,
     "unstableCount": 6207,
@@ -14228,14 +14228,13 @@
     },
     {
       "name": "gnome-control-center",
-      "version": "51.1",
-      "release": 41,
+      "version": "51.2.1",
+      "release": 42,
       "homepage": "https://apps.gnome.org/Settings/",
       "summary": "Utility to configure the GNOME desktop",
       "description": "Settings is the primary interface for configuring your system.",
       "license": [
-        "GPL-2.0-or-later",
-        "JSON"
+        "GPL-2.0-or-later"
       ],
       "letter": "g",
       "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/g/gnome-control-center/stone.yaml",
