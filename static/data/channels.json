@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-24T14:56:55.348185+00:00",
-  "volatileHistory": "1795514036",
+  "generatedAt": "2026-11-25T00:50:28.655441+00:00",
+  "volatileHistory": "1795553779",
   "unstableHistory": "1795381775",
-  "volatileTotal": 6207,
+  "volatileTotal": 6209,
   "unstableTotal": 6207,
-  "volatileOnlyCount": 0,
+  "volatileOnlyCount": 2,
   "unstableOnlyCount": 0,
   "bothCount": 6207,
   "volatilePackages": [
@@ -5918,6 +5918,8 @@
     "wayland-session-oneshot-plasma",
     "wayland-utils",
     "wayland-utils-dbginfo",
+    "waypipe",
+    "waypipe-dbginfo",
     "wayvr",
     "wayvr-dbginfo",
     "wdisplays",

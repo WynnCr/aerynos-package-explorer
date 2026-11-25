@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-24T14:57:01.259Z",
-  "totalCount": 1975,
+  "generatedAt": "2026-11-25T00:50:32.912Z",
+  "totalCount": 1976,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "01f8a30efa20ad6b07aa783c764bb0e7a2e1445b",
+  "commitSha": "9d1672ab185b744393fc5f531f66dfcffb08509d",
   "channelStats": {
-    "volatileCount": 6207,
+    "volatileCount": 6209,
     "unstableCount": 6207,
-    "volatileOnlyCount": 0,
+    "volatileOnlyCount": 1,
     "bothCount": 1975,
     "recipeOnlyCount": 0
   },
@@ -414,7 +414,7 @@
     {
       "name": "ajantv2-module",
       "version": "18.0.0",
-      "release": 11,
+      "release": 12,
       "homepage": "https://github.com/aja-video/libajantv2",
       "summary": "Kernel module for NTV2 professional video I/O devices",
       "description": "Linux kernel module for discovering, interrogating and controlling NTV2 professional video I/O devices from AJA Video Systems, Inc",
@@ -465,7 +465,7 @@
     {
       "name": "akonadi",
       "version": "26.08.3",
-      "release": 33,
+      "release": 34,
       "homepage": "https://invent.kde.org/pim/akonadi",
       "summary": "KDE centralized database to store, index and retrieve the user's personal information",
       "description": "The Akonadi framework is responsible for providing applications with a centralized database to store, index and retrieve the user's personal information. This includes the user's emails, contacts, calendars, events, journals, alarms, notes, etc.",
@@ -664,7 +664,7 @@
     {
       "name": "akonadi-mime",
       "version": "26.08.3",
-      "release": 28,
+      "release": 29,
       "homepage": "https://invent.kde.org/pim/akonadi-mime",
       "summary": "Akonadi Mime is a library that effectively bridges the type-agnostic API of the Akonadi client libraries and the domain-specific KMime library",
       "description": "Akonadi Mime is a library that effectively bridges the type-agnostic API of the Akonadi client libraries and the domain-specific KMime library. It provides jobs, models and other helpers to make working with emails through Akonadi easier.",
@@ -2153,7 +2153,7 @@
     {
       "name": "bcachefs-module",
       "version": "1.39.7",
-      "release": 72,
+      "release": 73,
       "homepage": "https://bcachefs.org",
       "summary": "bcachefs kernel module",
       "description": "bcachefs kernel module",
@@ -2535,7 +2535,7 @@
     {
       "name": "bluedevil",
       "version": "6.8.3",
-      "release": 36,
+      "release": 37,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Bluetooth stack for KDE Plasma",
       "description": "Bluedevil is a project which intends to integrate the Bluetooth technology within KDE workspace and applications.",
@@ -2584,7 +2584,7 @@
     {
       "name": "bluejay",
       "version": "1.0.3",
-      "release": 1,
+      "release": 2,
       "homepage": "https://codeberg.org/EbonJaeger/bluejay",
       "summary": "A Bluetooth manager and Bluez front-end",
       "description": "A Bluetooth manager and Bluez front-end. With it, you can\npair devices, connect to and remove devices, turn Bluetooth\non and off, and more. Bluejay is powered by the Qt6 graphical\ntoolkit and KDE Frameworks.",
@@ -3247,7 +3247,7 @@
     {
       "name": "broadcom-sta-module",
       "version": "6.30.223.271",
-      "release": 33,
+      "release": 34,
       "homepage": "https://www.broadcom.com/support/download-search?pf=Wireless+LAN+Infrastructure",
       "summary": "Broadcoms IEEE 802.11a/b/g/n hybrid Linux device driver",
       "description": "Broadcoms IEEE 802.11a/b/g/n hybrid Linux device driver",
@@ -3658,7 +3658,7 @@
     {
       "name": "budgie-desktop-services",
       "version": "1.0.3",
-      "release": 1,
+      "release": 2,
       "homepage": "https://forge.moderndesktop.dev/BuddiesOfBudgie/budgie-desktop-services",
       "summary": "Daemon responsible for enabling various features of Budgie Desktop",
       "description": "Daemon responsible for enabling various features of Budgie Desktop",
@@ -4886,7 +4886,7 @@
     {
       "name": "colord-kde",
       "version": "26.08.3",
-      "release": 2,
+      "release": 3,
       "homepage": "https://invent.kde.org/graphics/colord-kde",
       "summary": "Color management integration for KDE",
       "description": "Interfaces and session daemon to colord for KDE.",
@@ -6032,8 +6032,8 @@
     },
     {
       "name": "cryptsetup",
-      "version": "2.8.8",
-      "release": 16,
+      "version": "2.8.9",
+      "release": 17,
       "homepage": "https://gitlab.com/cryptsetup/cryptsetup",
       "summary": "cryptsetup + LUKS",
       "description": "cryptsetup + LUKS - open source disk encryption",
@@ -7337,7 +7337,7 @@
     {
       "name": "dolphin",
       "version": "26.08.3",
-      "release": 34,
+      "release": 35,
       "homepage": "https://apps.kde.org/dolphin/",
       "summary": "KDE file manager focusing on usability",
       "description": "Dolphin is a file manager focusing on usability. Focusing on usability means that features are discoverable and efficient to use.",
@@ -7554,7 +7554,7 @@
     {
       "name": "dragon",
       "version": "26.08.3",
-      "release": 36,
+      "release": 37,
       "homepage": "https://apps.kde.org/dragonplayer/",
       "summary": "Video player from KDE",
       "description": "Dragon Player is a multimedia player where the focus is on simplicity, instead of features",
@@ -7647,7 +7647,7 @@
     {
       "name": "drm-awaiter",
       "version": "0.0.0",
-      "release": 1,
+      "release": 2,
       "homepage": "https://github.com/CachyOS/CachyOS-PKGBUILDS/tree/master/cachyos-drm-awaiter",
       "summary": "Configuration for proper systemd chain-loading of DRM modules",
       "description": "Configuration for proper systemd chain-loading of DRM modules",
@@ -8061,7 +8061,7 @@
     {
       "name": "easyeffects",
       "version": "8.3.3",
-      "release": 37,
+      "release": 38,
       "homepage": "https://wwmm.github.io/easyeffects/",
       "summary": "Audio effects for PipeWire applications",
       "description": "Limiter, compressor, convolver, equalizer and auto volume and many other plugins for PipeWire applications",
@@ -8614,7 +8614,7 @@
     {
       "name": "elisa",
       "version": "26.08.3",
-      "release": 29,
+      "release": 30,
       "homepage": "https://apps.kde.org/elisa/",
       "summary": "Music player from KDE",
       "description": "Elisa is a simple music player aiming to provide a nice experience for its users. Elisa allows to browse music by album, artist or all tracks. The music is indexed using either a private indexer or an indexer using Baloo.",
@@ -9540,7 +9540,7 @@
     {
       "name": "falkon",
       "version": "26.08.3",
-      "release": 2,
+      "release": 3,
       "homepage": "https://apps.kde.org/falkon/",
       "summary": "Web browser",
       "description": "Falkon is a cross-platform Qt-based web browser using the QtWebEngine engine, with support for extensions, bookmarks and a built-in ad blocker.",
@@ -9948,7 +9948,7 @@
     {
       "name": "fcitx5-qt",
       "version": "5.1.16",
-      "release": 5,
+      "release": 6,
       "homepage": "https://github.com/fcitx/fcitx5-qt",
       "summary": "Qt library and IM module for fcitx5",
       "description": "Qt library and IM module for fcitx5",
@@ -10656,8 +10656,8 @@
     },
     {
       "name": "flatpak",
-      "version": "1.18.4",
-      "release": 26,
+      "version": "1.18.6",
+      "release": 27,
       "homepage": "https://www.flatpak.org/",
       "summary": "Linux application sandboxing and distribution framework",
       "description": "Flatpak is a system for building, distributing, and running sandboxed desktop applications on Linux.",
@@ -13023,7 +13023,7 @@
     {
       "name": "ghostwriter",
       "version": "26.08.3",
-      "release": 2,
+      "release": 3,
       "homepage": "https://ghostwriter.kde.org/",
       "summary": "Distraction-free Markdown editor",
       "description": "ghostwriter is a text editor for Markdown, providing a relaxing, distraction-free writing environment.",
@@ -16121,7 +16121,7 @@
     {
       "name": "gstreamer",
       "version": "1.28.9",
-      "release": 68,
+      "release": 69,
       "homepage": "https://gstreamer.freedesktop.org/",
       "summary": "GStreamer multimedia framework",
       "description": "GStreamer can bridge to other multimedia frameworks in order to reuse existing components (e.g. codecs) and use platform input/output mechanisms.",
@@ -17169,7 +17169,7 @@
     {
       "name": "gwenview",
       "version": "26.08.3",
-      "release": 29,
+      "release": 30,
       "homepage": "https://apps.kde.org/gwenview/",
       "summary": "Fast and easy to use image viewer by KDE",
       "description": "Gwenview is able to load and save to a variety of image formats supported by KDE applications, such as PNG, JPEG, and even the Gimp's XCF! Gwenview also sports a beautiful thumbnail toolbar when viewing images in fullscreen. Gwenview's simple interface doesn't get in the way and lets you view your images quickly and easily.",
@@ -17339,7 +17339,7 @@
     {
       "name": "haruna",
       "version": "1.9.1",
-      "release": 22,
+      "release": 23,
       "homepage": "https://invent.kde.org/multimedia/haruna/",
       "summary": "Video player built with Qt/QML on top of libmpv",
       "description": "Video player built with Qt/QML on top of libmpv",
@@ -19682,7 +19682,7 @@
     {
       "name": "kaccounts-integration",
       "version": "26.08.3",
-      "release": 28,
+      "release": 29,
       "homepage": "https://invent.kde.org/network/kaccounts-integration",
       "summary": "System to administer web accounts - shared library",
       "description": "System to administer web accounts - shared library",
@@ -19934,7 +19934,7 @@
     {
       "name": "kalk",
       "version": "26.08.3",
-      "release": 27,
+      "release": 28,
       "homepage": "https://apps.kde.org/kalk/",
       "summary": "Convergent calculator for Plasma",
       "description": "Convergent calculator for Plasma",
@@ -20112,7 +20112,7 @@
     {
       "name": "kasts",
       "version": "26.08.3",
-      "release": 2,
+      "release": 3,
       "homepage": "https://apps.kde.org/kasts/",
       "summary": "Podcast client",
       "description": "Kasts is a convergent podcast application that looks good on desktop and mobile, with features such as episode management through a play queue, sync through gpodder.net and variable playback speed.",
@@ -20173,7 +20173,7 @@
     {
       "name": "kate",
       "version": "26.08.3",
-      "release": 31,
+      "release": 32,
       "homepage": "https://apps.kde.org/kate",
       "summary": "KDE advanced text editor",
       "description": "Kate is a multi-document, multi-view text editor by KDE. It features stuff like codefolding, syntaxhighlighting, dynamic word wrap, an embedded console, an extensive plugin interface and some prelimentary scripting support.",
@@ -20331,7 +20331,7 @@
     {
       "name": "kcachegrind",
       "version": "26.08.3",
-      "release": 2,
+      "release": 3,
       "homepage": "https://apps.kde.org/kcachegrind/",
       "summary": "Visualization of performance profiling data",
       "description": "kcachegrind is a KDE GUI to visualize profiling data. It is mainly used as a visualization frontend for data measured by the Cachegrind/Callgrind tools from the Valgrind package.",
@@ -20491,7 +20491,7 @@
     {
       "name": "kclock",
       "version": "26.08.3",
-      "release": 31,
+      "release": 32,
       "homepage": "https://apps.kde.org/kclock/",
       "summary": "Clock app for KDE Plasma",
       "description": "A convergent clock for KDE Plasma desktop and mobile\nFeatures\n    - Alarms\n    - Stopwatch\n    - World Clocks\n    - Timers",
@@ -20577,7 +20577,7 @@
     {
       "name": "kde-cli-tools",
       "version": "6.8.3",
-      "release": 34,
+      "release": 35,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Tools to better interact with the system",
       "description": "Tools based on KDE Frameworks 6 to better interact with the system.",
@@ -20714,7 +20714,7 @@
     {
       "name": "kdeconnect",
       "version": "26.08.3",
-      "release": 27,
+      "release": 28,
       "homepage": "https://kdeconnect.kde.org/",
       "summary": "KDE Connect adds communication between KDE and your smartphone.",
       "description": "KDE Connect is a multi-platform app that allows your devices to communicate (eg: your phone and your computer).",
@@ -20997,7 +20997,7 @@
     {
       "name": "kdeplasma-addons",
       "version": "6.8.3",
-      "release": 37,
+      "release": 38,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "A plugin based system monitoring daemon",
       "description": "A plugin based system monitoring daemon",
@@ -21390,7 +21390,7 @@
     {
       "name": "keysmith",
       "version": "26.08.3",
-      "release": 2,
+      "release": 3,
       "homepage": "https://apps.kde.org/keysmith/",
       "summary": "OTP (two-factor) token generator",
       "description": "Keysmith is an application to generate two-factor authentication (2FA) tokens when logging in to your accounts. It supports both HOTP and TOTP tokens.",
@@ -21433,7 +21433,7 @@
     {
       "name": "keyutils",
       "version": "1.6.3",
-      "release": 5,
+      "release": 6,
       "homepage": "https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/keyutils.git/about/",
       "summary": "Linux kernel key management",
       "description": "These tools are used to control the key management system built into the Linux kernel.",
@@ -21468,7 +21468,7 @@
     {
       "name": "kf6-baloo",
       "version": "6.32.0",
-      "release": 34,
+      "release": 35,
       "homepage": "https://invent.kde.org/frameworks/baloo",
       "summary": "Baloo provides file searching and indexing",
       "description": "Baloo provides file searching and indexing",
@@ -21510,7 +21510,7 @@
     {
       "name": "kf6-bluez-qt",
       "version": "6.32.0",
-      "release": 28,
+      "release": 29,
       "homepage": "https://invent.kde.org/frameworks/bluez-qt",
       "summary": "Qt wrapper for BlueZ 5 DBus API",
       "description": "BluezQt is a library for communication with BlueZ system and session daemons.\n* Manager class is used to communicate with system daemon - org.bluez\n* ObexManager class is used to communicate with session daemon - org.bluez.obex",
@@ -21672,7 +21672,7 @@
     {
       "name": "kf6-kcalendarcore",
       "version": "6.32.0",
-      "release": 27,
+      "release": 28,
       "homepage": "https://invent.kde.org/frameworks/kcalendarcore",
       "summary": "Provides access to and handling of calendar data",
       "description": "This library provides access to and handling of calendar data. It supports the standard formats iCalendar and vCalendar and the group scheduling standard iTIP.",
@@ -21703,7 +21703,7 @@
     {
       "name": "kf6-kcmutils",
       "version": "6.32.0",
-      "release": 35,
+      "release": 36,
       "homepage": "https://invent.kde.org/frameworks/kcmutils",
       "summary": "Utilities for interacting with KCModules",
       "description": "Utilities for interacting with KCModules",
@@ -21772,7 +21772,7 @@
     {
       "name": "kf6-kcolorscheme",
       "version": "6.32.0",
-      "release": 34,
+      "release": 35,
       "homepage": "https://invent.kde.org/frameworks/kcolorscheme",
       "summary": "Classes to read and interact with KColorScheme",
       "description": "Classes to read and interact with KColorScheme",
@@ -21829,7 +21829,7 @@
     {
       "name": "kf6-kconfig",
       "version": "6.32.0",
-      "release": 34,
+      "release": 35,
       "homepage": "https://invent.kde.org/frameworks/kconfig",
       "summary": "Persistent platform-independent application settings.",
       "description": "Persistent platform-independent application settings.",
@@ -21865,7 +21865,7 @@
     {
       "name": "kf6-kconfigwidgets",
       "version": "6.32.0",
-      "release": 33,
+      "release": 34,
       "homepage": "https://invent.kde.org/frameworks/kconfigwidgets",
       "summary": "Widgets for configuration dialogs",
       "description": "Widgets for configuration dialogs",
@@ -21908,7 +21908,7 @@
     {
       "name": "kf6-kcontacts",
       "version": "6.32.0",
-      "release": 27,
+      "release": 28,
       "homepage": "https://invent.kde.org/frameworks/kcontacts",
       "summary": "Address book API for KDE",
       "description": "Address book API for KDE",
@@ -21947,7 +21947,7 @@
     {
       "name": "kf6-kcoreaddons",
       "version": "6.32.0",
-      "release": 33,
+      "release": 34,
       "homepage": "https://invent.kde.org/frameworks/kcoreaddons",
       "summary": "Qt addon library with a collection of non-GUI utilities",
       "description": "Qt addon library with a collection of non-GUI utilities",
@@ -22016,7 +22016,7 @@
     {
       "name": "kf6-kdbusaddons",
       "version": "6.32.0",
-      "release": 32,
+      "release": 33,
       "homepage": "https://invent.kde.org/frameworks/kdbusaddons",
       "summary": "Convenience classes for DBus.",
       "description": "Convenience classes for DBus.",
@@ -22038,7 +22038,7 @@
     {
       "name": "kf6-kdeclarative",
       "version": "6.32.0",
-      "release": 34,
+      "release": 35,
       "homepage": "https://invent.kde.org/frameworks/kdeclarative",
       "summary": "Integration of QML and KDE work spaces",
       "description": "Integration of QML and KDE work spaces",
@@ -22227,7 +22227,7 @@
     {
       "name": "kf6-kglobalaccel",
       "version": "6.32.0",
-      "release": 32,
+      "release": 33,
       "homepage": "https://invent.kde.org/frameworks/kglobalaccel",
       "summary": "Global desktop keyboard shortcuts.",
       "description": "KGlobalAccel allows you to have global accelerators that are independent of the focused window. Unlike regular shortcuts, the application's window does not need focus for them to be activated.",
@@ -22249,7 +22249,7 @@
     {
       "name": "kf6-kguiaddons",
       "version": "6.32.0",
-      "release": 35,
+      "release": 36,
       "homepage": "https://invent.kde.org/frameworks/kguiaddons",
       "summary": "Utilities for graphical user interfaces.",
       "description": "Utilities for graphical user interfaces.",
@@ -22275,7 +22275,7 @@
     {
       "name": "kf6-kholidays",
       "version": "6.32.0",
-      "release": 28,
+      "release": 29,
       "homepage": "https://invent.kde.org/frameworks/kholidays",
       "summary": "KDE library for regional holiday information",
       "description": "KDE library for regional holiday information",
@@ -22302,7 +22302,7 @@
     {
       "name": "kf6-ki18n",
       "version": "6.32.0",
-      "release": 33,
+      "release": 34,
       "homepage": "https://invent.kde.org/frameworks/ki18n",
       "summary": "KDE Gettext-based UI text internationalization.",
       "description": "KDE Gettext-based UI text internationalization.",
@@ -22331,7 +22331,7 @@
     {
       "name": "kf6-kiconthemes",
       "version": "6.32.0",
-      "release": 33,
+      "release": 34,
       "homepage": "https://invent.kde.org/frameworks/kiconthemes",
       "summary": "Icon GUI utilities.",
       "description": "Icon GUI utilities.",
@@ -22361,7 +22361,7 @@
     {
       "name": "kf6-kidletime",
       "version": "6.32.0",
-      "release": 28,
+      "release": 29,
       "homepage": "https://invent.kde.org/frameworks/kidletime",
       "summary": "Reporting of idle time of user and system",
       "description": "Reporting of idle time of user and system",
@@ -22421,7 +22421,7 @@
     {
       "name": "kf6-kio",
       "version": "6.32.0",
-      "release": 38,
+      "release": 39,
       "homepage": "https://invent.kde.org/frameworks/kio",
       "summary": "Network transparent access to files and data.",
       "description": "Network transparent access to files and data.",
@@ -22499,7 +22499,7 @@
     {
       "name": "kf6-kirigami",
       "version": "6.32.0",
-      "release": 37,
+      "release": 38,
       "homepage": "https://invent.kde.org/frameworks/kirigami",
       "summary": "QtQuick components for mobile and desktop UI development.",
       "description": "Kirigami is a set of QtQuick components for the creation of applications that look and feel great on mobile as well as desktop devices and follow the Kirigami Human Interface Guidelines.",
@@ -22529,7 +22529,7 @@
     {
       "name": "kf6-kirigami-addons",
       "version": "1.16.1",
-      "release": 23,
+      "release": 24,
       "homepage": "https://invent.kde.org/libraries/kirigami-addons",
       "summary": "Convergent visual components (\"widgets\") for Kirigami-based applications",
       "description": "Convergent visual components (\"widgets\") for Kirigami-based applications",
@@ -22594,7 +22594,7 @@
     {
       "name": "kf6-kitemmodels",
       "version": "6.32.0",
-      "release": 27,
+      "release": 28,
       "homepage": "https://invent.kde.org/frameworks/kitemmodels",
       "summary": "Set of item models extending the Qt model-view framework.",
       "description": "Set of item models extending the Qt model-view framework.",
@@ -22638,7 +22638,7 @@
     {
       "name": "kf6-kjobwidgets",
       "version": "6.32.0",
-      "release": 32,
+      "release": 33,
       "homepage": "https://invent.kde.org/frameworks/kjobwidgets",
       "summary": "Widgets for showing progress of asynchronous jobs.",
       "description": "Widgets for showing progress of asynchronous jobs.",
@@ -22691,7 +22691,7 @@
     {
       "name": "kf6-knewstuff",
       "version": "6.32.0",
-      "release": 34,
+      "release": 35,
       "homepage": "https://invent.kde.org/frameworks/knewstuff",
       "summary": "Framework for downloading and sharing additional application data.",
       "description": "Framework for downloading and sharing additional application data.",
@@ -22735,7 +22735,7 @@
     {
       "name": "kf6-knotifications",
       "version": "6.32.0",
-      "release": 33,
+      "release": 34,
       "homepage": "https://invent.kde.org/frameworks/knotifications",
       "summary": "Desktop notifications.",
       "description": "Desktop notifications.",
@@ -22846,7 +22846,7 @@
     {
       "name": "kf6-kpeople",
       "version": "6.32.0",
-      "release": 25,
+      "release": 26,
       "homepage": "https://invent.kde.org/frameworks/kpeople",
       "summary": "Provides access to all contacts and aggregates them by person",
       "description": "KPeople offers unified access to our contacts from different sources, grouping them by person while still exposing all the data. Furthermore, KPeople will also provide facilities to integrate the data provided in user interfaces by providing QML and Qt Widgets components.",
@@ -22929,7 +22929,7 @@
     {
       "name": "kf6-kquickcharts",
       "version": "6.32.0",
-      "release": 28,
+      "release": 29,
       "homepage": "https://invent.kde.org/frameworks/kquickcharts",
       "summary": "QtQuick plugin providing high-performance charts",
       "description": "QtQuick plugin providing high-performance charts",
@@ -23036,7 +23036,7 @@
     {
       "name": "kf6-ksvg",
       "version": "6.32.0",
-      "release": 27,
+      "release": 28,
       "homepage": "https://invent.kde.org/frameworks/ksvg",
       "summary": "Components for handling SVGs",
       "description": "Components for handling SVGs",
@@ -23188,7 +23188,7 @@
     {
       "name": "kf6-kuserfeedback",
       "version": "6.32.0",
-      "release": 32,
+      "release": 33,
       "homepage": "https://invent.kde.org/frameworks/kuserfeedback",
       "summary": "Framework for collecting user feedback for applications via telemetry and surveys",
       "description": "Framework for collecting user feedback for applications via telemetry and surveys",
@@ -23287,7 +23287,7 @@
     {
       "name": "kf6-kwindowsystem",
       "version": "6.32.0",
-      "release": 32,
+      "release": 33,
       "homepage": "https://invent.kde.org/frameworks/kwindowsystem",
       "summary": "Access to the windowing system.",
       "description": "Access to the windowing system.",
@@ -23327,7 +23327,7 @@
     {
       "name": "kf6-kxmlgui",
       "version": "6.32.0",
-      "release": 32,
+      "release": 33,
       "homepage": "https://invent.kde.org/frameworks/kxmlgui",
       "summary": "Framework for managing menu and toolbar actions.",
       "description": "Framework for managing menu and toolbar actions.",
@@ -23398,7 +23398,7 @@
     {
       "name": "kf6-networkmanager-qt",
       "version": "6.32.0",
-      "release": 27,
+      "release": 28,
       "homepage": "https://invent.kde.org/frameworks/networkmanager-qt",
       "summary": "Qt wrapper for NetworkManager DBus API",
       "description": "Qt wrapper for NetworkManager DBus API",
@@ -23432,7 +23432,7 @@
     {
       "name": "kf6-prison",
       "version": "6.32.0",
-      "release": 30,
+      "release": 31,
       "homepage": "https://invent.kde.org/frameworks/prison",
       "summary": "Qt api to produce QRCode barcode",
       "description": "Qt api to produce QRCode barcode",
@@ -23458,7 +23458,7 @@
     {
       "name": "kf6-purpose",
       "version": "6.32.0",
-      "release": 29,
+      "release": 30,
       "homepage": "https://invent.kde.org/frameworks/purpose",
       "summary": "Framework for providing abstractions to get the developer's purposes fulfilled",
       "description": "Framework for providing abstractions to get the developer's purposes fulfilled",
@@ -23498,7 +23498,7 @@
     {
       "name": "kf6-qqc2-desktop-style",
       "version": "6.32.0",
-      "release": 29,
+      "release": 30,
       "homepage": "https://invent.kde.org/frameworks/qqc2-desktop-style",
       "summary": "QtQuickControls 2 style that integrates with the desktop",
       "description": "QtQuickControls 2 style that integrates with the desktop",
@@ -23528,7 +23528,7 @@
     {
       "name": "kf6-solid",
       "version": "6.32.0",
-      "release": 36,
+      "release": 37,
       "homepage": "https://invent.kde.org/frameworks/solid",
       "summary": "Desktop hardware abstraction.",
       "description": "Desktop hardware abstraction.",
@@ -23567,7 +23567,7 @@
     {
       "name": "kf6-sonnet",
       "version": "6.32.0",
-      "release": 32,
+      "release": 33,
       "homepage": "https://invent.kde.org/frameworks/sonnet",
       "summary": "Multi-language spell checker",
       "description": "Multi-language spell checker",
@@ -23613,7 +23613,7 @@
     {
       "name": "kf6-syntax-highlighting",
       "version": "6.32.0",
-      "release": 33,
+      "release": 34,
       "homepage": "https://invent.kde.org/frameworks/syntax-highlighting",
       "summary": "Syntax highlighting engine for Kate syntax definitions",
       "description": "This is a stand-alone implementation of the Kate syntax highlighting engine. It's meant as a building block for text editors as well as for simple highlighted text rendering (e.g. as HTML), supporting both integration with a custom editor as well as a ready-to-use QSyntaxHighlighter sub-class.",
@@ -23915,7 +23915,7 @@
     {
       "name": "kidentitymanagement",
       "version": "26.08.3",
-      "release": 28,
+      "release": 29,
       "homepage": "https://invent.kde.org/pim/kidentitymanagement",
       "summary": "Manage PIM identity",
       "description": "Manage PIM identity.",
@@ -24008,7 +24008,7 @@
     {
       "name": "kinfocenter",
       "version": "6.8.3",
-      "release": 39,
+      "release": 40,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "KDE Info Center",
       "description": "KDE Info Center",
@@ -24303,7 +24303,7 @@
     {
       "name": "kjournald",
       "version": "26.08.3",
-      "release": 23,
+      "release": 24,
       "homepage": "https://apps.kde.org/kjournaldbrowser/",
       "summary": "Framework for interacting with systemd-journald",
       "description": "Framework for interacting with systemd-journald",
@@ -24642,7 +24642,7 @@
     {
       "name": "kmail-account-wizard",
       "version": "26.08.3",
-      "release": 2,
+      "release": 3,
       "homepage": "https://invent.kde.org/pim/kmail-account-wizard",
       "summary": "KMail account setup wizard",
       "description": "An application which assists you with the configuration of accounts in KMail.",
@@ -24994,7 +24994,7 @@
     {
       "name": "koko",
       "version": "26.08.3",
-      "release": 2,
+      "release": 3,
       "homepage": "https://apps.kde.org/koko/",
       "summary": "Image viewer for desktop and touch devices",
       "description": "Koko is an image viewer designed for desktop and touch devices.",
@@ -25253,7 +25253,7 @@
     {
       "name": "kontactinterface",
       "version": "26.08.3",
-      "release": 28,
+      "release": 29,
       "homepage": "https://invent.kde.org/pim/kontactinterface",
       "summary": "Kontact Plugin Interface Library",
       "description": "Kontact Plugin Interface Library.",
@@ -25454,7 +25454,7 @@
     {
       "name": "kpipewire",
       "version": "6.8.3",
-      "release": 37,
+      "release": 38,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Components relating to pipewire use in Plasma",
       "description": "Components relating to pipewire use in Plasma",
@@ -25549,7 +25549,7 @@
     {
       "name": "kquickimageeditor",
       "version": "0.7.0.1",
-      "release": 19,
+      "release": 20,
       "homepage": "https://invent.kde.org/libraries/kquickimageeditor",
       "summary": "KQuickImageEditor is a set of QtQuick components providing basic image editing capabilities.",
       "description": "KQuickImageEditor is a set of QtQuick components providing basic image editing capabilities.",
@@ -25621,7 +25621,7 @@
     {
       "name": "krdc",
       "version": "26.08.3",
-      "release": 23,
+      "release": 24,
       "homepage": "https://apps.kde.org/krdc/",
       "summary": "KDE's remote desktop client",
       "description": "KRDC is a client application that allows you to view or even control the desktop session on another machine that is running a compatible server. VNC and RDP are supported.",
@@ -25683,7 +25683,7 @@
     {
       "name": "krdp",
       "version": "6.8.3",
-      "release": 35,
+      "release": 36,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Library and examples for creating an RDP server",
       "description": "Library and examples for creating an RDP server",
@@ -25725,7 +25725,7 @@
     {
       "name": "krfb",
       "version": "26.08.3",
-      "release": 2,
+      "release": 3,
       "homepage": "https://apps.kde.org/krfb/",
       "summary": "Desktop sharing server",
       "description": "Krfb is a desktop sharing server that lets others view or control your desktop session over VNC.",
@@ -25805,7 +25805,7 @@
     {
       "name": "kscreen",
       "version": "6.8.3",
-      "release": 37,
+      "release": 38,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "KDE Plasma screen management",
       "description": "KDE Plasma screen management",
@@ -25847,7 +25847,7 @@
     {
       "name": "kscreenlocker",
       "version": "6.8.3",
-      "release": 33,
+      "release": 34,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Library and components for secure lock screen architecture",
       "description": "Library and components for secure lock screen architecture",
@@ -26437,7 +26437,7 @@
     {
       "name": "kwayland",
       "version": "6.8.3",
-      "release": 35,
+      "release": 36,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Qt-style API to interact with wayland",
       "description": "Qt-style API to interact with wayland",
@@ -26461,7 +26461,7 @@
     {
       "name": "kwin",
       "version": "6.8.3",
-      "release": 49,
+      "release": 50,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "KDE window manager",
       "description": "KWin is the window manager for the KDE Plasma Desktop. It gives you complete control over your windows, making sure they're not in the way but aid you in your task. It paints the window decoration, the bar on top of every window with (configurable) buttons like close, maximize and minimize. It also handles placing of windows and switching between them.",
@@ -26741,7 +26741,7 @@
     {
       "name": "layer-shell-qt",
       "version": "6.8.3",
-      "release": 35,
+      "release": 36,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Qt component to allow applications to make use of the Wayland wl-layer-shell protocol",
       "description": "Qt component to allow applications to make use of the Wayland wl-layer-shell protocol",
@@ -30042,7 +30042,7 @@
     {
       "name": "libkdegames",
       "version": "26.08.3",
-      "release": 2,
+      "release": 3,
       "homepage": "https://invent.kde.org/games/libkdegames",
       "summary": "General purpose games code for KDE",
       "description": "A collection of general-purpose code, data and QML components used by many KDE games, including card decks, high scores and common game widgets.",
@@ -30343,7 +30343,7 @@
     {
       "name": "libkscreen",
       "version": "6.8.3",
-      "release": 35,
+      "release": 36,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "KDE's screen management software",
       "description": "KDE's screen management software",
@@ -30408,7 +30408,7 @@
     {
       "name": "libksysguard",
       "version": "6.8.3",
-      "release": 37,
+      "release": 38,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Task management and system monitoring library",
       "description": "Task management and system monitoring library",
@@ -30452,7 +30452,7 @@
     {
       "name": "libktorrent",
       "version": "26.08.3",
-      "release": 2,
+      "release": 3,
       "homepage": "https://invent.kde.org/network/libktorrent",
       "summary": "BitTorrent protocol implementation",
       "description": "libktorrent is a BitTorrent protocol implementation for KDE.",
@@ -31613,7 +31613,7 @@
     {
       "name": "libplasma",
       "version": "6.8.3",
-      "release": 39,
+      "release": 40,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Plasma library and runtime components",
       "description": "Plasma library and runtime components",
@@ -31730,7 +31730,7 @@
     {
       "name": "libportal",
       "version": "0.11.0",
-      "release": 18,
+      "release": 19,
       "homepage": "https://libportal.org/",
       "summary": "Flatpak portal library",
       "description": "libportal provides GIO-style async APIs for most Flatpak portals",
@@ -32084,7 +32084,7 @@
     {
       "name": "libquotient",
       "version": "0.9.6.1",
-      "release": 15,
+      "release": 16,
       "homepage": "https://quotient-im.github.io/libQuotient/",
       "summary": "GnuPG Made Easy library (C++ bindings)",
       "description": "GnuPG Made Easy library (C++ bindings)",
@@ -33307,8 +33307,8 @@
     },
     {
       "name": "libtorrent-rasterbar",
-      "version": "2.1.2",
-      "release": 12,
+      "version": "2.1.3",
+      "release": 13,
       "homepage": "https://libtorrent.org/",
       "summary": "libtorrent is a C++ implementation of the BitTorrent protocol",
       "description": "libtorrent is a C++ implementation of the BitTorrent protocol.",
@@ -35048,8 +35048,8 @@
     },
     {
       "name": "libyaml",
-      "version": "0.2.6",
-      "release": 4,
+      "version": "0.2.7",
+      "release": 5,
       "homepage": "https://pyyaml.org/wiki/LibYAML",
       "summary": "YAML 1.1 library",
       "description": "YAML 1.1 library",
@@ -35514,8 +35514,8 @@
     },
     {
       "name": "linux-gaming",
-      "version": "7.3.5",
-      "release": 54,
+      "version": "7.3.6",
+      "release": 55,
       "homepage": "https://kernel.org/",
       "summary": "The Linux Kernel for handheld systems",
       "description": "The Linux Kernel for gaming systems\n\nThis package provides the Linux Kernel for gaming systems. It is built with\nthe LLVM compiler and the LLD linker, and is configured for gaming systems.",
@@ -35654,8 +35654,8 @@
     },
     {
       "name": "linux-lts",
-      "version": "6.18.64",
-      "release": 51,
+      "version": "6.18.65",
+      "release": 52,
       "homepage": "https://kernel.org/",
       "summary": "The Linux Kernel - LTS",
       "description": "The Linux Kernel - LTS\n\nThis package provides the Linux Kernel. It is built with\nthe LLVM compiler and the LLD linker.",
@@ -35786,8 +35786,8 @@
     },
     {
       "name": "linux-stable",
-      "version": "7.3.5",
-      "release": 77,
+      "version": "7.3.6",
+      "release": 78,
       "homepage": "https://kernel.org/",
       "summary": "The Linux Kernel - Stable",
       "description": "The Linux Kernel - Stable\n\nThis package provides the Linux Kernel. It is built with the LLVM compiler and the LLD linker.",
@@ -35868,8 +35868,8 @@
     },
     {
       "name": "linux-tools",
-      "version": "7.3.5",
-      "release": 58,
+      "version": "7.3.6",
+      "release": 59,
       "homepage": "https://perf.wiki.kernel.org/",
       "summary": "Tools included with the Linux source code",
       "description": "Tools included with the Linux source code",
@@ -36818,8 +36818,8 @@
     },
     {
       "name": "localsend",
-      "version": "1.18.2",
-      "release": 1,
+      "version": "1.19.0",
+      "release": 2,
       "homepage": "https://localsend.org/",
       "summary": "An open-source cross-platform alternative to AirDrop",
       "description": "LocalSend is a free, open-source app that allows you to securely share files and messages with nearby devices over your local network without needing an internet connection.",
@@ -38625,7 +38625,7 @@
     {
       "name": "merkuro",
       "version": "26.08.3",
-      "release": 36,
+      "release": 37,
       "homepage": "https://apps.kde.org/merkuro/",
       "summary": "Application suite designed to handle emails, calendars, contacts and tasks",
       "description": "Merkuro is a KDE personal information management suite for managing email, calendars,\ncontacts, and tasks in one integrated app. It provides a modern interface for organizing\ncommunication, scheduling events, tracking to-dos, and keeping address books synchronized.",
@@ -39125,7 +39125,7 @@
     {
       "name": "milou",
       "version": "6.8.3",
-      "release": 36,
+      "release": 37,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "A dedicated search application built on top of Baloo",
       "description": "A dedicated search application built on top of Baloo",
@@ -39177,7 +39177,7 @@
     {
       "name": "mimetreeparser",
       "version": "26.08.3",
-      "release": 33,
+      "release": 34,
       "homepage": "https://invent.kde.org/pim/mimetreeparser",
       "summary": "Parser for MIME trees",
       "description": "A parser for a MIME tree and is based on KMime. The goal is given a MIME tree to extract a list of parts (e.g. text, html) and a list of attachments, check the validity of the signatures and decrypt any encrypted part.",
@@ -40420,8 +40420,8 @@
     },
     {
       "name": "nautilus",
-      "version": "51.1",
-      "release": 30,
+      "version": "51.2",
+      "release": 31,
       "homepage": "https://apps.gnome.org/Nautilus/",
       "summary": "Access and organize files",
       "description": "Files, also known as Nautilus, is the default file manager of the GNOME desktop. It provides a simple and integrated way of managing your files and browsing your file system. Nautilus supports all the basic functions of a file manager and more. It can search and manage your files and folders, both locally and on a network, read and write data to and from removable media, run scripts, and launch apps. It has three views: Icon Grid, Icon List, and Tree List. Its functions can be extended with plugins and scripts.",
@@ -40497,8 +40497,8 @@
     },
     {
       "name": "ncurses",
-      "version": "6.6-20261114",
-      "release": 36,
+      "version": "6.6-20261121",
+      "release": 37,
       "homepage": "https://invisible-island.net/ncurses/ncurses.html",
       "summary": "Console display library",
       "description": "The ncurses (new curses) library is a free software emulation of curses in System V Release 4.0 (SVr4), and more. It uses terminfo format, supports pads and color and multiple highlights and forms characters and function-key mapping, and has all the other SVr4-curses enhancements over BSD curses. SVr4 curses became the basis of X/Open Curses.",
@@ -40600,7 +40600,7 @@
     {
       "name": "neochat",
       "version": "26.08.3",
-      "release": 30,
+      "release": 31,
       "homepage": "https://apps.kde.org/neochat/",
       "summary": "Neochat is a client for Matrix, the decentralized communication protocol for instant messaging.",
       "description": "Neochat is a client for Matrix, the decentralized communication protocol for instant messaging.",
@@ -41184,7 +41184,7 @@
     {
       "name": "nextcloud-client",
       "version": "4.0.11",
-      "release": 11,
+      "release": 12,
       "homepage": "https://nextcloud.com/",
       "summary": "Nextcloud client for nextcloud server",
       "description": "Nextcloud client enables you to connect to your private Nextcloud Server. With it you can create directories in your home directory, and keep the contents of those directories synced with the server",
@@ -41436,7 +41436,7 @@
     {
       "name": "nheko",
       "version": "0.12.1",
-      "release": 23,
+      "release": 24,
       "homepage": "https://nheko-reborn.github.io/",
       "summary": "Desktop client for Matrix using Qt",
       "description": "Desktop client for Matrix using Qt",
@@ -41996,7 +41996,7 @@
     {
       "name": "nvidia-open-gpu-kernel-modules",
       "version": "620.73.04",
-      "release": 147,
+      "release": 148,
       "homepage": "https://github.com/NVIDIA/open-gpu-kernel-modules",
       "summary": "NVIDIA open GPU kernel modules",
       "description": "NVIDIA open GPU kernel modules",
@@ -42237,7 +42237,7 @@
     {
       "name": "okular",
       "version": "26.08.3",
-      "release": 31,
+      "release": 32,
       "homepage": "https://apps.kde.org/okular/",
       "summary": "KDE document viewer",
       "description": "Okular is a universal document viewer developed by KDE. Okular combines the excellent functionalities with the versatility of supporting different kind of documents.",
@@ -42329,7 +42329,7 @@
     {
       "name": "omikuji-launcher",
       "version": "0.20.9",
-      "release": 3,
+      "release": 4,
       "homepage": "https://github.com/omikuji-launcher/omikuji",
       "summary": "A Qt/QML based games and apps launcher for Linux",
       "description": "A Qt/QML based games and apps launcher for Linux with wine/flatpak/native runners, Epic Games (Legendary), GOG (gogdl) and Gacha stores.",
@@ -43593,7 +43593,7 @@
     {
       "name": "oxygen",
       "version": "6.8.3",
-      "release": 9,
+      "release": 10,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Qt Oxygen Theme",
       "description": "The Oxygen Style for Qt/KDE Applications",
@@ -44743,7 +44743,7 @@
     {
       "name": "pim-sieve-editor",
       "version": "26.08.3",
-      "release": 3,
+      "release": 4,
       "homepage": "https://invent.kde.org/pim/pim-sieve-editor",
       "summary": "Editor for IMAP Sieve mail filters",
       "description": "An application to assist with editing IMAP Sieve filters, which sort incoming mail on the server.",
@@ -45656,7 +45656,7 @@
     {
       "name": "plasma-activities",
       "version": "6.8.3",
-      "release": 36,
+      "release": 37,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Core components for the KDE Activity concept",
       "description": "Core components for the KDE Activity concept",
@@ -45706,7 +45706,7 @@
     {
       "name": "plasma-bigscreen",
       "version": "6.8.3",
-      "release": 11,
+      "release": 12,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Plasma shell for TVs",
       "description": "Plasma shell for TVs",
@@ -45800,7 +45800,7 @@
     {
       "name": "plasma-desktop",
       "version": "6.8.3",
-      "release": 43,
+      "release": 44,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "KDE's next generation desktop",
       "description": "KDE's next generation desktop",
@@ -45945,7 +45945,7 @@
     {
       "name": "plasma-integration",
       "version": "6.8.3",
-      "release": 35,
+      "release": 36,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Integration of Qt application with KDE workspaces",
       "description": "Integration of Qt application with KDE workspaces",
@@ -45994,7 +45994,7 @@
     {
       "name": "plasma-keyboard",
       "version": "6.8.3",
-      "release": 33,
+      "release": 34,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Virtual keyboard for Plasma",
       "description": "Virtual keyboard for Plasma",
@@ -46024,7 +46024,7 @@
     {
       "name": "plasma-login-manager",
       "version": "6.8.3",
-      "release": 32,
+      "release": 33,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Display manager for KDE Plasam",
       "description": "Plasma Login provides a display manager for KDE Plasma, forked from SDDM and with a new frontend providing a greeter, wallpaper plugin integration and System Settings module (KCM).",
@@ -46103,7 +46103,7 @@
     {
       "name": "plasma-nm",
       "version": "6.8.3",
-      "release": 39,
+      "release": 40,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Plasma applet for managing network connections",
       "description": "Plasma applet written in QML for managing network connections",
@@ -46168,7 +46168,7 @@
     {
       "name": "plasma-pa",
       "version": "6.8.3",
-      "release": 37,
+      "release": 38,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Plasma applet for audio volume management",
       "description": "Plasma applet for audio volume management",
@@ -46221,7 +46221,7 @@
     {
       "name": "plasma-systemmonitor",
       "version": "6.8.3",
-      "release": 34,
+      "release": 35,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "New version of KSysGuard built on top of the new KStats daemon and using QML for its UI",
       "description": "New version of KSysGuard built on top of the new KStats daemon and using QML for its UI",
@@ -46377,7 +46377,7 @@
     {
       "name": "plasma-welcome",
       "version": "6.8.3",
-      "release": 36,
+      "release": 37,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Plasma Welcome",
       "description": "A Friendly onboarding wizard for Plasma.",
@@ -46423,7 +46423,7 @@
     {
       "name": "plasma-workspace",
       "version": "6.8.3",
-      "release": 52,
+      "release": 53,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "KDE Plasma workspace",
       "description": "KDE Plasma workspace",
@@ -46588,7 +46588,7 @@
     {
       "name": "plasma5support",
       "version": "6.8.3",
-      "release": 35,
+      "release": 36,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Support components for porting from KF5/Qt5 to KF6/Qt6",
       "description": "Support components for porting from KF5/Qt5 to KF6/Qt6",
@@ -47322,7 +47322,7 @@
     {
       "name": "powerdevil",
       "version": "6.8.3",
-      "release": 38,
+      "release": 39,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Manages the power settings of KDE Plasma",
       "description": "Manages the power settings of KDE Plasma",
@@ -47448,7 +47448,7 @@
     {
       "name": "print-manager",
       "version": "6.8.3",
-      "release": 36,
+      "release": 37,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Tool for managing print jobs and printers",
       "description": "Tool for managing print jobs and printers",
@@ -50272,7 +50272,7 @@
     {
       "name": "python-pyqt6",
       "version": "6.12.1",
-      "release": 5,
+      "release": 6,
       "homepage": "https://www.riverbankcomputing.com/software/pyqt/",
       "summary": "A set of Python bindings for Qt6",
       "description": "Python bindings for the Qt6 cross platform application toolkit.",
@@ -51647,8 +51647,8 @@
     },
     {
       "name": "qbittorrent",
-      "version": "5.3.0",
-      "release": 21,
+      "version": "5.3.1",
+      "release": 23,
       "homepage": "https://www.qbittorrent.org/",
       "summary": "qBittorrent project aims to provide a Free Software alternative to µTorrent",
       "description": "qBittorrent project aims to provide a Free Software alternative to µTorrent",
@@ -51728,7 +51728,7 @@
     {
       "name": "qcoro",
       "version": "0.13.0",
-      "release": 11,
+      "release": 12,
       "homepage": "https://qcoro.dvratil.cz/",
       "summary": "C++ Coroutines for Qt",
       "description": "C++ Coroutines for Qt",
@@ -52796,8 +52796,8 @@
     },
     {
       "name": "qt6-5compat",
-      "version": "6.12.0",
-      "release": 17,
+      "version": "6.12.1",
+      "release": 18,
       "homepage": "https://www.qt.io",
       "summary": "Qt 5 compatibility library for Qt 6",
       "description": "The Qt 5 Core Compat module contains the Qt Core APIs which will be no longer supported in Qt 6 and therefore were removed from Qt 6. The module is provided to facilitate the transition to Qt 6.",
@@ -52820,8 +52820,8 @@
     },
     {
       "name": "qt6-base",
-      "version": "6.12.0",
-      "release": 43,
+      "version": "6.12.1",
+      "release": 44,
       "homepage": "https://www.qt.io",
       "summary": "Cross platform application and UI framework",
       "description": "Cross platform application and UI framework",
@@ -52960,8 +52960,8 @@
     },
     {
       "name": "qt6-charts",
-      "version": "6.12.0",
-      "release": 11,
+      "version": "6.12.1",
+      "release": 12,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 Charts Library",
       "description": "Qt Charts module provides a set of easy to use chart components. It uses the Qt Graphics View Framework, therefore charts can be easily integrated to modern user interfaces. Qt Charts can be used as QWidgets, QGraphicsWidget, or QML types. Users can easily create impressive graphs by selecting one of the charts themes.",
@@ -52983,8 +52983,8 @@
     },
     {
       "name": "qt6-connectivity",
-      "version": "6.12.0",
-      "release": 10,
+      "version": "6.12.1",
+      "release": 11,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 Connectivity components",
       "description": "Qt connectivity provides access to Bluetooth hardware.",
@@ -53007,8 +53007,8 @@
     },
     {
       "name": "qt6-declarative",
-      "version": "6.12.0",
-      "release": 28,
+      "version": "6.12.1",
+      "release": 29,
       "homepage": "https://www.qt.io",
       "summary": "Classes for QML and JavaScript languages",
       "description": "The Qt Quick module is the standard library for writing QML applications. While the Qt QML module provides the QML engine and language infrastructure, the Qt Quick module provides all the basic types necessary for creating user interfaces with QML.",
@@ -53037,8 +53037,8 @@
     },
     {
       "name": "qt6-graphs",
-      "version": "6.12.0",
-      "release": 7,
+      "version": "6.12.1",
+      "release": 8,
       "homepage": "https://www.qt.io",
       "summary": "Qt Graphs for data visualization",
       "description": "Qt Graphs for data visualization",
@@ -53061,8 +53061,8 @@
     },
     {
       "name": "qt6-imageformats",
-      "version": "6.12.0",
-      "release": 11,
+      "version": "6.12.1",
+      "release": 12,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 plugins for additional image formats",
       "description": "The core Qt Gui library by default supports reading and writing image files of the most common file formats and a few more. The Qt Image Formats add-on module provides optional support for other image file formats.",
@@ -53085,8 +53085,8 @@
     },
     {
       "name": "qt6-languageserver",
-      "version": "6.12.0",
-      "release": 14,
+      "version": "6.12.1",
+      "release": 15,
       "homepage": "https://www.qt.io",
       "summary": "An implementation of the Language Server Protocol",
       "description": "An implementation of the Language Server Protocol",
@@ -53104,8 +53104,8 @@
     },
     {
       "name": "qt6-location",
-      "version": "6.12.0",
-      "release": 17,
+      "version": "6.12.1",
+      "release": 18,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 Location and Mapping Components",
       "description": "The Qt Location API helps you create viable mapping solutions using the data available from some of the popular location services.",
@@ -53130,8 +53130,8 @@
     },
     {
       "name": "qt6-multimedia",
-      "version": "6.12.0",
-      "release": 16,
+      "version": "6.12.1",
+      "release": 17,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 Multimedia Components",
       "description": "Qt Multimedia is an essential module that provides a rich set of QML types and C++ classes to handle multimedia content. It also provides necessary APIs to access the camera and radio functionality. The included Qt Audio Engine provides types for 3D positional audio playback and content management.",
@@ -53164,8 +53164,8 @@
     },
     {
       "name": "qt6-networkauth",
-      "version": "6.12.0",
-      "release": 10,
+      "version": "6.12.1",
+      "release": 11,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 NetworkAuth components",
       "description": "Qt Network Authorization provides a set of APIs that enable Qt applications to obtain limited access to online accounts and HTTP services without exposing users' passwords.",
@@ -53185,8 +53185,8 @@
     },
     {
       "name": "qt6-positioning",
-      "version": "6.12.0",
-      "release": 14,
+      "version": "6.12.1",
+      "release": 15,
       "homepage": "https://doc.qt.io/qt-6/qtpositioning-index.html",
       "summary": "Qt6 position, satellite and area monitoring classes",
       "description": "Provides access to position, satellite and area monitoring classes",
@@ -53209,8 +53209,8 @@
     },
     {
       "name": "qt6-quick3d",
-      "version": "6.12.0",
-      "release": 16,
+      "version": "6.12.1",
+      "release": 17,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 Quick 3D module",
       "description": "Qt Quick 3D provides a high-level API for creating 3D content and 3D user interfaces based on Qt Quick. Rather than using an external engine which creates syncing issues, and additional layers of abstraction, we provide extensions to the existing Qt Quick Scene Graph for spatial content, and a renderer for that extended scene graph. When using the spatial scene graph it is also possible to mix Qt Quick 2D content with 3D content.",
@@ -53240,8 +53240,8 @@
     },
     {
       "name": "qt6-quicktimeline",
-      "version": "6.12.0",
-      "release": 14,
+      "version": "6.12.1",
+      "release": 15,
       "homepage": "https://www.qt.io",
       "summary": "Enables keyframe-based animations and parameterization for Qt6",
       "description": "Enables keyframe-based animations and parameterization for Qt6",
@@ -53262,8 +53262,8 @@
     },
     {
       "name": "qt6-sensors",
-      "version": "6.12.0",
-      "release": 10,
+      "version": "6.12.1",
+      "release": 11,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 Sensors Module",
       "description": "The Qt Sensors API provides access to sensor hardware via QML and C++ interfaces. The Qt Sensors API also provides a motion gesture recognition API for devices.",
@@ -53285,8 +53285,8 @@
     },
     {
       "name": "qt6-serialport",
-      "version": "6.12.0",
-      "release": 10,
+      "version": "6.12.1",
+      "release": 11,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 Serial Port Module",
       "description": "Qt6 Serial Port provides the basic functionality, which includes configuring, I/O operations, getting and setting the control signals of the RS-232 pinouts.",
@@ -53306,8 +53306,8 @@
     },
     {
       "name": "qt6-shadertools",
-      "version": "6.12.0",
-      "release": 16,
+      "version": "6.12.1",
+      "release": 17,
       "homepage": "https://www.qt.io",
       "summary": "Qt Shader Tools module",
       "description": "APIs and tools in this module provide the producer functionality for the shader pipeline that allows Qt Quick to operate on Vulkan in addition to OpenGL.",
@@ -53328,8 +53328,8 @@
     },
     {
       "name": "qt6-speech",
-      "version": "6.12.0",
-      "release": 13,
+      "version": "6.12.1",
+      "release": 14,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 Speech Components",
       "description": "The module enables a Qt application to support accessibility features such as text-to-speech, which is useful for end-users who are visually challenged or cannot access the application for whatever reason. The most common use case where text-to-speech comes in handy is when the end-user is driving and cannot attend the incoming messages on the phone. In such a scenario, the messaging application can read out the incoming message.",
@@ -53352,8 +53352,8 @@
     },
     {
       "name": "qt6-svg",
-      "version": "6.12.0",
-      "release": 16,
+      "version": "6.12.1",
+      "release": 17,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 SVG Module",
       "description": "Scalable Vector Graphics (SVG) is an XML-based language for describing two-dimensional vector graphics. Qt provides classes for rendering and displaying SVG drawings in widgets and on other paint devices.",
@@ -53373,8 +53373,8 @@
     },
     {
       "name": "qt6-tools",
-      "version": "6.12.0",
-      "release": 19,
+      "version": "6.12.1",
+      "release": 20,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 QtTools Module",
       "description": "Qt is a set of libraries for developing applications.  This package contains base tools, like string, xml, and network handling.",
@@ -53433,8 +53433,8 @@
     },
     {
       "name": "qt6-virtualkeyboard",
-      "version": "6.12.0",
-      "release": 11,
+      "version": "6.12.1",
+      "release": 12,
       "homepage": "https://www.qt.io",
       "summary": "Qt Virtual Keyboard",
       "description": "Qt Virtual Keyboard is a virtual keyboard framework that consists of a C++ backend supporting custom input methods as well as a UI frontend implemented in QML.",
@@ -53458,8 +53458,8 @@
     },
     {
       "name": "qt6-wayland",
-      "version": "6.12.0",
-      "release": 18,
+      "version": "6.12.1",
+      "release": 19,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 Wayland Library",
       "description": "The Qt Wayland Compositor is a module that provides convenient and powerful QML and C++ APIs for developing custom display servers based on the Wayland protocol. The display server, often called a compositor, displays content from client applications that support the Wayland protocol.",
@@ -53496,8 +53496,8 @@
     },
     {
       "name": "qt6-webchannel",
-      "version": "6.12.0",
-      "release": 10,
+      "version": "6.12.1",
+      "release": 11,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 Webchannel Module",
       "description": "The Qt WebChannel module offers Qt applications a seamless way to publish QObjects for interaction with HTML/JavaScript clients. These clients can either be inside local Qt WebViews or any other, potentially remote, client which supports JavaScript, as long as a communication channel such as WebSocket is available.\n\nQt WebChannel uses introspection on the QObjects and sends this serialized data to the clients. There, with the help of a small JavaScript library, an object is created which simulates the API of the QObject. Any invokable methods, including slots, can be called as well as properties read and written. Additionally you can connect to signals and register JavaScript callbacks as handlers.",
@@ -53526,7 +53526,7 @@
     {
       "name": "qt6-webengine",
       "version": "6.140.0",
-      "release": 39,
+      "release": 40,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 Webengine Module",
       "description": "The Qt WebEngine module provides a web browser engine that makes it easy to embed content from the World Wide Web into your Qt application on platforms that do not have a native web engine.",
@@ -53629,8 +53629,8 @@
     },
     {
       "name": "qt6-websockets",
-      "version": "6.12.0",
-      "release": 10,
+      "version": "6.12.1",
+      "release": 11,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 Websockets Module",
       "description": "WebSocket is a web-based protocol designed to enable two-way communication between a client application and a remote host. It enables the two entities to send data back and forth if the initial handshake succeeds. WebSocket is the solution for applications that struggle to get real-time data feeds with less network latency and minimum data exchange.\n\nThe Qt WebSockets module provides C++ and QML interfaces that enable Qt applications to act as a server that can process WebSocket requests, or a client that can consume data received from the server, or both.",
@@ -53651,8 +53651,8 @@
     },
     {
       "name": "qt6-webview",
-      "version": "6.12.0",
-      "release": 10,
+      "version": "6.12.1",
+      "release": 11,
       "homepage": "https://www.qt.io",
       "summary": "Qt6 WebView Library",
       "description": "Qt WebView provides a way to display web content in a QML application without necessarily including a full web browser stack by using native APIs where it makes sense.",
@@ -53673,7 +53673,7 @@
     {
       "name": "qt6ct",
       "version": "0.11",
-      "release": 5,
+      "release": 6,
       "homepage": "https://www.opencode.net/trialuser/qt6ct",
       "summary": "Qt6 - Configuration Tool",
       "description": "This program allows users to configure Qt6 settings (theme, font, icons, etc.) under DE/WM without Qt integration.",
@@ -53799,7 +53799,7 @@
     {
       "name": "quickshell",
       "version": "0.3.2",
-      "release": 13,
+      "release": 14,
       "homepage": "https://quickshell.org/",
       "summary": "Flexible QtQuick based desktop shell toolkit",
       "description": "Quickshell is a toolkit for building status bars, widgets, lockscreens, and other desktop components using QtQuick. It can be used alongside your wayland compositor or window manager to build a complete desktop environment.",
@@ -54120,8 +54120,8 @@
     },
     {
       "name": "riftbar",
-      "version": "0.2.8",
-      "release": 5,
+      "version": "0.3.2",
+      "release": 6,
       "homepage": "https://codeberg.org/sorashii/riftbar",
       "summary": "Highly customizable GTK4 bar for Wayland written in Rust.",
       "description": "Riftbar is a Waybar-like status bar writen in Rust designed to be fast, safe and modern.",
@@ -56249,7 +56249,7 @@
     {
       "name": "spectacle",
       "version": "6.8.3",
-      "release": 39,
+      "release": 40,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "KDE Screenshot Utility",
       "description": "KDE Screenshot Utility",
@@ -57019,7 +57019,7 @@
     {
       "name": "strawberry",
       "version": "1.2.31",
-      "release": 19,
+      "release": 20,
       "homepage": "https://www.strawberrymusicplayer.org",
       "summary": "Strawberry is a audio player and music collection organizer.",
       "description": "Strawberry is a audio player and music collection organizer. It is a fork of Clementine released in 2018 aimed at music collectors, audio enthusiasts and audiophiles.",
@@ -57226,9 +57226,9 @@
     },
     {
       "name": "svt-av1",
-      "version": "4.3.0",
-      "release": 9,
-      "homepage": "https://gitlab.com/AOMediaCodec/SVT-AV1",
+      "version": "4.3.1",
+      "release": 10,
+      "homepage": "https://github.com/AOMediaCodec/SVT-AV1",
       "summary": "Scalable Video Technology for AV1 (SVT-AV1 Encoder)",
       "description": "The Scalable Video Technology for AV1 (SVT-AV1 Encoder) is an AV1-compliant encoder library core.",
       "license": [
@@ -58038,7 +58038,7 @@
     {
       "name": "systemsettings",
       "version": "6.8.3",
-      "release": 35,
+      "release": 36,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "System settings utility for Plasma",
       "description": "System settings utility for Plasma",
@@ -59518,8 +59518,8 @@
     },
     {
       "name": "thunderbird",
-      "version": "160.0",
-      "release": 63,
+      "version": "161.0",
+      "release": 64,
       "homepage": "https://www.thunderbird.net/",
       "summary": "Thunderbird Email Client",
       "description": "Thunderbird Email Client",
@@ -59572,8 +59572,8 @@
     },
     {
       "name": "thunderbird-langpacks",
-      "version": "160.0",
-      "release": 35,
+      "version": "161.0",
+      "release": 36,
       "homepage": "https://www.mozilla.org/",
       "summary": "Thunderbird Email Client - langpacks",
       "description": "This package contains the internationalization language packs for Thunderbird",
@@ -59835,7 +59835,7 @@
     {
       "name": "tokodon",
       "version": "26.08.3",
-      "release": 2,
+      "release": 3,
       "homepage": "https://apps.kde.org/tokodon/",
       "summary": "Mastodon and Fediverse client",
       "description": "A modern client for Mastodon and other decentralized servers that implement its API (such as Pixelfed).",
@@ -60898,8 +60898,8 @@
     },
     {
       "name": "uutils-coreutils",
-      "version": "0.12.0",
-      "release": 40,
+      "version": "0.13.0",
+      "release": 41,
       "homepage": "https://uutils.github.io/coreutils/",
       "summary": "Cross-platform Rust rewrite of the GNU coreutils",
       "description": "Cross-platform Rust rewrite of the GNU coreutils",
@@ -60911,12 +60911,6 @@
       "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/u/uutils-coreutils/stone.yaml",
       "builddeps": [
         "pkgconfig(systemd)"
-      ],
-      "rundeps": [
-        "binary(gnu-cp)",
-        "binary(gnu-mv)",
-        "binary(gnu-rm)",
-        "binary(gnu-rmdir)"
       ],
       "packages": [
         {
@@ -61109,7 +61103,7 @@
     {
       "name": "v4l2loopback-module",
       "version": "0.15.4",
-      "release": 58,
+      "release": 59,
       "homepage": "https://github.com/umlaeute/v4l2loopback",
       "summary": "V4L2 loopback device (virtual camera)",
       "description": "This module allows you to create virtual video devices. Normal (v4l2) applications\nwill read these devices as if they were ordinary video devices, but the video\nis generated by another application. Perfect for OBS Virtual Camera.",
@@ -62402,6 +62396,39 @@
       ],
       "category": "Desktop",
       "channel": "both"
+    },
+    {
+      "name": "waypipe",
+      "version": "0.11.3",
+      "release": 1,
+      "homepage": "https://gitlab.freedesktop.org/mstoeckl/waypipe",
+      "summary": "Network transparency with Wayland",
+      "description": "waypipe is a proxy for Wayland clients. It forwards Wayland messages and\nserializes changes to shared memory buffers over a single socket. This makes\napplication forwarding similar to ssh -X feasible.",
+      "license": [
+        "GPL-3.0-or-later"
+      ],
+      "letter": "w",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/w/waypipe/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/w/waypipe/stone.yaml",
+      "builddeps": [
+        "binary(bindgen)",
+        "binary(glslc)",
+        "binary(scdoc)",
+        "pkgconfig(gbm)",
+        "pkgconfig(libavcodec)",
+        "pkgconfig(libavutil)",
+        "pkgconfig(liblz4)",
+        "pkgconfig(libzstd)",
+        "pkgconfig(vulkan)"
+      ],
+      "rundeps": [
+        "binary(ssh)",
+        "soname(libavcodec.so.63(x86_64))",
+        "soname(libgbm.so.1(x86_64))",
+        "soname(libvulkan.so.1(x86_64))"
+      ],
+      "category": "Networking",
+      "channel": "volatile"
     },
     {
       "name": "wayvr",
@@ -64035,7 +64062,7 @@
     {
       "name": "xdg-desktop-portal-kde",
       "version": "6.8.3",
-      "release": 35,
+      "release": 36,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "Qt/KDE for xdg-desktop-portal",
       "description": "Qt/KDE for xdg-desktop-portal",
@@ -64686,7 +64713,7 @@
     {
       "name": "yakuake",
       "version": "26.08.3",
-      "release": 28,
+      "release": 29,
       "homepage": "https://apps.kde.org/yakuake/",
       "summary": "A quake style dropdown terminal.",
       "description": "A quake-inspired dropdown terminal window.  Qt-based, robust, and highly configurable.",
@@ -64934,8 +64961,8 @@
     },
     {
       "name": "yt-dlp",
-      "version": "2026.10.26",
-      "release": 6,
+      "version": "2026.11.23",
+      "release": 7,
       "homepage": "https://github.com/yt-dlp/yt-dlp",
       "summary": "yt-dlp is a feature-rich command-line audio/video downloader with support for thousands of sites",
       "description": "yt-dlp is a feature-rich command-line audio/video downloader with support for thousands of sites. The project is a fork of youtube-dl based on the now inactive youtube-dlc.",
@@ -65148,8 +65175,8 @@
     },
     {
       "name": "zellij",
-      "version": "0.46.0",
-      "release": 11,
+      "version": "0.46.1",
+      "release": 12,
       "homepage": "https://zellij.dev/",
       "summary": "A terminal workspace with batteries included",
       "description": "Zellij is a terminal workspace. It has the base functionality of a terminal multiplexer (similar to tmux or screen) but includes many built-in features that would allow users to extend it and create their own personalized environment.",
@@ -65246,7 +65273,7 @@
     {
       "name": "zfs-module",
       "version": "2.4.4",
-      "release": 48,
+      "release": 49,
       "homepage": "https://openzfs.github.io/openzfs-docs/",
       "summary": "An advanced file system and volume manager",
       "description": "An advanced file system and volume manager",
@@ -65663,8 +65690,8 @@
     },
     {
       "name": "zstd",
-      "version": "1.5.7",
-      "release": 13,
+      "version": "1.6.0",
+      "release": 14,
       "homepage": "https://facebook.github.io/zstd",
       "summary": "Fast real-time compression algorithm",
       "description": "Fast real-time compression algorithm",
@@ -65718,8 +65745,8 @@
     },
     {
       "name": "zxing-cpp",
-      "version": "3.1.1",
-      "release": 8,
+      "version": "3.2.0",
+      "release": 9,
       "homepage": "https://github.com/zxing-cpp/zxing-cpp",
       "summary": "ZXing-C++ (\"zebra crossing\") is an open-source, multi-format linear/matrix barcode image processing library implemented in C++",
       "description": "ZXing-C++ (\"zebra crossing\") is an open-source, multi-format linear/matrix barcode image processing library implemented in C++. It was originally ported from the Java ZXing Library but has been developed further and now includes many improvements in terms of quality and performance. It can both read and write barcodes in a number of formats.",
@@ -65732,12 +65759,10 @@
       "builddeps": [
         "binary(make)",
         "binary(patchelf)",
-        "cmake(pybind11)",
         "cmake(zint)",
         "pkgconfig(python3)",
         "python(nanobind)",
-        "python(scikit-build-core)",
-        "stb"
+        "python(scikit-build-core)"
       ],
       "packages": [
         {
