@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-25T00:50:32.912Z",
-  "totalCount": 1976,
+  "generatedAt": "2026-11-25T14:31:18.490Z",
+  "totalCount": 1978,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "9d1672ab185b744393fc5f531f66dfcffb08509d",
+  "commitSha": "eb025334a90d9d8fbce8fa01fc0d779785e9e8e5",
   "channelStats": {
-    "volatileCount": 6209,
+    "volatileCount": 6215,
     "unstableCount": 6207,
-    "volatileOnlyCount": 1,
+    "volatileOnlyCount": 3,
     "bothCount": 1975,
     "recipeOnlyCount": 0
   },
@@ -4563,6 +4563,32 @@
       "channel": "both"
     },
     {
+      "name": "cifs-utils",
+      "version": "7.9",
+      "release": 1,
+      "homepage": "https://www.samba.org/ftp/linux-cifs/cifs-utils",
+      "summary": "Tool for mounting SMB/CIFS shares",
+      "description": "The %(name) package provides a means for mounting SMB/CIFS shares on a Linux system.",
+      "license": [
+        "GPL-2.0-or-later"
+      ],
+      "letter": "c",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/c/cifs-utils/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/c/cifs-utils/stone.yaml",
+      "builddeps": [
+        "binary(rst2man)",
+        "pkgconfig(libcap-ng)",
+        "pkgconfig(libkeyutils)",
+        "pkgconfig(pam)",
+        "pkgconfig(talloc)"
+      ],
+      "rundeps": [
+        "binary(python3)"
+      ],
+      "category": "Utilities",
+      "channel": "volatile"
+    },
+    {
       "name": "cinny-desktop",
       "version": "4.12.8",
       "release": 4,
@@ -5017,8 +5043,8 @@
     },
     {
       "name": "cosmic-app-library",
-      "version": "1.11.0",
-      "release": 2,
+      "version": "1.12.0",
+      "release": 3,
       "homepage": "https://github.com/pop-os/cosmic-app-library",
       "summary": "Cosmic Desktop App Launcher",
       "description": "Cosmic Desktop App Launcher",
@@ -5039,8 +5065,8 @@
     },
     {
       "name": "cosmic-applets",
-      "version": "1.11.0",
-      "release": 59,
+      "version": "1.12.0",
+      "release": 60,
       "homepage": "https://github.com/pop-os/cosmic-applets",
       "summary": "Cosmic Panel Applets",
       "description": "Cosmic Panel Applets",
@@ -5086,8 +5112,8 @@
     },
     {
       "name": "cosmic-bg",
-      "version": "1.11.0",
-      "release": 54,
+      "version": "1.12.0",
+      "release": 55,
       "homepage": "https://github.com/pop-os/cosmic-bg",
       "summary": "Cosmic Desktop Background Service",
       "description": "Cosmic Desktop Background Service",
@@ -5108,8 +5134,8 @@
     },
     {
       "name": "cosmic-comp",
-      "version": "1.11.0",
-      "release": 60,
+      "version": "1.12.0",
+      "release": 61,
       "homepage": "https://github.com/pop-os/cosmic-comp",
       "summary": "Cosmic Desktop Compositor",
       "description": "Cosmic Desktop Compositor",
@@ -5189,8 +5215,8 @@
     },
     {
       "name": "cosmic-edit",
-      "version": "1.11.0",
-      "release": 58,
+      "version": "1.12.0",
+      "release": 59,
       "homepage": "https://github.com/pop-os/cosmic-edit",
       "summary": "Cosmic Desktop Text Editor",
       "description": "Cosmic desktop Text Editor",
@@ -5214,8 +5240,8 @@
     },
     {
       "name": "cosmic-files",
-      "version": "1.11.0",
-      "release": 61,
+      "version": "1.12.0",
+      "release": 62,
       "homepage": "https://github.com/pop-os/cosmic-files",
       "summary": "Cosmic Desktop File Browser",
       "description": "Cosmic desktop File Browser",
@@ -5246,8 +5272,8 @@
     },
     {
       "name": "cosmic-greeter",
-      "version": "1.11.0",
-      "release": 65,
+      "version": "1.12.0",
+      "release": 66,
       "homepage": "https://github.com/pop-os/cosmic-greeter",
       "summary": "Cosmic Desktop Greeter",
       "description": "Cosmic Desktop Greeter",
@@ -5279,8 +5305,8 @@
     },
     {
       "name": "cosmic-icons",
-      "version": "1.11.0",
-      "release": 52,
+      "version": "1.12.0",
+      "release": 53,
       "homepage": "https://github.com/pop-os/cosmic-icons",
       "summary": "Cosmic Icons by System76",
       "description": "Cosmic Icons by System76",
@@ -5304,8 +5330,8 @@
     },
     {
       "name": "cosmic-idle",
-      "version": "1.11.0",
-      "release": 47,
+      "version": "1.12.0",
+      "release": 48,
       "homepage": "https://github.com/pop-os/cosmic-idle",
       "summary": "Cosmic Desktop Idle Daemon",
       "description": "Cosmic Desktop Idle Daemon",
@@ -5324,8 +5350,8 @@
     },
     {
       "name": "cosmic-initial-setup",
-      "version": "1.11.0",
-      "release": 38,
+      "version": "1.12.0",
+      "release": 39,
       "homepage": "https://github.com/pop-os/cosmic-initial-setup",
       "summary": "Cosmic Initial Setup",
       "description": "Cosmic Desktop Intial Setup Application",
@@ -5349,8 +5375,8 @@
     },
     {
       "name": "cosmic-launcher",
-      "version": "1.11.0",
-      "release": 54,
+      "version": "1.12.0",
+      "release": 55,
       "homepage": "https://github.com/pop-os/cosmic-launcher",
       "summary": "Cosmic Desktop Launcher",
       "description": "Cosmic Desktop Launcher",
@@ -5372,8 +5398,8 @@
     },
     {
       "name": "cosmic-monitor",
-      "version": "1.11.0",
-      "release": 11,
+      "version": "1.12.0",
+      "release": 12,
       "homepage": "https://github.com/pop-os/cosmic-monitor",
       "summary": "Cosmic System Monitor",
       "description": "Cosmic System Monitor",
@@ -5392,8 +5418,8 @@
     },
     {
       "name": "cosmic-notifications",
-      "version": "1.11.0",
-      "release": 53,
+      "version": "1.12.0",
+      "release": 54,
       "homepage": "https://github.com/pop-os/cosmic-notifications",
       "summary": "Cosmic Desktop Notifications",
       "description": "Cosmic Desktop Notifications",
@@ -5415,8 +5441,8 @@
     },
     {
       "name": "cosmic-osd",
-      "version": "1.11.0",
-      "release": 53,
+      "version": "1.12.0",
+      "release": 54,
       "homepage": "https://github.com/pop-os/cosmic-osd",
       "summary": "Cosmic Desktop OSD",
       "description": "Cosmic Desktop OSD",
@@ -5441,8 +5467,8 @@
     },
     {
       "name": "cosmic-osk",
-      "version": "1.11.0",
-      "release": 3,
+      "version": "1.12.0",
+      "release": 4,
       "homepage": "https://github.com/pop-os/cosmic-osk",
       "summary": "Cosmic On-Screen Keyboard",
       "description": "Cosmic On-Screen Keyboard",
@@ -5462,8 +5488,8 @@
     },
     {
       "name": "cosmic-panel",
-      "version": "1.11.0",
-      "release": 54,
+      "version": "1.12.0",
+      "release": 55,
       "homepage": "https://github.com/pop-os/cosmic-panel",
       "summary": "Cosmic Desktop Panel",
       "description": "Cosmic Desktop panel",
@@ -5485,8 +5511,8 @@
     },
     {
       "name": "cosmic-player",
-      "version": "1.11.0",
-      "release": 45,
+      "version": "1.12.0",
+      "release": 46,
       "homepage": "https://github.com/pop-os/cosmic-player",
       "summary": "COSMIC media player",
       "description": "Cosmic Desktop Media Player",
@@ -5512,8 +5538,8 @@
     },
     {
       "name": "cosmic-randr",
-      "version": "1.11.0",
-      "release": 50,
+      "version": "1.12.0",
+      "release": 51,
       "homepage": "https://github.com/pop-os/cosmic-randr",
       "summary": "Cosmic Desktop display configuration",
       "description": "Cosmic Desktop display configuration",
@@ -5535,8 +5561,8 @@
     },
     {
       "name": "cosmic-screenshot",
-      "version": "1.11.0",
-      "release": 53,
+      "version": "1.12.0",
+      "release": 54,
       "homepage": "https://github.com/pop-os/cosmic-screenshot",
       "summary": "Cosmic Screenshot Tool",
       "description": "Cosmic Screenshot Tool",
@@ -5560,8 +5586,8 @@
     },
     {
       "name": "cosmic-session",
-      "version": "1.11.0",
-      "release": 65,
+      "version": "1.12.0",
+      "release": 66,
       "homepage": "https://github.com/pop-os/cosmic-session",
       "summary": "Cosmic Session Management",
       "description": "Cosmic Session Management",
@@ -5611,8 +5637,8 @@
     },
     {
       "name": "cosmic-settings",
-      "version": "1.11.0",
-      "release": 62,
+      "version": "1.12.0",
+      "release": 63,
       "homepage": "https://github.com/pop-os/cosmic-settings",
       "summary": "Cosmic Desktop Settings",
       "description": "Cosmic Desktop Settings",
@@ -5640,8 +5666,8 @@
     },
     {
       "name": "cosmic-settings-daemon",
-      "version": "1.11.0",
-      "release": 55,
+      "version": "1.12.0",
+      "release": 56,
       "homepage": "https://github.com/pop-os/cosmic-settings-daemon",
       "summary": "Cosmic Settings Daemon",
       "description": "Cosmic Settings Daemon",
@@ -5671,8 +5697,8 @@
     },
     {
       "name": "cosmic-sound-theme",
-      "version": "1.11.0",
-      "release": 7,
+      "version": "1.12.0",
+      "release": 8,
       "homepage": "https://github.com/pop-os/cosmic-sound-theme",
       "summary": "System76 COSMIC Sound Theme",
       "description": "System76 COSMIC Sound Theme",
@@ -5687,8 +5713,8 @@
     },
     {
       "name": "cosmic-store",
-      "version": "1.11.0",
-      "release": 53,
+      "version": "1.12.0",
+      "release": 54,
       "homepage": "https://github.com/pop-os/cosmic-store",
       "summary": "Cosmic Desktop Store",
       "description": "Cosmic Desktop Store",
@@ -5716,8 +5742,8 @@
     },
     {
       "name": "cosmic-term",
-      "version": "1.11.0",
-      "release": 57,
+      "version": "1.12.0",
+      "release": 58,
       "homepage": "https://github.com/pop-os/cosmic-term",
       "summary": "Cosmic Desktop Terminal Application",
       "description": "Cosmic desktop Terminal Application",
@@ -5739,8 +5765,8 @@
     },
     {
       "name": "cosmic-viewer",
-      "version": "1.11.0",
-      "release": 4,
+      "version": "1.12.0",
+      "release": 5,
       "homepage": "https://github.com/pop-os/cosmic-viewer",
       "summary": "Cosmic Desktop Image Viewer",
       "description": "Cosmic Desktop Image Viewer",
@@ -5776,8 +5802,8 @@
     },
     {
       "name": "cosmic-wallpapers",
-      "version": "1.11.0",
-      "release": 46,
+      "version": "1.12.0",
+      "release": 47,
       "homepage": "https://github.com/pop-os/cosmic-wallpapers",
       "summary": "Cosmic Desktop Wallpapers",
       "description": "Cosmic Desktop Wallpapers",
@@ -5792,8 +5818,8 @@
     },
     {
       "name": "cosmic-workspaces",
-      "version": "1.11.0",
-      "release": 52,
+      "version": "1.12.0",
+      "release": 53,
       "homepage": "https://github.com/pop-os/cosmic-workspaces-epoch",
       "summary": "Cosmic Desktop Workspaces",
       "description": "Cosmic Desktop Workspaces",
@@ -6990,8 +7016,8 @@
     },
     {
       "name": "discord",
-      "version": "1.0.170",
-      "release": 76,
+      "version": "1.0.171",
+      "release": 77,
       "homepage": "https://discord.com/",
       "summary": "Group chat, video, and voice calling app",
       "description": "Discord is a proprietary freeware VoIP application and digital distribution platform designed for video gaming communities, that specializes in text, image, video and audio communication between users in a chat channel.",
@@ -7308,6 +7334,22 @@
       ],
       "category": "System",
       "channel": "both"
+    },
+    {
+      "name": "docker-dash",
+      "version": "0.1.4",
+      "release": 1,
+      "homepage": "https://github.com/GustavoCaso/docker-dash",
+      "summary": "A comprehensive TUI management tool for Docker containers",
+      "description": "A keyboard-focused Docker dashboard for the terminal.\nManage Docker containers, images, volumes, networks, \nand compose projects without leaving the command line.",
+      "license": [
+        "MIT"
+      ],
+      "letter": "d",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/d/docker-dash/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/d/docker-dash/stone.yaml",
+      "category": "System",
+      "channel": "volatile"
     },
     {
       "name": "docutils",
@@ -9351,8 +9393,8 @@
     },
     {
       "name": "expat",
-      "version": "2.10.0",
-      "release": 21,
+      "version": "2.11.0",
+      "release": 22,
       "homepage": "https://libexpat.github.io",
       "summary": "An XML parser library",
       "description": "An XML parser library",
@@ -12637,8 +12679,8 @@
     },
     {
       "name": "gdm",
-      "version": "51.1.1",
-      "release": 41,
+      "version": "51.2",
+      "release": 42,
       "homepage": "https://gitlab.gnome.org/GNOME/gdm",
       "summary": "GNOME Display Manager",
       "description": "Login/lock and session management with the GNOME Display Manager",
@@ -14582,8 +14624,8 @@
     },
     {
       "name": "gnome-online-accounts-gtk",
-      "version": "3.50.12",
-      "release": 3,
+      "version": "3.50.13",
+      "release": 4,
       "homepage": "https://github.com/xapp-project/gnome-online-accounts-gtk",
       "summary": "A GTK Frontend for GNOME Online Accounts",
       "description": "A GTK Frontend for GNOME Online Accounts",
@@ -14617,8 +14659,8 @@
     },
     {
       "name": "gnome-remote-desktop",
-      "version": "51.0",
-      "release": 24,
+      "version": "51.1",
+      "release": 25,
       "homepage": "https://gitlab.gnome.org/GNOME/gnome-remote-desktop",
       "summary": "Remote desktop daemon for GNOME using pipewire",
       "description": "Remote desktop server which allows you to connect to your machine remotely",
@@ -31444,8 +31486,8 @@
     },
     {
       "name": "libpcap",
-      "version": "1.11.0",
-      "release": 11,
+      "version": "1.11.1",
+      "release": 12,
       "homepage": "https://www.tcpdump.org/",
       "summary": "Platform-independent network traffic capture library",
       "description": "Platform-independent network traffic capture library",
@@ -35280,8 +35322,8 @@
     },
     {
       "name": "linux-firmware",
-      "version": "20261019",
-      "release": 49,
+      "version": "20261124",
+      "release": 50,
       "homepage": "https://kernel.org",
       "summary": "Firmware to allow devices to function correctly",
       "description": "Firmware to allow devices to function correctly",
@@ -35310,6 +35352,11 @@
           "name": "linux-firmware-amd-graphics",
           "summary": "Support for AMD graphics and NPU chips",
           "channel": "both"
+        },
+        {
+          "name": "linux-firmware-amd-sound",
+          "summary": "Support for AMD audio DSPs",
+          "channel": "volatile"
         },
         {
           "name": "linux-firmware-atheros",
@@ -35452,6 +35499,7 @@
           "rundeps": [
             "%(name)-amd64-microcode",
             "%(name)-amd-graphics",
+            "%(name)-amd-sound",
             "%(name)-atheros",
             "%(name)-bnx2",
             "%(name)-bnx2x",
@@ -35485,7 +35533,8 @@
           "summary": "DEPRECATED - Compat package for AMD",
           "rundeps": [
             "%(name)-amd64-microcode",
-            "%(name)-amd-graphics"
+            "%(name)-amd-graphics",
+            "%(name)-amd-sound"
           ],
           "channel": "both"
         },
@@ -38694,7 +38743,7 @@
     {
       "name": "mesa",
       "version": "26.3.1",
-      "release": 98,
+      "release": 99,
       "homepage": "https://mesa3d.org/",
       "summary": "Mesa 3D graphics library",
       "description": "The Mesa project began as an open-source implementation of the OpenGL specification - a system for rendering interactive 3D graphics. Over the years the project has grown to implement more graphics APIs, including OpenGL ES, OpenCL, OpenMAX, VDPAU, VA-API, Vulkan and EGL. A variety of device drivers allows the Mesa libraries to be used in many different environments ranging from software emulation to complete hardware acceleration for modern GPUs. Mesa ties into several other open-source projects: the Direct Rendering Infrastructure, X.org, and Wayland to provide OpenGL support on Linux, FreeBSD, and other operating systems.",
@@ -39150,8 +39199,8 @@
     },
     {
       "name": "mimalloc",
-      "version": "3.7.0",
-      "release": 23,
+      "version": "3.7.1",
+      "release": 24,
       "homepage": "https://github.com/microsoft/mimalloc",
       "summary": "Compact general purpose allocator",
       "description": "mimalloc is a compact general purpose allocator with excellent performance.",
@@ -40682,8 +40731,8 @@
     },
     {
       "name": "neovide",
-      "version": "0.17.3",
-      "release": 7,
+      "version": "0.17.4",
+      "release": 8,
       "homepage": "https://neovide.dev/",
       "summary": "A simple and no-nonsense graphical user interface for Neovim",
       "description": "Neovide is a simple graphical user interface for Neovim (an aggressively refactored and updated Vim editor).\nWhere possible there are some graphical improvements, but functionally it should act like the terminal UI.\nTo checkout all the cool features, installation instructions, configuration settings and much more, head on over to neovide.dev.",
@@ -47618,8 +47667,8 @@
     },
     {
       "name": "protontricks",
-      "version": "1.15.0",
-      "release": 7,
+      "version": "1.15.1",
+      "release": 8,
       "homepage": "https://github.com/Matoking/protontricks",
       "summary": "A simple wrapper that does winetricks things for Proton enabled games",
       "description": "A simple wrapper that does winetricks things for Proton enabled games",
@@ -47632,6 +47681,11 @@
       "builddeps": [
         "python(setuptools)",
         "python(setuptools-scm)"
+      ],
+      "checkdeps": [
+        "python(pillow)",
+        "python(pytest)",
+        "python(vdf)"
       ],
       "rundeps": [
         "binary(winetricks)",
@@ -54862,8 +54916,8 @@
     },
     {
       "name": "screen",
-      "version": "5.0.2",
-      "release": 7,
+      "version": "5.0.3",
+      "release": 8,
       "homepage": "https://www.gnu.org/software/screen",
       "summary": "Terminal multiplexer with support for serial communication",
       "description": "Screen is a full-screen window manager that multiplexes a physical terminal between several processes, typically interactive shells. Each virtual terminal provides the functions of the DEC VT100 terminal and, in addition, several control functions from the ANSI X3.64 (ISO 6429) and ISO 2022 standards (e.g., insert/delete line and support for multiple character sets). There is a scrollback history buffer for each virtual terminal and a copy-and-paste mechanism that allows the user to move text regions between windows. When screen is called, it creates a single window with a shell in it (or the specified command) and then gets out of your way so that you can use the program as you normally would. Then, at any time, you can create new (full-screen) windows with other programs in them (including more shells), kill the current window, view a list of the active windows, turn output logging on and off, copy text between windows, view the scrollback history, switch between windows, etc. All windows run their programs completely independent of each other. Programs continue to run when their window is currently not visible and even when the whole screen session is detached from the users terminal.",
@@ -54883,8 +54937,8 @@
     },
     {
       "name": "scx-scheds",
-      "version": "1.1.4",
-      "release": 14,
+      "version": "1.1.5",
+      "release": 15,
       "homepage": "https://github.com/sched-ext/scx",
       "summary": "sched_ext schedulers",
       "description": "sched_ext schedulers",
@@ -63947,8 +64001,8 @@
     },
     {
       "name": "xdg-desktop-portal-cosmic",
-      "version": "1.11.0",
-      "release": 55,
+      "version": "1.12.0",
+      "release": 56,
       "homepage": "https://github.com/pop-os/xdg-desktop-portal-cosmic",
       "summary": "Cosmic Desktop - XDG Portal Support",
       "description": "Cosmic Desktop - XDG Portal Support",
