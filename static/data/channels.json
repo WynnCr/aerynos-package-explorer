@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-25T14:31:12.972451+00:00",
-  "volatileHistory": "1795611944",
+  "generatedAt": "2026-11-26T00:29:29.832181+00:00",
+  "volatileHistory": "1795651506",
   "unstableHistory": "1795381775",
-  "volatileTotal": 6215,
+  "volatileTotal": 6217,
   "unstableTotal": 6207,
-  "volatileOnlyCount": 8,
+  "volatileOnlyCount": 10,
   "unstableOnlyCount": 0,
   "bothCount": 6207,
   "volatilePackages": [
@@ -4578,6 +4578,8 @@
     "ppp",
     "ppp-dbginfo",
     "ppp-devel",
+    "presenterm",
+    "presenterm-dbginfo",
     "print-manager",
     "print-manager-dbginfo",
     "prism-launcher",

@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-25T14:31:18.490Z",
-  "totalCount": 1978,
+  "generatedAt": "2026-11-26T00:29:34.578Z",
+  "totalCount": 1979,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "eb025334a90d9d8fbce8fa01fc0d779785e9e8e5",
+  "commitSha": "d897c7ea9c00141585bf149d2e11e47ff714abec",
   "channelStats": {
-    "volatileCount": 6215,
+    "volatileCount": 6217,
     "unstableCount": 6207,
-    "volatileOnlyCount": 3,
+    "volatileOnlyCount": 4,
     "bothCount": 1975,
     "recipeOnlyCount": 0
   },
@@ -4167,7 +4167,7 @@
     {
       "name": "capnproto",
       "version": "1.5.0",
-      "release": 4,
+      "release": 5,
       "homepage": "https://capnproto.org/",
       "summary": "Cap'n Proto serialization/RPC system",
       "description": "Cap'n Proto is an insanely fast data interchange format and capability-based RPC system.",
@@ -4187,6 +4187,14 @@
       "packages": [
         {
           "name": "capnproto-libs",
+          "channel": "both"
+        },
+        {
+          "name": "capnproto-devel",
+          "rundeps": [
+            "cmake(OpenSSL)",
+            "cmake(zlib)"
+          ],
           "channel": "both"
         }
       ],
@@ -7273,8 +7281,8 @@
     },
     {
       "name": "docker",
-      "version": "29.10.0",
-      "release": 38,
+      "version": "29.10.1",
+      "release": 39,
       "homepage": "https://www.docker.com",
       "summary": "The open-source application container engine",
       "description": "The open-source application container engine. This contains the docker cli.",
@@ -7569,8 +7577,8 @@
     },
     {
       "name": "dracut",
-      "version": "112",
-      "release": 16,
+      "version": "113",
+      "release": 17,
       "homepage": "https://github.com/dracut-ng/dracut-ng",
       "summary": "dracut is an event driven initramfs infrastructure.",
       "description": "dracut (the tool) is used to create an initramfs image by copying tools and files from an installed system and combining it with the dracut framework, usually found in /usr/lib/dracut/modules.d.\nUnlike other implementations, dracut hard-codes as little as possible into the initramfs. The initramfs has (basically) one purpose in life -- getting the rootfs mounted so that we can transition to the real rootfs. This is all driven off of device availability. Therefore, instead of scripts hard-coded to do various things, we depend on udev to create device nodes for us and then when we have the rootfs's device node, we mount and carry on. This helps to keep the time required in the initramfs as little as possible so that things like a 5 second boot aren't made impossible as a result of the very existence of an initramfs.\nMost of the initramfs generation functionality in dracut is provided by a bunch of generator modules that are sourced by the main dracut script to install specific functionality into the initramfs. They live in the modules.d subdirectory, and use functionality provided by dracut-functions to do their work.",
@@ -7882,8 +7890,8 @@
     },
     {
       "name": "dust",
-      "version": "1.2.7",
-      "release": 4,
+      "version": "1.2.8",
+      "release": 5,
       "homepage": "https://github.com/bootandy/dust",
       "summary": "A more intuitive version of du in rust",
       "description": "du + rust = dust. Like du but more intuitive.",
@@ -10826,8 +10834,8 @@
     },
     {
       "name": "flex",
-      "version": "2.7.4",
-      "release": 16,
+      "version": "2.7.9",
+      "release": 17,
       "homepage": "https://westes.github.io/flex/",
       "summary": "The Fast Lexical Analyzer",
       "description": "The Fast Lexical Analyzer",
@@ -13518,8 +13526,8 @@
     },
     {
       "name": "glib2",
-      "version": "2.90.1",
-      "release": 42,
+      "version": "2.90.2",
+      "release": 43,
       "homepage": "https://gitlab.gnome.org/GNOME/glib",
       "summary": "Low-level core library that forms the basis for projects such as GTK+ and GNOME",
       "description": "GLib is the low-level core library that forms the basis for projects such\nas GTK and GNOME. It provides data structure handling for C, portability\nwrappers, and interfaces for such runtime functionality as an event loop,\nthreads, dynamic loading, and an object system.",
@@ -13528,7 +13536,7 @@
         "CC0-1.0",
         "GPL-2.0-or-later",
         "LGPL-2.1-or-later",
-        "LLVM-exception",
+        "Apache-2.0 WITH LLVM-exception",
         "MIT"
       ],
       "letter": "g",
@@ -17868,8 +17876,8 @@
     },
     {
       "name": "hyprgraphics",
-      "version": "0.6.0",
-      "release": 7,
+      "version": "0.7.0",
+      "release": 8,
       "homepage": "https://github.com/hyprwm/hyprgraphics",
       "summary": "Hyprland graphics / resource utilities",
       "description": "Hyprgraphics is a small C++ library with graphics / resource related utilities used across the hypr* ecosystem.",
@@ -17887,6 +17895,7 @@
         "pkgconfig(libjpeg)",
         "pkgconfig(libjxl)",
         "pkgconfig(libmagic)",
+        "pkgconfig(libpng)",
         "pkgconfig(librsvg-2.0)",
         "pkgconfig(libwebp)",
         "pkgconfig(opengl)",
@@ -17924,7 +17933,7 @@
     {
       "name": "hyprland",
       "version": "0.57.2",
-      "release": 19,
+      "release": 20,
       "homepage": "https://hypr.land/",
       "summary": "Hyprland is a 100% independent, dynamic tiling Wayland compositor that doesn't sacrifice on its looks.",
       "description": "Hyprland is a 100% independent, dynamic tiling Wayland compositor that doesn't sacrifice on its looks. It provides the latest Wayland features, is highly customizable, has all the eyecandy, the most powerful plugins, easy IPC, much more QoL stuff than other compositors and more...",
@@ -17983,7 +17992,7 @@
     {
       "name": "hyprland-guiutils",
       "version": "0.2.2",
-      "release": 4,
+      "release": 5,
       "homepage": "https://github.com/hyprwm/hyprland-guiutils",
       "summary": "Hyprland GUI utilities (successor to hyprland-qtutils)",
       "description": "Hyprland GUI utilities (successor to hyprland-qtutils)",
@@ -18048,7 +18057,7 @@
     {
       "name": "hyprlauncher",
       "version": "0.1.7",
-      "release": 7,
+      "release": 8,
       "homepage": "https://github.com/hyprwm/hyprlauncher",
       "summary": "A multipurpose and versatile launcher / picker for Hyprland",
       "description": "Hyprland launcher build with hyprtoolkit\nFeatures:\n- Various providers: Desktop, Unicode, Emoji, Math ...\n- Speedy: Fast, multi-threaded fuzzy searching\n- Daemon by default: instant opening of the launcher\n- Entry frequency caching: commonly used entries appear above others",
@@ -18076,7 +18085,7 @@
     {
       "name": "hyprlock",
       "version": "0.9.7",
-      "release": 6,
+      "release": 7,
       "homepage": "https://github.com/hyprwm/hyprlock",
       "summary": "Hyprland's simple, yet multi-threaded and GPU-accelerated screen locking utility.",
       "description": "Hyprland's simple, yet multi-threaded and GPU-accelerated screen locking utility.",
@@ -18109,7 +18118,7 @@
     {
       "name": "hyprpaper",
       "version": "0.8.5",
-      "release": 5,
+      "release": 6,
       "homepage": "https://github.com/hyprwm/hyprpaper",
       "summary": "A blazing fast wallpaper utility for Hyprland",
       "description": "Hyprpaper is a blazing fast wallpaper utility for Hyprland with the ability to dynamically change wallpapers through sockets. It will work on all wlroots-based compositors, though.",
@@ -18138,7 +18147,7 @@
     {
       "name": "hyprpolkitagent",
       "version": "0.2.0",
-      "release": 3,
+      "release": 4,
       "homepage": "https://github.com/hyprwm/hyprpolkitagent",
       "summary": "A simple polkit authentication agent for Hyprland",
       "description": "Hyprpolkitagent is a polkit authentication daemon. It is required for GUI applications to be able to request elevated privileges.\nAdd exec-once = systemctl --user start hyprpolkitagent to your Hyprland config and restart hyprland.\nIf Hyprland is started with uwsm, you can autostart the polkit agent with the command systemctl --user enable --now hyprpolkitagent.service.\nWiki: https://wiki.hypr.land/Hypr-Ecosystem/hyprpolkitagent/",
@@ -18163,8 +18172,8 @@
     },
     {
       "name": "hyprtoolkit",
-      "version": "0.6.0",
-      "release": 10,
+      "version": "0.7.0",
+      "release": 11,
       "homepage": "https://github.com/hyprwm/hyprtoolkit",
       "summary": "A modern C++ Wayland-native GUI toolkit",
       "description": "Hyprtoolkit is designed to be a small, simple, and modern C++ toolkit for making wayland GUI apps, with a few goals:\n- Simple C++ API for making a GUI app\n- Smooth animations\n- Easy usage\n- Simple system theming",
@@ -26246,8 +26255,8 @@
     },
     {
       "name": "kubectl",
-      "version": "1.37.2",
-      "release": 15,
+      "version": "1.37.3",
+      "release": 16,
       "homepage": "https://kubernetes.io/",
       "summary": "Command line interface for running commands against Kubernetes clusters",
       "description": "kubectl is a command line interface for running commands against Kubernetes clusters",
@@ -26503,7 +26512,7 @@
     {
       "name": "kwin",
       "version": "6.8.3",
-      "release": 50,
+      "release": 51,
       "homepage": "https://kde.org/plasma-desktop/",
       "summary": "KDE window manager",
       "description": "KWin is the window manager for the KDE Plasma Desktop. It gives you complete control over your windows, making sure they're not in the way but aid you in your task. It paints the window decoration, the bar on top of every window with (configurable) buttons like close, maximize and minimize. It also handles placing of windows and switching between them.",
@@ -32396,8 +32405,8 @@
     },
     {
       "name": "librime",
-      "version": "1.17.0",
-      "release": 1,
+      "version": "1.18.0",
+      "release": 2,
       "homepage": "https://rime.im/",
       "summary": "Rime with your keystrokes.",
       "description": "Rime Input Method Engine, the core library",
@@ -32413,11 +32422,10 @@
         "cmake(GTest)",
         "cmake(Marisa)",
         "cmake(OpenCC)",
-        "cmake(OpenSSL)",
         "cmake(leveldb)",
-        "cmake(ng-log)",
+        "cmake(spdlog)",
         "cmake(yaml-cpp)",
-        "cmake(zlib)",
+        "pkgconfig(icu-uc)",
         "pkgconfig(lua)"
       ],
       "packages": [
@@ -33779,7 +33787,7 @@
     {
       "name": "libvirt",
       "version": "12.9.0",
-      "release": 23,
+      "release": 24,
       "homepage": "https://gitlab.com/libvirt/libvirt",
       "summary": "Libvirt native C API and daemons",
       "description": "Libvirt provides a portable, long term stable C API for managing the virtualization technologies provided by many operating systems. It includes support for QEMU, KVM, Xen, LXC, bhyve, Virtuozzo, VMware vCenter and ESX, VMware Desktop, Hyper-V, VirtualBox and the POWER Hypervisor.",
@@ -39551,8 +39559,8 @@
     },
     {
       "name": "moby",
-      "version": "29.10.0",
-      "release": 38,
+      "version": "29.10.1",
+      "release": 39,
       "homepage": "https://www.docker.com",
       "summary": "The open-source application container engine",
       "description": "The open-source application container engine. This package contains the Docker server.",
@@ -46869,8 +46877,8 @@
     },
     {
       "name": "podman",
-      "version": "6.2.0",
-      "release": 12,
+      "version": "6.2.1",
+      "release": 13,
       "homepage": "https://podman.io/",
       "summary": "A tool for managing OCI containers and pods",
       "description": "Podman (the POD MANager) is a tool for managing containers and images, volumes mounted into those containers, and pods made from groups of containers.",
@@ -47493,6 +47501,22 @@
       ],
       "category": "Development",
       "channel": "both"
+    },
+    {
+      "name": "presenterm",
+      "version": "0.16.1",
+      "release": 1,
+      "homepage": "https://mfontanini.github.io/presenterm",
+      "summary": "A markdown terminal slideshow tool",
+      "description": "Create presentations in markdown format and run them from \nyour terminal, with support for image and animated gifs, \nhighly customizable themes, code highlighting, exporting \npresentations into PDF format, and plenty of other features.",
+      "license": [
+        "BSD-2-Clause"
+      ],
+      "letter": "p",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/p/presenterm/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/p/presenterm/stone.yaml",
+      "category": "Utilities",
+      "channel": "volatile"
     },
     {
       "name": "print-manager",
@@ -54779,8 +54803,8 @@
     },
     {
       "name": "satty",
-      "version": "0.22.0",
-      "release": 2,
+      "version": "0.23.0",
+      "release": 3,
       "homepage": "https://github.com/Satty-org/Satty",
       "summary": "Satty is a screenshot annotation tool inspired by Swappy and Flameshot.",
       "description": "Satty is a screenshot annotation tool inspired by Swappy and Flameshot.",
@@ -54796,7 +54820,8 @@
         "pkgconfig(gdk-pixbuf-2.0)",
         "pkgconfig(glib-2.0)",
         "pkgconfig(gtk4-layer-shell-0)",
-        "pkgconfig(libadwaita-1)"
+        "pkgconfig(libadwaita-1)",
+        "pkgconfig(xkbcommon)"
       ],
       "category": "Utilities",
       "channel": "both"
@@ -54822,8 +54847,8 @@
     },
     {
       "name": "sccache",
-      "version": "0.20.0",
-      "release": 17,
+      "version": "0.20.1",
+      "release": 18,
       "homepage": "https://github.com/mozilla/sccache",
       "summary": "Sccache is a ccache-like tool. It is used as a compiler wrapper and avoids compilation when possible.",
       "description": "Sccache is a ccache-like tool. It is used as a compiler wrapper and avoids compilation when possible. Sccache has the capability to utilize caching in remote storage environments, including various cloud storage options, or alternatively, in local storage.",
@@ -61966,8 +61991,8 @@
     },
     {
       "name": "vscode-bin",
-      "version": "1.147.0",
-      "release": 55,
+      "version": "1.148.0",
+      "release": 56,
       "homepage": "https://code.visualstudio.com/",
       "summary": "Visual Studio Code (vscode) - Editor for building and debugging modern web and cloud applications (official binary version)",
       "description": "Visual Studio Code (vscode) - Editor for building and debugging modern web and cloud applications (official binary version)",
@@ -64086,7 +64111,7 @@
     {
       "name": "xdg-desktop-portal-hyprland",
       "version": "1.5.0",
-      "release": 7,
+      "release": 8,
       "homepage": "https://github.com/hyprwm/xdg-desktop-portal-hyprland",
       "summary": "xdg-desktop-portal backend for hyprland",
       "description": "xdg-desktop-portal backend for hyprland",
@@ -65185,8 +65210,8 @@
     },
     {
       "name": "zed",
-      "version": "1.29.3",
-      "release": 75,
+      "version": "1.30.2",
+      "release": 76,
       "homepage": "https://zed.dev/",
       "summary": "High performance, graphical code editor",
       "description": "Code at the speed of thought – Zed is a high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.",
@@ -65203,7 +65228,6 @@
         "binary(envsubst)",
         "binary(jq)",
         "binary(make)",
-        "binary(mold)",
         "pkgconfig(alsa)",
         "pkgconfig(fontconfig)",
         "pkgconfig(gl)",
@@ -65777,8 +65801,8 @@
     },
     {
       "name": "zulip-desktop",
-      "version": "5.14.2",
-      "release": 9,
+      "version": "5.14.3",
+      "release": 10,
       "homepage": "https://zulip.com",
       "summary": "Desktop client for Zulip",
       "description": "Zulip is an organized team chat app for distributed teams of all sizes,\ncombining the immediacy of real-time chat with an email-style threading model.",
