@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-26T00:29:34.578Z",
-  "totalCount": 1979,
+  "generatedAt": "2026-11-26T13:58:52.204Z",
+  "totalCount": 1980,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "d897c7ea9c00141585bf149d2e11e47ff714abec",
+  "commitSha": "2b2d94c45235b4ecc9f9c726af6a3c3f782607e6",
   "channelStats": {
-    "volatileCount": 6217,
+    "volatileCount": 6219,
     "unstableCount": 6207,
-    "volatileOnlyCount": 4,
+    "volatileOnlyCount": 5,
     "bothCount": 1975,
     "recipeOnlyCount": 0
   },
@@ -61942,6 +61942,25 @@
       ],
       "category": "Other",
       "channel": "both"
+    },
+    {
+      "name": "vm-curator",
+      "version": "1.5.0",
+      "release": 1,
+      "homepage": "https://vm-curator.org/",
+      "summary": "TUI to build and manage QEMU/KVM virtual machines",
+      "description": "A fast and friendly Rust TUI for managing desktop QEMU/KVM virtual machines.\nComes with out-of-the-box 3D acceleration, GPU and physical-disk passthrough, \nmanaged virtual networks, VM import, and 130+ pre-configured OS profiles!",
+      "license": [
+        "MIT"
+      ],
+      "letter": "v",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/v/vm-curator/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/v/vm-curator/stone.yaml",
+      "builddeps": [
+        "pkgconfig(libudev)"
+      ],
+      "category": "System",
+      "channel": "volatile"
     },
     {
       "name": "vorbis-tools",

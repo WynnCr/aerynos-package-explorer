@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-26T00:29:29.832181+00:00",
-  "volatileHistory": "1795651506",
+  "generatedAt": "2026-11-26T13:58:45.155184+00:00",
+  "volatileHistory": "1795700437",
   "unstableHistory": "1795381775",
-  "volatileTotal": 6217,
+  "volatileTotal": 6219,
   "unstableTotal": 6207,
-  "volatileOnlyCount": 10,
+  "volatileOnlyCount": 12,
   "unstableOnlyCount": 0,
   "bothCount": 6207,
   "volatilePackages": [
@@ -5875,6 +5875,8 @@
     "vlc-plugins-extra",
     "vlc-plugins-video-out",
     "vlc-qt",
+    "vm-curator",
+    "vm-curator-dbginfo",
     "vorbis-tools",
     "vorbis-tools-dbginfo",
     "vpl-gpu-rt",
