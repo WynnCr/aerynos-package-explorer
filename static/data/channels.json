@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-26T13:58:45.155184+00:00",
-  "volatileHistory": "1795700437",
+  "generatedAt": "2026-11-27T00:39:17.710986+00:00",
+  "volatileHistory": "1795734850",
   "unstableHistory": "1795381775",
-  "volatileTotal": 6219,
+  "volatileTotal": 6221,
   "unstableTotal": 6207,
-  "volatileOnlyCount": 12,
+  "volatileOnlyCount": 14,
   "unstableOnlyCount": 0,
   "bothCount": 6207,
   "volatilePackages": [
@@ -3984,6 +3984,8 @@
     "mpvqt",
     "mpvqt-dbginfo",
     "mpvqt-devel",
+    "msedit",
+    "msedit-dbginfo",
     "msgpack-c",
     "msgpack-c-dbginfo",
     "msgpack-c-devel",

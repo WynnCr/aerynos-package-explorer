@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-26T13:58:52.204Z",
-  "totalCount": 1980,
+  "generatedAt": "2026-11-27T00:39:22.689Z",
+  "totalCount": 1981,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "2b2d94c45235b4ecc9f9c726af6a3c3f782607e6",
+  "commitSha": "b7b1ec461d520b2f1a8b869be64aa6986ba9f06d",
   "channelStats": {
-    "volatileCount": 6219,
+    "volatileCount": 6221,
     "unstableCount": 6207,
-    "volatileOnlyCount": 5,
+    "volatileOnlyCount": 6,
     "bothCount": 1975,
     "recipeOnlyCount": 0
   },
@@ -10834,8 +10834,8 @@
     },
     {
       "name": "flex",
-      "version": "2.7.9",
-      "release": 17,
+      "version": "2.7.10",
+      "release": 18,
       "homepage": "https://westes.github.io/flex/",
       "summary": "The Fast Lexical Analyzer",
       "description": "The Fast Lexical Analyzer",
@@ -13280,8 +13280,8 @@
     },
     {
       "name": "github-cli",
-      "version": "2.105.0",
-      "release": 26,
+      "version": "2.106.0",
+      "release": 27,
       "homepage": "https://github.com/cli/cli",
       "summary": "GitHub CLI brings GitHub to your terminal",
       "description": "GitHub CLI brings GitHub to your terminal. It reduces context switching,\nhelps you focus, and enables you to more easily script and create your own workflows.",
@@ -13527,7 +13527,7 @@
     {
       "name": "glib2",
       "version": "2.90.2",
-      "release": 43,
+      "release": 44,
       "homepage": "https://gitlab.gnome.org/GNOME/glib",
       "summary": "Low-level core library that forms the basis for projects such as GTK+ and GNOME",
       "description": "GLib is the low-level core library that forms the basis for projects such\nas GTK and GNOME. It provides data structure handling for C, portability\nwrappers, and interfaces for such runtime functionality as an event loop,\nthreads, dynamic loading, and an object system.",
@@ -18917,8 +18917,8 @@
     },
     {
       "name": "intel-compute-runtime",
-      "version": "26.40.40196.15",
-      "release": 10,
+      "version": "26.44.40734.10",
+      "release": 11,
       "homepage": "https://github.com/intel/compute-runtime",
       "summary": "Intel® Graphics Compute Runtime for oneAPI Level Zero and OpenCL™ Driver",
       "description": "The Intel(R) Graphics Compute Runtime for oneAPI Level Zero and OpenCL(TM) Driver is an open source project providing compute API support (Level Zero, OpenCL) for Intel graphics hardware architectures (HD Graphics, Xe).",
@@ -18929,7 +18929,6 @@
       "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/i/intel-compute-runtime/stone.yaml",
       "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/i/intel-compute-runtime/stone.yaml",
       "builddeps": [
-        "binary(mold)",
         "cmake(igsc)",
         "pkgconfig(igc-opencl)",
         "pkgconfig(igdgmm)",
@@ -18959,8 +18958,8 @@
     },
     {
       "name": "intel-graphics-compiler",
-      "version": "2.42.6",
-      "release": 10,
+      "version": "2.43.9",
+      "release": 11,
       "homepage": "https://github.com/intel/intel-graphics-compiler",
       "summary": "Intel Graphics Compiler for OpenCL",
       "description": "The Intel® Graphics Compiler for OpenCL™ is an LLVM-based compiler for OpenCL™ targeting Intel® graphics hardware architecture.",
@@ -18975,7 +18974,6 @@
         "binary(clang-format)",
         "binary(flex)",
         "binary(mold)",
-        "binary(objdump)",
         "binary(patch)",
         "binary(python)",
         "cmake(SPIRV-Headers)",
@@ -38751,7 +38749,7 @@
     {
       "name": "mesa",
       "version": "26.3.1",
-      "release": 99,
+      "release": 100,
       "homepage": "https://mesa3d.org/",
       "summary": "Mesa 3D graphics library",
       "description": "The Mesa project began as an open-source implementation of the OpenGL specification - a system for rendering interactive 3D graphics. Over the years the project has grown to implement more graphics APIs, including OpenGL ES, OpenCL, OpenMAX, VDPAU, VA-API, Vulkan and EGL. A variety of device drivers allows the Mesa libraries to be used in many different environments ranging from software emulation to complete hardware acceleration for modern GPUs. Mesa ties into several other open-source projects: the Direct Rendering Infrastructure, X.org, and Wayland to provide OpenGL support on Linux, FreeBSD, and other operating systems.",
@@ -40085,6 +40083,30 @@
       ],
       "category": "Other",
       "channel": "both"
+    },
+    {
+      "name": "msedit",
+      "version": "2.0.0",
+      "release": 1,
+      "homepage": "https://github.com/microsoft/edit",
+      "summary": "A simple editor for simple needs",
+      "description": "Microsoft Edit is a lightweight terminal text editor that pays homage to the\nclassic MS-DOS Editor, with a modern modeless TUI and VS Code-like controls.",
+      "license": [
+        "MIT"
+      ],
+      "letter": "m",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/m/msedit/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/m/msedit/stone.yaml",
+      "builddeps": [
+        "pkgconfig(icu-i18n)",
+        "pkgconfig(icu-uc)"
+      ],
+      "rundeps": [
+        "soname(libicui18n.so.79(x86_64))",
+        "soname(libicuuc.so.79(x86_64))"
+      ],
+      "category": "Editors",
+      "channel": "volatile"
     },
     {
       "name": "msgpack-c",
@@ -42385,8 +42407,8 @@
     },
     {
       "name": "omikuji-launcher",
-      "version": "0.20.9",
-      "release": 4,
+      "version": "0.21.0",
+      "release": 5,
       "homepage": "https://github.com/omikuji-launcher/omikuji",
       "summary": "A Qt/QML based games and apps launcher for Linux",
       "description": "A Qt/QML based games and apps launcher for Linux with wine/flatpak/native runners, Epic Games (Legendary), GOG (gogdl) and Gacha stores.",
@@ -44937,8 +44959,8 @@
     },
     {
       "name": "pipewire",
-      "version": "1.6.11",
-      "release": 44,
+      "version": "1.6.12",
+      "release": 45,
       "homepage": "https://pipewire.org/",
       "summary": "Linux audio + video multiplexing",
       "description": "PipeWire is a project that aims to greatly improve handling of audio and video under Linux. It provides a low-latency, graph-based processing engine on top of audio and video devices that can be used to support the use cases currently handled by both PulseAudio and JACK. PipeWire was designed with a powerful security model that makes interacting with audio and video devices from containerized applications easy, with support for Flatpak applications being the primary goal.",
