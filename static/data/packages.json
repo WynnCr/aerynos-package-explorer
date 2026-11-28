@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-28T00:05:52.141Z",
-  "totalCount": 1981,
+  "generatedAt": "2026-11-28T07:58:19.718Z",
+  "totalCount": 1982,
   "repoUrl": "https://github.com/aerynOS/recipes",
-  "commitSha": "ba5fe54b6e4535f0af3dcfcce19d0eec28f6c0c5",
+  "commitSha": "da147f69d982e5edc48f0778ba7e26bec59308f0",
   "channelStats": {
-    "volatileCount": 6221,
+    "volatileCount": 6222,
     "unstableCount": 6207,
-    "volatileOnlyCount": 6,
+    "volatileOnlyCount": 7,
     "bothCount": 1975,
     "recipeOnlyCount": 0
   },
@@ -2381,6 +2381,22 @@
       ],
       "category": "Libraries",
       "channel": "both"
+    },
+    {
+      "name": "bibata-cursor-theme",
+      "version": "2.0.7",
+      "release": 1,
+      "homepage": "https://github.com/ful1e5/Bibata_Cursor",
+      "summary": "Open source, compact, and material designed cursor set.",
+      "description": "Bibata is an open source, compact, and material-designed cursor set aimed at improving the desktop cursor experience. It features sharp, modern styling with rounded edges and includes multiple variants (Modern and Original in Classic, Amber, and Ice color schemes) optimized for high contrast on both light and dark backgrounds.",
+      "license": [
+        "GPL-3.0-or-later"
+      ],
+      "letter": "b",
+      "recipeUrl": "https://github.com/aerynOS/recipes/blob/main/b/bibata-cursor-theme/stone.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/aerynOS/recipes/main/b/bibata-cursor-theme/stone.yaml",
+      "category": "Desktop",
+      "channel": "volatile"
     },
     {
       "name": "bind-utils",
@@ -38749,7 +38765,7 @@
     {
       "name": "mesa",
       "version": "26.3.1",
-      "release": 100,
+      "release": 101,
       "homepage": "https://mesa3d.org/",
       "summary": "Mesa 3D graphics library",
       "description": "The Mesa project began as an open-source implementation of the OpenGL specification - a system for rendering interactive 3D graphics. Over the years the project has grown to implement more graphics APIs, including OpenGL ES, OpenCL, OpenMAX, VDPAU, VA-API, Vulkan and EGL. A variety of device drivers allows the Mesa libraries to be used in many different environments ranging from software emulation to complete hardware acceleration for modern GPUs. Mesa ties into several other open-source projects: the Direct Rendering Infrastructure, X.org, and Wayland to provide OpenGL support on Linux, FreeBSD, and other operating systems.",

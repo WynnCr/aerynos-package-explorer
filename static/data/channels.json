@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-28T00:05:46.990702+00:00",
-  "volatileHistory": "1795810557",
+  "generatedAt": "2026-11-28T07:58:14.235792+00:00",
+  "volatileHistory": "1795845037",
   "unstableHistory": "1795381775",
-  "volatileTotal": 6221,
+  "volatileTotal": 6222,
   "unstableTotal": 6207,
-  "volatileOnlyCount": 14,
+  "volatileOnlyCount": 15,
   "unstableOnlyCount": 0,
   "bothCount": 6207,
   "volatilePackages": [
@@ -212,6 +212,7 @@
     "benchmark",
     "benchmark-dbginfo",
     "benchmark-devel",
+    "bibata-cursor-theme",
     "bind-utils",
     "bind-utils-dbginfo",
     "binutils",
